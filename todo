@@ -1,1 +1,4 @@
-1. cull bullet vector if out of window frame
+1. cull bullet vector if out of window frame **done
+2. move game logic out of main.cpp
+3. player collision with green blocks
+4. bullet collision with green blocks that will turn them pink
