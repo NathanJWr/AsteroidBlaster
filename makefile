@@ -1,8 +1,11 @@
-run.out: block.o display.o player.o main.o keyboardhandler.o bullet.o
-	g++ -o run.out block.o bullet.o display.o player.o main.o keyboardhandler.o -lSDL2 -Wall -Werror
+run.out: block.o gamelogic.o display.o player.o main.o keyboardhandler.o bullet.o
+	g++ -o run.out block.o gamelogic.o bullet.o display.o player.o main.o keyboardhandler.o -lSDL2 -Wall -Werror
 
 main.o: main.cpp block.h display.h player.h settings.h keyboardhandler.h
 	g++ -c -o main.o main.cpp -lSDL2 -Wall -Werror
+
+gamelogic.o: gamelogic.cpp gamelogic.h player.h block.h keyboardhandler.h settings.h
+	g++ -c -o gamelogic.o gamelogic.cpp -lSDL2 -Wall -Werror
 
 keyboardhandler.o: keyboardhandler.cpp keyboardhandler.h
 	g++ -c -o keyboardhandler.o keyboardhandler.cpp -lSDL2 -Wall -Werror

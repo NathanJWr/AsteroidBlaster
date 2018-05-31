@@ -3,56 +3,18 @@
 #include "player.h"
 #include "block.h"
 #include "keyboardhandler.h"
+#include "gamelogic.h"
 #include <cstdlib>
 #include <iostream>
 #include <ctime>
 #include <vector>
 #include <SDL2/SDL.h>
-void handleBlocks(std::vector<Block>& blocks);
-void genBlock(std::vector<Block>& blocks) {
-        blocks.push_back(Block(SCREEN_H, SCREEN_W));
-}
-void gameLogic(Player& player, std::vector<Block>& blocks, SDL_Event& e,
-                KeyboardHandler& kbhandler) {
-        for(auto& block : blocks) {
-                block.move();
-                handleBlocks(blocks);
-        }
-        player.moveBullets(SCREEN_H, SCREEN_W);
-        kbhandler.handleKeyboardEvent(e);
-        if(kbhandler.isPressed('w')) {
-                player.moveUp();
-        }
-        if(kbhandler.isPressed('s')) {
-                player.moveDown();
-        }
-        if(kbhandler.isPressed('a')) {
-                player.moveLeft();
-        }
-        if(kbhandler.isPressed('d')) {
-                player.moveRight();
-        }
-        if(kbhandler.isPressed(' ')) {
-                player.shoot();
-                kbhandler.resetShot();
-        }
-
-}
-
-void handleBlocks(std::vector<Block>& blocks) {
-        for(int i = 0; i < (int) blocks.size(); i++) {
-                if(blocks.at(i).getYPos() > SCREEN_H) {
-                        blocks.erase(blocks.begin() + i);
-                        blocks.push_back(Block(SCREEN_W, SCREEN_H));
-                }
-        }
-}
-
 int main() {
         std::srand(std::time(nullptr));
         Display display;
         SDL_Event e;
         KeyboardHandler kbhandler;
+        GameLogic game;
         display.initVideo(SCREEN_H, SCREEN_W);
 
         std::vector<Block> blocks;
@@ -76,7 +38,7 @@ int main() {
                 lastTime = now;
                 while(delta >= 1) {
                         ticks++;
-                        gameLogic(player, blocks, e, kbhandler);
+                        game.tick(player, blocks, e, kbhandler);
                         delta--;
                 }
                 SDL_Delay(2);
@@ -98,7 +60,7 @@ int main() {
                         ticks = 0;
                         frames = 0;
                         if(numBlocks < 10) {                        
-                                genBlock(blocks);
+                                game.genBlock(blocks);
                                 numBlocks++;
                         }
                 }
