@@ -16,15 +16,11 @@ void Player::shoot() {
 
 void Player::moveBullets(int SCREEN_H, int SCREEN_W) {
         for(int i = 0; i < (int)bullets.size(); i++) {
-                if(bullets.at(i).getXPos() > SCREEN_W 
-                                || bullets.at(i).getXPos() < 0) {
-                        bullets.erase(bullets.begin() + i);
-                }
+                bullets.at(i).move();
                 if(bullets.at(i).getYPos() > SCREEN_H 
                                 || bullets.at(i).getYPos() < 0) {
                         bullets.erase(bullets.begin() + i);
                 }
-                bullets.at(i).move();
         }
 }
 
