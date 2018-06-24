@@ -1,19 +1,29 @@
 #ifndef BLOCK_H
 #define BLOCK_H
-class Block {
-        public:
-                Block(const int SCREEN_W, const int SCREEN_H);
-                void move();
-                const int getXPos() const;
-                const int getYPos() const;
-                const int getSizeX() const;
-                const int getSizeY() const;
-        private:
-                int xPos;
-                int yPos;
-                int sizeX;
-                int sizeY;
-                int dy;
+#include <stdbool.h>
+struct Block {
+        int x;
+        int y;
+        int dx;
+        int dy;
+        int sizeX;
+        int sizeY;
 };
-#endif
 
+typedef struct _bVector {
+        struct Block* blocks;
+        int size;
+        int count;
+} blockVector;
+
+struct Block makeBlock(const int SCREEN_W);
+bool moveBlock(struct Block*, const int SCREEN_H);
+
+
+void blockVector_init(blockVector*);
+void blockVector_add(blockVector*, struct Block);
+struct Block* blockVector_get(blockVector*, int index);
+void blockVector_free(blockVector*);
+void blockVector_erase(blockVector*, int);
+
+#endif
