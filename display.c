@@ -1,8 +1,6 @@
 #include <SDL2/SDL.h>
 #include <stdbool.h>
 #include "display.h"
-#include "block.h"
-#include "bullet.h"
 SDL_Window* gWindow;
 SDL_Renderer* gRenderer;
 bool initVideo(const int SCREEN_W, const int SCREEN_H) {
