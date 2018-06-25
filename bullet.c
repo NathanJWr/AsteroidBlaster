@@ -1,7 +1,6 @@
 #include "bullet.h"
 #include <stdlib.h>
 #include <stdbool.h>
-#include <stdio.h>
 
 struct Bullet makeBullet(int x, int y) {
         struct Bullet b = {x, y, 5, 5, 3, 3};
@@ -34,14 +33,12 @@ void bulletVector_add(bulletVector* v, struct Bullet b) {
 }
 
 void bulletVector_erase(bulletVector* v, int index) {
-        printf("called");
         if(index >= v -> size || index < 0) {
                 exit(1);
         }
         for(int i = index; i < v -> count ; i++) {
                 v -> bullets[i] = v -> bullets[i+1];
         }
-        printf("%d", v -> count);
         v -> count--;
 }
 
