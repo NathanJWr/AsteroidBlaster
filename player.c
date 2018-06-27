@@ -20,5 +20,7 @@ void playerMoveLeft(struct Player* p) {
 }
 
 void playerMoveRight(struct Player* p) {
-        p -> x += p -> dx;
+        if(p -> x + p -> sizeX < SCREEN_W) {
+                p -> x += p -> dx;
+        }
 }
