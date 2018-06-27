@@ -1,4 +1,6 @@
 #include "player.h"
+extern const int SCREEN_W;
+extern const int SCREEN_H;
 void playerMoveUp(struct Player* p) {
         p -> y -= p -> dy;
 }

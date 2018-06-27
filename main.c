@@ -4,8 +4,9 @@
 #include "block.h"
 #include "player.h"
 #include "bullet.h"
-#include "settings.h"
 #include "gamelogic.h"
+const int SCREEN_W = 1024;
+const int SCREEN_H = 768;
 void drawCalls(blockVector* bv, struct Player* p, bulletVector* b) {
         for(int i = 0; i < bv->count; i++) {
                 drawBlock(bv->blocks[i]);
