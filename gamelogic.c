@@ -73,5 +73,22 @@ void gameTick(blockVector* blockV,
                 if(!moveBullet(&(bulletV -> bullets[i]), SCREEN_H)) {
                         bulletVector_erase(bulletV, i);
                 }
+                for(int j = 0; j < blockV -> count; j++) {
+                        if(checkCollision(*blockVector_get(blockV, j),
+                                                *bulletVector_get(bulletV, i))) {
+                                blockV -> blocks[j].hit = true;
+                        }
+                }
         }
+}
+
+bool checkCollision(struct Block block, struct Bullet bullet) {
+        if(bullet.x >= block.x 
+                        && bullet.x <= block.x + block.sizeX
+                        && bullet.y >= block.y 
+                        && bullet.y <= block.y + block.sizeY) {
+                printf("hit \n");
+                return true;
+        }
+        else return false;
 }

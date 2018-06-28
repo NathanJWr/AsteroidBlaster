@@ -20,6 +20,7 @@ struct Bullet makeBullet(int, int);
 bool moveBullet(struct Bullet*, const int);
 void bulletVector_init(bulletVector*);
 void bulletVector_add(bulletVector*, struct Bullet);
+struct Bullet* bulletVector_get(bulletVector*, int);
 void bulletVector_free(bulletVector*);
 void bulletVector_erase(bulletVector*, int);
 

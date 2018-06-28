@@ -8,6 +8,7 @@ struct Block {
         int dy;
         int sizeX;
         int sizeY;
+        bool hit;
 };
 
 typedef struct _bVector {

@@ -32,6 +32,13 @@ void bulletVector_add(bulletVector* v, struct Bullet b) {
         v -> count++;
 }
 
+struct Bullet* bulletVector_get(bulletVector* v, int index) {
+        if(index >= v -> size || index < 0) {
+                exit(1);
+        }
+        return &(v -> bullets[index]);
+}
+
 void bulletVector_erase(bulletVector* v, int index) {
         if(index >= v -> size || index < 0) {
                 exit(1);

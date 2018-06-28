@@ -15,6 +15,8 @@ struct KeyPresses {
 bool handleEvents(SDL_Event*, struct KeyPresses*);
 void movePlayer(struct KeyPresses*, struct Player*, bulletVector*);
 
+bool checkCollision(struct Block, struct Bullet);
+
 void gameTick(blockVector*,
                 bulletVector*,
                 struct Player*,

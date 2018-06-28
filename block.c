@@ -12,6 +12,7 @@ struct Block makeBlock(const int SCREEN_W) {
         while(b.dy == 0) {
                 b.dy = (rand() % 1) + 1;
         }
+        b.hit = false;
         return b;
 }
 
