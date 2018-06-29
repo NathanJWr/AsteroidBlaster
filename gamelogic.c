@@ -1,5 +1,36 @@
 #include <stdbool.h> 
 #include "gamelogic.h"
+void gameTick(blockVector* blockV,
+                bulletVector* bulletV,
+                struct Player* player,
+                struct KeyPresses* keys,
+                const int SCREEN_H) {
+
+        movePlayer(keys, player, bulletV);
+        for(int i = 0; i < blockV -> count; i++) {
+                if(!moveBlock(&(blockV->blocks[i]), SCREEN_H)) {
+                        blockVector_erase(blockV, i);
+                }
+        }
+        for(int i = 0; i < bulletV -> count; i++) {
+                if(!moveBullet(&(bulletV -> bullets[i]), SCREEN_H)) {
+                        bulletVector_erase(bulletV, i);
+                }
+                for(int j = 0; j < blockV -> count; j++) {
+                        if(checkCollision_bullet(*blockVector_get(blockV, j),
+                                                *bulletVector_get(bulletV, i))) {
+                                blockV -> blocks[j].hit = true;
+                        }
+                }
+        }
+        for(int i = 0; i < blockV -> count; i++) {
+                if(checkCollision_player(*blockVector_get(blockV, i), *player) 
+                                && !blockV -> blocks[i].hit) {
+                        player -> hit = true;
+                }
+        }
+                                
+}
 bool handleEvents(SDL_Event* e, struct KeyPresses* k) {
         while(SDL_PollEvent(e) != 0) {
                 if(e -> type == SDL_QUIT) {
@@ -58,36 +89,24 @@ void movePlayer(struct KeyPresses* k, struct Player* p, bulletVector* bv) {
         }
                                 
 }
-void gameTick(blockVector* blockV,
-                bulletVector* bulletV,
-                struct Player* player,
-                struct KeyPresses* keys,
-                const int SCREEN_H) {
-        movePlayer(keys, player, bulletV);
-        for(int i = 0; i < blockV -> count; i++) {
-                if(!moveBlock(&(blockV->blocks[i]), SCREEN_H)) {
-                        blockVector_erase(blockV, i);
-                }
-        }
-        for(int i = 0; i < bulletV -> count; i++) {
-                if(!moveBullet(&(bulletV -> bullets[i]), SCREEN_H)) {
-                        bulletVector_erase(bulletV, i);
-                }
-                for(int j = 0; j < blockV -> count; j++) {
-                        if(checkCollision(*blockVector_get(blockV, j),
-                                                *bulletVector_get(bulletV, i))) {
-                                blockV -> blocks[j].hit = true;
-                        }
-                }
-        }
-}
 
-bool checkCollision(struct Block block, struct Bullet bullet) {
+
+bool checkCollision_bullet(struct Block block, struct Bullet bullet) {
         if(bullet.x >= block.x 
                         && bullet.x <= block.x + block.sizeX
                         && bullet.y >= block.y 
                         && bullet.y <= block.y + block.sizeY) {
                 printf("hit \n");
+                return true;
+        }
+        else return false;
+}
+
+bool checkCollision_player(struct Block block, struct Player player) {
+        if(player.x >= block.x 
+                        && player.x <= block.x + block.sizeX
+                        && player.y >= block.y
+                        && player.y <= block.y + block.sizeY) {
                 return true;
         }
         else return false;
