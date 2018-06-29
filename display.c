@@ -49,7 +49,12 @@ void killVideo() {
 }
 
 void drawBlock(struct Block block) {
-        SDL_SetRenderDrawColor(gRenderer, 102, 255, 102, 0xFF);
+        if(block.hit) {
+                SDL_SetRenderDrawColor(gRenderer, 102, 255, 102, 0xFF);
+        }
+        else {
+                SDL_SetRenderDrawColor(gRenderer, 255, 0, 0, 0xFF);
+        }
         SDL_Rect rect = {
                block.x,
                block.y,

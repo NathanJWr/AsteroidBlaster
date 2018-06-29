@@ -1,5 +1,6 @@
 #ifndef PLAYER_H
 #define PLAYER_H
+#include <stdbool.h>
 struct Player {
         int x;
         int y;
@@ -7,6 +8,7 @@ struct Player {
         int dy;
         int sizeX;
         int sizeY;
+        bool hit;
 };
 
 void playerMoveUp(struct Player*);
