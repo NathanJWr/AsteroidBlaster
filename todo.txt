@@ -1,2 +1,4 @@
-Check collision between Blocks and Bullets
+###Check collision between Blocks and Bullets
         --Decide what to do with that collision 
+
+Make it so blocks don't spawn on top of eachother
