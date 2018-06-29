@@ -25,7 +25,7 @@ int main() {
         bulletVector_init(&bulletV);
         blockVector_init(&blockV);
 
-        struct Player player = {SCREEN_W / 2, SCREEN_H / 2, 2, 2, 10, 10};
+        struct Player player = {SCREEN_W / 2, SCREEN_H / 2, 2, 2, 10, 10, false};
         struct KeyPresses keys = {false, false, false, false};
 
         //Game loop vars
@@ -49,6 +49,9 @@ int main() {
                         ticks++;
                         gameTick(&blockV, &bulletV, &player, &keys, SCREEN_H);
                         running = handleEvents(&e, &keys);
+                        if(player.hit) {
+                                running = false;
+                        }
                         delta--;
                 }
                 SDL_Delay(1);
