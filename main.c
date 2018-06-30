@@ -7,6 +7,7 @@
 #include "gamelogic.h"
 const int SCREEN_W = 1024;
 const int SCREEN_H = 768;
+int score = 0;
 void drawCalls(blockVector* bv, struct Player* p, bulletVector* b) {
         for(int i = 0; i < bv->count; i++) {
                 drawBlock(bv->blocks[i]);
@@ -15,7 +16,10 @@ void drawCalls(blockVector* bv, struct Player* p, bulletVector* b) {
                 drawBullet(b -> bullets[i]);
         }
         drawPlayer(*p);
-        
+        if(p -> score > score) {
+                score = p -> score;
+                drawScore(score);
+        }
 }
 int main() {
         //Initialize game objects + vectors
@@ -25,7 +29,7 @@ int main() {
         bulletVector_init(&bulletV);
         blockVector_init(&blockV);
 
-        struct Player player = {SCREEN_W / 2, SCREEN_H / 2, 2, 2, 10, 10, false};
+        struct Player player = {SCREEN_W / 2, SCREEN_H / 2, 2, 2, 10, 10, false, 0};
         struct KeyPresses keys = {false, false, false, false};
 
         //Game loop vars

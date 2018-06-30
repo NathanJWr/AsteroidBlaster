@@ -20,6 +20,7 @@ void gameTick(blockVector* blockV,
                         if(checkCollision_bullet(*blockVector_get(blockV, j),
                                                 *bulletVector_get(bulletV, i))) {
                                 blockV -> blocks[j].hit = true;
+                                player -> score++;
                         }
                 }
         }
@@ -95,8 +96,8 @@ bool checkCollision_bullet(struct Block block, struct Bullet bullet) {
         if(bullet.x >= block.x 
                         && bullet.x <= block.x + block.sizeX
                         && bullet.y >= block.y 
-                        && bullet.y <= block.y + block.sizeY) {
-                printf("hit \n");
+                        && bullet.y <= block.y + block.sizeY
+                        && !block.hit) {
                 return true;
         }
         else return false;

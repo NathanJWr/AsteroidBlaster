@@ -9,6 +9,7 @@ struct Player {
         int sizeX;
         int sizeY;
         bool hit;
+        int score;
 };
 
 void playerMoveUp(struct Player*);
