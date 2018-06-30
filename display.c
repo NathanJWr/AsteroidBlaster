@@ -1,8 +1,16 @@
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include <stdbool.h>
 #include "display.h"
 SDL_Window* gWindow;
 SDL_Renderer* gRenderer;
+
+TTF_Font* font;
+SDL_Color textColor = {255, 255, 255, 255}; //white
+SDL_Color backgroundColor = {0, 0, 0, 255}; //black
+SDL_Texture* solidTexture;
+SDL_Rect solidRect;
+
 bool initVideo(const int SCREEN_W, const int SCREEN_H) {
         bool success = true;
         if(SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -31,9 +39,20 @@ bool initVideo(const int SCREEN_W, const int SCREEN_H) {
                         SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
                 }
         }
+        //setup TTF
+        if(TTF_Init() == -1) {
+                printf("Failed to initialize TTF: %s\n", SDL_GetError());
+                success = false;
+        }
+        font = TTF_OpenFont("Ubuntu.ttf", 90);
+        if(font == NULL) {
+                printf("Failed to load font: %s\n", SDL_GetError());
+                success = false;
+        }
         return success;
 }
 void updateScreen() {
+        SDL_RenderCopy(gRenderer, solidTexture, NULL, &solidRect); 
         SDL_RenderPresent(gRenderer);
         SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 0);
         SDL_RenderClear(gRenderer);
@@ -81,5 +100,22 @@ void drawBullet(struct Bullet bullet) {
                 bullet.sizeX,
                 bullet.sizeY};
         SDL_RenderFillRect(gRenderer, &rect);
+}
+
+SDL_Texture* surfaceToTexture(SDL_Surface* surf) {
+        SDL_Texture* text;
+        text = SDL_CreateTextureFromSurface(gRenderer, surf);
+        SDL_FreeSurface(surf);
+        return text;
+}
+
+void drawScore(int score) {
+        char result[50];
+        sprintf(result, "%d", score);
+        SDL_Surface* solid = TTF_RenderText_Solid(font, result, textColor);
+        solidTexture = surfaceToTexture(solid);
+        SDL_QueryTexture(solidTexture, NULL, NULL, &solidRect.w, &solidRect.h);
+        solidRect.x = 0;
+        solidRect.y = 0;
 }
 
