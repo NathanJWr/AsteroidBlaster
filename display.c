@@ -60,6 +60,8 @@ void updateScreen() {
 void killVideo() {
         SDL_DestroyRenderer(gRenderer);
         SDL_DestroyWindow(gWindow);
+        TTF_CloseFont(font);
+        SDL_DestroyTexture(solidTexture); 
 
         gRenderer = NULL;
         gWindow = NULL;
