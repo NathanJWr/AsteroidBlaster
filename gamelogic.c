@@ -20,6 +20,7 @@ void gameTick(blockVector* blockV,
                         if(checkCollision_bullet(*blockVector_get(blockV, j),
                                                 *bulletVector_get(bulletV, i))) {
                                 blockV -> blocks[j].hit = true;
+                                bulletVector_erase(bulletV , i);
                                 player -> score++;
                         }
                 }
