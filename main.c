@@ -1,12 +1,17 @@
 #include <stdbool.h>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include "display.h"
 #include "block.h"
 #include "player.h"
 #include "bullet.h"
 #include "gamelogic.h"
+#include "gamedisplay.h"
 const int SCREEN_W = 1024;
 const int SCREEN_H = 768;
+SDL_Window* window;
+SDL_Renderer* renderer;
+TTF_Font* font;
 int score = 0;
 void drawCalls(blockVector* bv, struct Player* p, bulletVector* b) {
         for(int i = 0; i < bv->count; i++) {
@@ -60,7 +65,7 @@ int main() {
                 }
                 SDL_Delay(1);
                 frames++;
-                updateScreen();
+                updateGameScreen();
                 drawCalls(&blockV, &player, &bulletV);
 
                 if(SDL_GetTicks() - lastTimer >= 1000) {
@@ -77,6 +82,7 @@ int main() {
 
         //Shutdown
         killVideo();
+        cleanupGameDisplay();
         blockVector_free(&blockV);
         bulletVector_free(&bulletV);
         return 0;
