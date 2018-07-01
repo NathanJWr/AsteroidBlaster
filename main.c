@@ -16,7 +16,7 @@ void drawCalls(blockVector* bv, struct Player* p, bulletVector* b) {
                 drawBullet(b -> bullets[i]);
         }
         drawPlayer(*p);
-        if(p -> score > score) {
+        if(p -> score > score || score == 0) {
                 score = p -> score;
                 drawScore(score);
         }

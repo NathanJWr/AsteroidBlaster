@@ -2,6 +2,9 @@
 #include <SDL2/SDL_ttf.h>
 #include <stdbool.h>
 #include "display.h"
+extern const int SCREEN_W;
+extern const int SCREEN_H;
+
 SDL_Window* gWindow;
 SDL_Renderer* gRenderer;
 
@@ -54,6 +57,8 @@ bool initVideo(const int SCREEN_W, const int SCREEN_H) {
 void updateScreen() {
         SDL_RenderCopy(gRenderer, solidTexture, NULL, &solidRect); 
         SDL_RenderPresent(gRenderer);
+
+        //Reset for next frame
         SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 0);
         SDL_RenderClear(gRenderer);
 }
@@ -117,7 +122,7 @@ void drawScore(int score) {
         SDL_Surface* solid = TTF_RenderText_Solid(font, result, textColor);
         solidTexture = surfaceToTexture(solid);
         SDL_QueryTexture(solidTexture, NULL, NULL, &solidRect.w, &solidRect.h);
-        solidRect.x = 0;
+        solidRect.x = SCREEN_W / 2;
         solidRect.y = 0;
 }
 
