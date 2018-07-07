@@ -114,6 +114,9 @@ void gameLoop(SDL_Event* e) {
                         }
                 }
         }
-        game_state = MENU;
+        
         cleanupGameDisplay();
+        blockVector_free(&blockV);
+        bulletVector_free(&bulletV);
+        game_state = MENU;
 }
