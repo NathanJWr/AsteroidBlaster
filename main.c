@@ -14,10 +14,10 @@ const int SCREEN_H = 768;
 SDL_Window* window;
 SDL_Renderer* renderer;
 TTF_Font* font;
-int score = 0;
 
 enum Game_States {MENU, GAME, QUIT};
 enum Game_States game_state;
+int score = 0;
 void drawCalls(blockVector* bv, struct Player* p, bulletVector* b) {
         for(int i = 0; i < bv->count; i++) {
                 drawBlock(bv->blocks[i]);
@@ -49,6 +49,7 @@ int main() {
                 }
         }
         cleanupMenuScreen();
+        cleanupGameDisplay();
         killVideo();
         return 0;
 }
@@ -114,8 +115,7 @@ void gameLoop(SDL_Event* e) {
                         }
                 }
         }
-        
-        cleanupGameDisplay();
+        score = 0;              
         blockVector_free(&blockV);
         bulletVector_free(&bulletV);
         game_state = MENU;
