@@ -2,11 +2,9 @@
 #include <SDL2/SDL_ttf.h>
 #include <stdbool.h>
 #include "display.h"
-extern const int SCREEN_W;
-extern const int SCREEN_H;
 extern SDL_Window* window;
 extern SDL_Renderer* renderer;
-TTF_Font* font;
+extern TTF_Font* font;
 bool initVideo(const int SCREEN_W, const int SCREEN_H) {
         bool success = true;
         if(SDL_Init(SDL_INIT_VIDEO) < 0) {

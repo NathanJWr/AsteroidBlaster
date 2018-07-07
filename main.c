@@ -1,18 +1,23 @@
-#include <stdbool.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
+#include <stdbool.h>
 #include "display.h"
 #include "block.h"
 #include "player.h"
 #include "bullet.h"
 #include "gamelogic.h"
 #include "gamedisplay.h"
+#include "menu.h"
+
 const int SCREEN_W = 1024;
 const int SCREEN_H = 768;
 SDL_Window* window;
 SDL_Renderer* renderer;
 TTF_Font* font;
 int score = 0;
+
+enum Game_States {MENU, GAME, QUIT};
+enum Game_States game_state;
 void drawCalls(blockVector* bv, struct Player* p, bulletVector* b) {
         for(int i = 0; i < bv->count; i++) {
                 drawBlock(bv->blocks[i]);
@@ -26,38 +31,68 @@ void drawCalls(blockVector* bv, struct Player* p, bulletVector* b) {
                 drawScore(score);
         }
 }
-int main() {
-        //Initialize game objects + vectors
-        blockVector blockV;
-        bulletVector bulletV;
 
-        bulletVector_init(&bulletV);
+void gameLoop(SDL_Event* e);
+void menuLoop(SDL_Event* e);
+int main() {
+        game_state = MENU;
+        initVideo(SCREEN_W, SCREEN_H);
+        setupMenu();
+        SDL_Event e;
+        
+        while(game_state != QUIT) {
+                if(game_state == MENU) {
+                        menuLoop(&e);
+                }
+                else if(game_state == GAME) {
+                        gameLoop(&e);
+                }
+        }
+        cleanupMenuScreen();
+        killVideo();
+        return 0;
+}
+void menuLoop(SDL_Event* e) {
+        int decision = -1;
+        while(decision == -1) {
+                drawMenu();
+                updateMenuScreen();
+                decision = handleMenuEvents(e);
+        }
+        if(decision == 0) {
+                game_state = QUIT;
+        }
+        else if(decision == 1) {
+                game_state = GAME;
+        }
+}
+void gameLoop(SDL_Event* e) {
+        blockVector blockV;
         blockVector_init(&blockV);
+        bulletVector bulletV;
+        bulletVector_init(&bulletV);
 
         struct Player player = {SCREEN_W / 2, SCREEN_H / 2, 2, 2, 10, 10, false, 0};
         struct KeyPresses keys = {false, false, false, false};
 
-        //Game loop vars
         int ticks = 0;
         int frames = 0;
         double delta = 0;
-        bool running = true;
         double lastTime = SDL_GetTicks();
         double nPerTick = 1000.0/60.0;
         double lastTimer = SDL_GetTicks();
 
-        SDL_Event e;
-        initVideo(SCREEN_W, SCREEN_H);
+        bool running = true;
 
-        //Main Loop
         while(running) {
+
                 double now = SDL_GetTicks();
-                delta += (now - lastTime)/nPerTick;
+                delta += (now - lastTime) / nPerTick;
                 lastTime = now;
                 while(delta >= 1) {
-                        ticks++;
+                        ticks ++;
                         gameTick(&blockV, &bulletV, &player, &keys, SCREEN_H);
-                        running = handleEvents(&e, &keys);
+                        running = handleEvents(e, &keys);
                         if(player.hit) {
                                 running = false;
                         }
@@ -70,20 +105,15 @@ int main() {
 
                 if(SDL_GetTicks() - lastTimer >= 1000) {
                         lastTimer += 1000;
-                        printf("Ticks: %d   Frames: %d\n",
-                                        ticks, frames);
+                        printf("Ticks: %d       Frames: %d\n",
+                                ticks, frames);
                         ticks = 0;
                         frames = 0;
                         if(blockV.count < 10) {
-                                blockVector_add(&blockV,makeBlock(SCREEN_W));
+                                blockVector_add(&blockV, makeBlock(SCREEN_W));
                         }
                 }
         }
-
-        //Shutdown
-        killVideo();
+        game_state = MENU;
         cleanupGameDisplay();
-        blockVector_free(&blockV);
-        bulletVector_free(&bulletV);
-        return 0;
 }
