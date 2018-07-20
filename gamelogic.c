@@ -86,7 +86,7 @@ void movePlayer(struct KeyPresses* k, struct Player* p, bulletVector* bv) {
                 playerMoveRight(p);
         }
         if(k -> space) {
-                bulletVector_add(bv, makeBullet(p -> x, p -> y));
+                bulletVector_add(bv, makeBullet(p -> x + (p -> sizeX / 2), p -> y));
                 k -> space = false;
         }
                                 
@@ -105,11 +105,25 @@ bool checkCollision_bullet(struct Block block, struct Bullet bullet) {
 }
 
 bool checkCollision_player(struct Block block, struct Player player) {
-        if(player.x >= block.x 
-                        && player.x <= block.x + block.sizeX
-                        && player.y >= block.y
-                        && player.y <= block.y + block.sizeY) {
+        int leftP, leftB;
+        int rightP, rightB;
+        int topP, topB;
+        int bottomP, bottomB;
+
+        leftP = player.x;
+        rightP = player.x + player.sizeX;
+        topP = player.y;
+        bottomP = player.y + player.sizeY - 20;
+
+        leftB = block.x;
+        rightB = block.x + block.sizeX;
+        topB = block.y;
+        bottomB = block.y + block.sizeY;
+        if(bottomP >= topB
+                        && topP <= bottomB
+                        && rightP >= leftB
+                        && leftP <= rightB) {
                 return true;
         }
-        else return false;
+        return false;
 }
