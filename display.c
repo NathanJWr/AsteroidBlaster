@@ -1,5 +1,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_image.h>
 #include <stdbool.h>
 #include "display.h"
 extern SDL_Window* window;
@@ -43,6 +44,7 @@ bool initVideo(const int SCREEN_W, const int SCREEN_H) {
                 printf("Failed to load font: %s\n", SDL_GetError());
                 success = false;
         }
+        IMG_Init(IMG_INIT_PNG);
         return success;
 }
 
@@ -54,6 +56,8 @@ void killVideo() {
         renderer = NULL;
         window = NULL;
         
+        TTF_Quit();
+        IMG_Quit();
         SDL_Quit();
 }
 
