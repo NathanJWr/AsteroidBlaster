@@ -75,7 +75,7 @@ void gameLoop(SDL_Event* e) {
 
         struct Player player = {SCREEN_W / 2, SCREEN_H / 2, 2, 2, 100, 100, false, 0};
         struct KeyPresses keys = {false, false, false, false};
-        setupGameSprites("Ship_Sheet.png");
+        setupGameSprites("assets/Ship.png");
 
         int ticks = 0;
         int frames = 0;
