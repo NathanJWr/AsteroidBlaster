@@ -3,6 +3,7 @@
 #include "block.h"
 #include "player.h"
 #include "bullet.h"
+void setupGameSprites(char*);
 void updateGameScreen();
 void drawBlock(struct Block);
 void drawPlayer(struct Player);

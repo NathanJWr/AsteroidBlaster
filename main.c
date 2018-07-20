@@ -73,8 +73,9 @@ void gameLoop(SDL_Event* e) {
         bulletVector bulletV;
         bulletVector_init(&bulletV);
 
-        struct Player player = {SCREEN_W / 2, SCREEN_H / 2, 2, 2, 10, 10, false, 0};
+        struct Player player = {SCREEN_W / 2, SCREEN_H / 2, 2, 2, 100, 100, false, 0};
         struct KeyPresses keys = {false, false, false, false};
+        setupGameSprites("Ship_Sheet.png");
 
         int ticks = 0;
         int frames = 0;

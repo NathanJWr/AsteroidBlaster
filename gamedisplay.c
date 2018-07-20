@@ -1,5 +1,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_image.h>
 #include <stdbool.h>
 #include "display.h"
 extern const int SCREEN_W;
@@ -8,17 +9,28 @@ extern SDL_Window* window;
 extern SDL_Renderer* renderer;
 extern TTF_Font* font;
 
-SDL_Color textColor = {255, 255, 255, 255}; //white
-SDL_Color backgroundColor = {0, 0, 0, 255}; //black
+SDL_Color backgroundColor = {255, 255, 255, 255}; //white
+SDL_Color textColor = {0, 0, 0, 255}; //black
 SDL_Texture* scoreTexture;
 SDL_Rect solidRect;
+
+SDL_Texture* player_texture;
+SDL_Rect player_tex_rect;
+int player_frames;
+void setupGameSprites(char* player_file) {
+        int w, h;
+        player_texture = IMG_LoadTexture(renderer, player_file);
+        SDL_QueryTexture(player_texture, NULL, NULL, &player_tex_rect.w, &player_tex_rect.h);
+        player_frames = player_tex_rect.w / player_tex_rect.h;
+        player_tex_rect.w /= player_frames;
+}
 
 void updateGameScreen() {
         SDL_RenderCopy(renderer, scoreTexture, NULL, &solidRect); 
         SDL_RenderPresent(renderer);
 
         //Reset for next frame
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
         SDL_RenderClear(renderer);
 }
 void drawBlock(struct Block block) {
@@ -37,13 +49,12 @@ void drawBlock(struct Block block) {
 }
 
 void drawPlayer(struct Player player) {
-        SDL_SetRenderDrawColor(renderer,238,130,238,0xFF);
-        SDL_Rect rect = {
+        SDL_Rect pos = {
                 player.x,
                 player.y,
                 player.sizeX,
                 player.sizeY};
-        SDL_RenderFillRect(renderer, &rect);
+        SDL_RenderCopy(renderer, player_texture, &player_tex_rect, &pos);
 }
 
 void drawBullet(struct Bullet bullet) {
@@ -67,4 +78,5 @@ void drawScore(int score) {
 
 void cleanupGameDisplay() {
         SDL_DestroyTexture(scoreTexture);
+        SDL_DestroyTexture(player_texture);
 }
