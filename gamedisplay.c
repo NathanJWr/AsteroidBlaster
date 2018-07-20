@@ -17,6 +17,8 @@ SDL_Rect solidRect;
 SDL_Texture* player_texture;
 SDL_Rect player_tex_rect;
 int player_frames;
+int pframe;
+int pdelay = 100;
 void setupGameSprites(char* player_file) {
         int w, h;
         player_texture = IMG_LoadTexture(renderer, player_file);
@@ -49,6 +51,8 @@ void drawBlock(struct Block block) {
 }
 
 void drawPlayer(struct Player player) {
+        pframe = (SDL_GetTicks() / pdelay) % player_frames;
+        player_tex_rect.x = pframe * player_tex_rect.w;
         SDL_Rect pos = {
                 player.x,
                 player.y,
