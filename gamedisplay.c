@@ -3,6 +3,7 @@
 #include <SDL2/SDL_image.h>
 #include <stdbool.h>
 #include "display.h"
+#include "gamedisplay.h"
 extern const int SCREEN_W;
 extern const int SCREEN_H;
 extern SDL_Window* window;
@@ -14,17 +15,17 @@ SDL_Color textColor = {0, 0, 0, 255}; //black
 SDL_Texture* scoreTexture;
 SDL_Rect solidRect;
 
-SDL_Texture* player_texture;
-SDL_Rect player_tex_rect;
-int player_frames;
-int pframe;
-int pdelay = 100;
+struct PlayerTexture playerT;
 void setupGameSprites(char* player_file) {
-        int w, h;
-        player_texture = IMG_LoadTexture(renderer, player_file);
-        SDL_QueryTexture(player_texture, NULL, NULL, &player_tex_rect.w, &player_tex_rect.h);
-        player_frames = player_tex_rect.w / player_tex_rect.h;
-        player_tex_rect.w /= player_frames;
+        playerT.texture = IMG_LoadTexture(renderer, player_file);
+        SDL_QueryTexture(playerT.texture,
+                        NULL,
+                        NULL,
+                        &playerT.tex_rect.w,
+                        &playerT.tex_rect.h);
+        playerT.tot_frames = playerT.tex_rect.w / playerT.tex_rect.h;
+        playerT.tex_rect.w /= playerT.tot_frames;
+        playerT.delay = 100;
 }
 
 void updateGameScreen() {
@@ -51,14 +52,14 @@ void drawBlock(struct Block block) {
 }
 
 void drawPlayer(struct Player player) {
-        pframe = (SDL_GetTicks() / pdelay) % player_frames;
-        player_tex_rect.x = pframe * player_tex_rect.w;
+        playerT.current_frame = (SDL_GetTicks() / playerT.delay) % playerT.tot_frames;
+        playerT.tex_rect.x = playerT.current_frame * playerT.tex_rect.w;
         SDL_Rect pos = {
                 player.x,
                 player.y,
                 player.sizeX,
                 player.sizeY};
-        SDL_RenderCopy(renderer, player_texture, &player_tex_rect, &pos);
+        SDL_RenderCopy(renderer, playerT.texture, &playerT.tex_rect, &pos);
 }
 
 void drawBullet(struct Bullet bullet) {
@@ -82,5 +83,5 @@ void drawScore(int score) {
 
 void cleanupGameDisplay() {
         SDL_DestroyTexture(scoreTexture);
-        SDL_DestroyTexture(player_texture);
+        SDL_DestroyTexture(playerT.texture);
 }
