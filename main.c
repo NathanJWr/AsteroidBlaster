@@ -39,6 +39,7 @@ int main() {
         initVideo(SCREEN_W, SCREEN_H);
         setupMenu();
         SDL_Event e;
+        setupGameSprites();
         
         while(game_state != QUIT) {
                 if(game_state == MENU) {
@@ -75,7 +76,6 @@ void gameLoop(SDL_Event* e) {
 
         struct Player player = {SCREEN_W / 2, SCREEN_H / 2, 2, 2, 100, 100, false, 0};
         struct KeyPresses keys = {false, false, false, false};
-        setupGameSprites("assets/Ship.png");
 
         int ticks = 0;
         int frames = 0;

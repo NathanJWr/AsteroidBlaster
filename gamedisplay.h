@@ -4,7 +4,7 @@
 #include "player.h"
 #include "bullet.h"
 #include <SDL2/SDL.h>
-struct PlayerTexture {
+struct Sprite {
         SDL_Texture* texture;
         SDL_Rect tex_rect;
         int tot_frames;
@@ -12,7 +12,7 @@ struct PlayerTexture {
         int delay;
 };
 
-void setupGameSprites(char*);
+void setupGameSprites();
 void updateGameScreen();
 void drawBlock(struct Block);
 void drawPlayer(struct Player);

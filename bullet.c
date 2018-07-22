@@ -3,7 +3,7 @@
 #include <stdbool.h>
 
 struct Bullet makeBullet(int x, int y) {
-        struct Bullet b = {x, y, 5, 5, 3, 3};
+        struct Bullet b = {x, y, 3, 3, 30, 30};
         return b;
 }
 bool moveBullet(struct Bullet* b, const int SCREEN_H) {

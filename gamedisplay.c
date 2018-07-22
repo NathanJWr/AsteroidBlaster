@@ -15,9 +15,11 @@ SDL_Color textColor = {0, 0, 0, 255}; //black
 SDL_Texture* scoreTexture;
 SDL_Rect solidRect;
 
-struct PlayerTexture playerT;
-void setupGameSprites(char* player_file) {
-        playerT.texture = IMG_LoadTexture(renderer, player_file);
+struct Sprite playerT;
+struct Sprite projectile;
+void setupGameSprites() {
+        //Player
+        playerT.texture = IMG_LoadTexture(renderer, "assets/ship.png");
         SDL_QueryTexture(playerT.texture,
                         NULL,
                         NULL,
@@ -26,6 +28,17 @@ void setupGameSprites(char* player_file) {
         playerT.tot_frames = playerT.tex_rect.w / playerT.tex_rect.h;
         playerT.tex_rect.w /= playerT.tot_frames;
         playerT.delay = 100;
+
+        //projectile
+        projectile.texture = IMG_LoadTexture(renderer, "assets/laser.png");
+        SDL_QueryTexture(projectile.texture,
+                        NULL,
+                        NULL,
+                        &projectile.tex_rect.w,
+                        &projectile.tex_rect.h);
+        projectile.tot_frames = projectile.tex_rect.w / projectile.tex_rect.h;
+        projectile.tex_rect.w /= projectile.tot_frames;
+        projectile.delay = 100;
 }
 
 void updateGameScreen() {
@@ -63,13 +76,14 @@ void drawPlayer(struct Player player) {
 }
 
 void drawBullet(struct Bullet bullet) {
-        SDL_SetRenderDrawColor(renderer,238,130,238,0xFF);
+        projectile.current_frame = (SDL_GetTicks() / projectile.delay) % projectile.tot_frames;
+        projectile.tex_rect.x = projectile.current_frame * projectile.tex_rect.w;
         SDL_Rect rect = {
                 bullet.x,
                 bullet.y,
                 bullet.sizeX,
                 bullet.sizeY};
-        SDL_RenderFillRect(renderer, &rect);
+        SDL_RenderCopy(renderer, projectile.texture, &projectile.tex_rect, &rect);
 }
 void drawScore(int score) {
         char result[50];
@@ -84,4 +98,5 @@ void drawScore(int score) {
 void cleanupGameDisplay() {
         SDL_DestroyTexture(scoreTexture);
         SDL_DestroyTexture(playerT.texture);
+        SDL_DestroyTexture(projectile.texture);
 }
