@@ -100,7 +100,6 @@ void gameLoop(SDL_Event* e) {
                         }
                         delta--;
                 }
-                SDL_Delay(1);
                 frames++;
                 updateGameScreen();
                 drawCalls(&blockV, &player, &bulletV);

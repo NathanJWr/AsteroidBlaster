@@ -1,7 +1,9 @@
 #ifndef BULLET_H
 #define BULLET_H
 #include <stdbool.h>
+#include <SDL2/SDL.h>
 struct Bullet {
+        SDL_Rect hitbox;
         int x;
         int y;
         int dx;

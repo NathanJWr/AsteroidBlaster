@@ -94,10 +94,25 @@ void movePlayer(struct KeyPresses* k, struct Player* p, bulletVector* bv) {
 
 
 bool checkCollision_bullet(struct Block block, struct Bullet bullet) {
-        if(bullet.x >= block.x 
-                        && bullet.x <= block.x + block.sizeX
-                        && bullet.y >= block.y 
-                        && bullet.y <= block.y + block.sizeY
+        int leftA, leftB;
+        int rightA, rightB;
+        int topA, topB;
+        int bottomA, bottomB;
+
+        leftA = bullet.hitbox.x;
+        rightA = bullet.hitbox.x + bullet.hitbox.w;
+        topA = bullet.hitbox.y;
+        bottomA = bullet.hitbox.y + bullet.hitbox.h;
+
+        leftB = block.x;
+        rightB = block.x + block.sizeX;
+        topB = block.y;
+        bottomB = block.y + block.sizeY;
+
+        if(bottomA >= topB
+                        && topA <= bottomB
+                        && rightA >= leftB
+                        && leftA <= rightB
                         && !block.hit) {
                 return true;
         }

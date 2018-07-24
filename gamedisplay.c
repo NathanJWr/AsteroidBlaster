@@ -86,6 +86,8 @@ void drawBullet(struct Bullet bullet) {
                 bullet.sizeX,
                 bullet.sizeY};
         SDL_RenderCopy(renderer, projectile.texture, &projectile.tex_rect, &rect);
+        SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF);		    
+        SDL_RenderDrawRect(renderer, &bullet.hitbox);
 }
 void drawScore(int score) {
         char result[50];

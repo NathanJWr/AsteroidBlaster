@@ -1,13 +1,25 @@
 #include "bullet.h"
 #include <stdlib.h>
 #include <stdbool.h>
-
+#include <SDL2/SDL.h>
 struct Bullet makeBullet(int x, int y) {
-        struct Bullet b = {x, y, 3, 3, 30, 30};
+        struct Bullet b; 
+        b.hitbox.x = x - 5;
+        b.hitbox.y = y;
+        b.hitbox.w = 10;
+        b.hitbox.h = 30;
+        b.x = x;
+        b.y = y;
+        b.dx = 3;
+        b.dy = 3;
+        b.sizeX = 30;
+        b.sizeY = 30;
+
         return b;
 }
 bool moveBullet(struct Bullet* b, const int SCREEN_H) {
         b -> y -= b -> dy;
+        b -> hitbox.y -= b -> dy;
         if(b -> y <= 0) {
                 return false;
         }
