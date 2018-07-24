@@ -99,10 +99,10 @@ bool checkCollision_bullet(struct Block block, struct Bullet bullet) {
         int topA, topB;
         int bottomA, bottomB;
 
-        leftA = bullet.hitbox.x;
-        rightA = bullet.hitbox.x + bullet.hitbox.w;
-        topA = bullet.hitbox.y;
-        bottomA = bullet.hitbox.y + bullet.hitbox.h;
+        leftA = bullet.hitX;
+        rightA = bullet.hitX + bullet.hitW;
+        topA = bullet.hitY;
+        bottomA = bullet.hitY + bullet.hitH;
 
         leftB = block.x;
         rightB = block.x + block.sizeX;

@@ -3,13 +3,13 @@
 #include <stdbool.h>
 #include <SDL2/SDL.h>
 struct Bullet {
-        SDL_Rect hitbox;
         int x;
         int y;
         int dx;
         int dy;
         int sizeX;
         int sizeY;
+        int hitX, hitY, hitW, hitH;
 };
 
 typedef struct _bulletVector {
