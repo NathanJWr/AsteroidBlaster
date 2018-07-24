@@ -73,13 +73,15 @@ void drawPlayer(struct Player player) {
                 player.sizeX,
                 player.sizeY};
         SDL_RenderCopy(renderer, playerT.texture, &playerT.tex_rect, &pos);
+        SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF);		    
+        SDL_RenderDrawRect(renderer, &player.hitbox);
 }
 
 void drawBullet(struct Bullet bullet) {
         projectile.current_frame = (SDL_GetTicks() / projectile.delay) % projectile.tot_frames;
         projectile.tex_rect.x = projectile.current_frame * projectile.tex_rect.w;
         SDL_Rect rect = {
-                bullet.x,
+                bullet.x - projectile.tex_rect.w / 4,
                 bullet.y,
                 bullet.sizeX,
                 bullet.sizeY};

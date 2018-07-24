@@ -74,7 +74,7 @@ void gameLoop(SDL_Event* e) {
         bulletVector bulletV;
         bulletVector_init(&bulletV);
 
-        struct Player player = {SCREEN_W / 2, SCREEN_H / 2, 2, 2, 100, 100, false, 0};
+        struct Player player = makePlayer(); 
         struct KeyPresses keys = {false, false, false, false};
 
         int ticks = 0;

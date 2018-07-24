@@ -110,10 +110,10 @@ bool checkCollision_player(struct Block block, struct Player player) {
         int topP, topB;
         int bottomP, bottomB;
 
-        leftP = player.x;
-        rightP = player.x + player.sizeX;
-        topP = player.y;
-        bottomP = player.y + player.sizeY - 20;
+        leftP = player.hitbox.x;
+        rightP = player.hitbox.x + player.hitbox.w;
+        topP = player.hitbox.y;
+        bottomP = player.hitbox.y + player.hitbox.h;
 
         leftB = block.x;
         rightB = block.x + block.sizeX;
