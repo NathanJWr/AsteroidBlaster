@@ -17,6 +17,7 @@ SDL_Rect solidRect;
 
 struct Sprite playerT;
 struct Sprite projectile;
+struct Sprite asteroid;
 void querySprite(struct Sprite* sprite) {
         SDL_QueryTexture(sprite -> texture,
                         NULL,
@@ -35,6 +36,10 @@ void setupGameSprites() {
         //projectile
         projectile.texture = IMG_LoadTexture(renderer, "assets/laser.png");
         querySprite(&projectile);
+
+        //asteroid
+        asteroid.texture = IMG_LoadTexture(renderer, "assets/asteroid.png");
+        querySprite(&asteroid);
 }
 
 void updateGameScreen() {
@@ -52,12 +57,14 @@ void drawBlock(struct Block block) {
         else {
                 SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0xFF);
         }
-        SDL_Rect rect = {
+        SDL_Rect pos = {
                block.x,
                block.y,
                block.sizeX,
                block.sizeY};
-        SDL_RenderFillRect(renderer, &rect);
+        asteroid.current_frame = (SDL_GetTicks() / asteroid.delay) % asteroid.tot_frames;
+        asteroid.tex_rect.x = asteroid.current_frame * asteroid.tex_rect.w;
+        SDL_RenderCopy(renderer, asteroid.texture, &asteroid.tex_rect, &pos);
         SDL_Rect hitbox = {block.hitX, block.hitY, block.hitW, block.hitH};
         SDL_RenderDrawRect(renderer, &hitbox);
 }

@@ -1,4 +1,6 @@
-###Check collision between Blocks and Bullets
-        --Decide what to do with that collision 
+==Rename block stuff to asteroid stuff
 
-Make it so blocks don't spawn on top of eachother
+==Change the randomization of asteroid size to choosing a random size Y
+(dimensions of YxY so the sprites aren't stretched)
+
+==Make more asteroid sprites to have random choice b/w all of them
