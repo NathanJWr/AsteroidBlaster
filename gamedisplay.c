@@ -17,28 +17,24 @@ SDL_Rect solidRect;
 
 struct Sprite playerT;
 struct Sprite projectile;
+void querySprite(struct Sprite* sprite) {
+        SDL_QueryTexture(sprite -> texture,
+                        NULL,
+                        NULL,
+                        &(sprite -> tex_rect.w),
+                        &(sprite -> tex_rect.h));
+        sprite -> tot_frames = sprite -> tex_rect.w / sprite -> tex_rect.h;
+        sprite -> tex_rect.w /= sprite -> tot_frames;
+        sprite -> delay = 100;
+}
 void setupGameSprites() {
         //Player
         playerT.texture = IMG_LoadTexture(renderer, "assets/ship.png");
-        SDL_QueryTexture(playerT.texture,
-                        NULL,
-                        NULL,
-                        &playerT.tex_rect.w,
-                        &playerT.tex_rect.h);
-        playerT.tot_frames = playerT.tex_rect.w / playerT.tex_rect.h;
-        playerT.tex_rect.w /= playerT.tot_frames;
-        playerT.delay = 100;
+        querySprite(&playerT);
 
         //projectile
         projectile.texture = IMG_LoadTexture(renderer, "assets/laser.png");
-        SDL_QueryTexture(projectile.texture,
-                        NULL,
-                        NULL,
-                        &projectile.tex_rect.w,
-                        &projectile.tex_rect.h);
-        projectile.tot_frames = projectile.tex_rect.w / projectile.tex_rect.h;
-        projectile.tex_rect.w /= projectile.tot_frames;
-        projectile.delay = 100;
+        querySprite(&projectile);
 }
 
 void updateGameScreen() {
