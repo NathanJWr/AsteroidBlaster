@@ -104,10 +104,10 @@ bool checkCollision_bullet(struct Block block, struct Bullet bullet) {
         topA = bullet.hitY;
         bottomA = bullet.hitY + bullet.hitH;
 
-        leftB = block.x;
-        rightB = block.x + block.sizeX;
-        topB = block.y;
-        bottomB = block.y + block.sizeY;
+        leftB = block.hitX;
+        rightB = block.hitX + block.hitW;
+        topB = block.hitY;
+        bottomB = block.hitY + block.hitH;
 
         if(bottomA >= topB
                         && topA <= bottomB
@@ -130,10 +130,10 @@ bool checkCollision_player(struct Block block, struct Player player) {
         topP = player.hitbox.y;
         bottomP = player.hitbox.y + player.hitbox.h;
 
-        leftB = block.x;
-        rightB = block.x + block.sizeX;
-        topB = block.y;
-        bottomB = block.y + block.sizeY;
+        leftB = block.hitX;
+        rightB = block.hitX + block.hitW;
+        topB = block.hitY;
+        bottomB = block.hitY + block.hitH;
         if(bottomP >= topB
                         && topP <= bottomB
                         && rightP >= leftB

@@ -62,6 +62,8 @@ void drawBlock(struct Block block) {
                block.sizeX,
                block.sizeY};
         SDL_RenderFillRect(renderer, &rect);
+        SDL_Rect hitbox = {block.hitX, block.hitY, block.hitW, block.hitH};
+        SDL_RenderDrawRect(renderer, &hitbox);
 }
 
 void drawPlayer(struct Player player) {

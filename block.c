@@ -13,11 +13,16 @@ struct Block makeBlock(const int SCREEN_W) {
                 b.dy = (rand() % 1) + 1;
         }
         b.hit = false;
+        b.hitX = b.x - 5;
+        b.hitY = b.y;
+        b.hitW = b.sizeX;
+        b.hitH = b.sizeY;
         return b;
 }
 
 bool moveBlock(struct Block* block, const int SCREEN_H) {
         block -> y += block -> dy;
+        block -> hitY += block -> dy;
         if(block -> y > SCREEN_H) {
                 return false;
         }
