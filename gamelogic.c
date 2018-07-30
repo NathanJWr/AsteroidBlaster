@@ -1,33 +1,33 @@
 #include <stdbool.h> 
 #include "gamelogic.h"
-void gameTick(blockVector* blockV,
+void gameTick(asteroidVector* asteroidV,
                 bulletVector* bulletV,
                 struct Player* player,
                 struct KeyPresses* keys,
                 const int SCREEN_H) {
 
         movePlayer(keys, player, bulletV);
-        for(int i = 0; i < blockV -> count; i++) {
-                if(!moveBlock(&(blockV->blocks[i]), SCREEN_H)) {
-                        blockVector_erase(blockV, i);
+        for(int i = 0; i < asteroidV -> count; i++) {
+                if(!moveAsteroid(&(asteroidV->asteroids[i]), SCREEN_H)) {
+                        asteroidVector_erase(asteroidV, i);
                 }
         }
         for(int i = 0; i < bulletV -> count; i++) {
                 if(!moveBullet(&(bulletV -> bullets[i]), SCREEN_H)) {
                         bulletVector_erase(bulletV, i);
                 }
-                for(int j = 0; j < blockV -> count; j++) {
-                        if(checkCollision_bullet(*blockVector_get(blockV, j),
+                for(int j = 0; j < asteroidV -> count; j++) {
+                        if(checkCollision_bullet(*asteroidVector_get(asteroidV, j),
                                                 *bulletVector_get(bulletV, i))) {
-                                blockV -> blocks[j].hit = true;
+                                asteroidV -> asteroids[j].hit = true;
                                 bulletVector_erase(bulletV , i);
                                 player -> score++;
                         }
                 }
         }
-        for(int i = 0; i < blockV -> count; i++) {
-                if(checkCollision_player(*blockVector_get(blockV, i), *player) 
-                                && !blockV -> blocks[i].hit) {
+        for(int i = 0; i < asteroidV -> count; i++) {
+                if(checkCollision_player(*asteroidVector_get(asteroidV, i), *player) 
+                                && !asteroidV -> asteroids[i].hit) {
                         player -> hit = true;
                 }
         }
@@ -93,7 +93,7 @@ void movePlayer(struct KeyPresses* k, struct Player* p, bulletVector* bv) {
 }
 
 
-bool checkCollision_bullet(struct Block block, struct Bullet bullet) {
+bool checkCollision_bullet(struct Asteroid asteroid, struct Bullet bullet) {
         int leftA, leftB;
         int rightA, rightB;
         int topA, topB;
@@ -104,22 +104,22 @@ bool checkCollision_bullet(struct Block block, struct Bullet bullet) {
         topA = bullet.hitY;
         bottomA = bullet.hitY + bullet.hitH;
 
-        leftB = block.hitX;
-        rightB = block.hitX + block.hitW;
-        topB = block.hitY;
-        bottomB = block.hitY + block.hitH;
+        leftB = asteroid.hitX;
+        rightB = asteroid.hitX + asteroid.hitW;
+        topB = asteroid.hitY;
+        bottomB = asteroid.hitY + asteroid.hitH;
 
         if(bottomA >= topB
                         && topA <= bottomB
                         && rightA >= leftB
                         && leftA <= rightB
-                        && !block.hit) {
+                        && !asteroid.hit) {
                 return true;
         }
         else return false;
 }
 
-bool checkCollision_player(struct Block block, struct Player player) {
+bool checkCollision_player(struct Asteroid asteroid, struct Player player) {
         int leftP, leftB;
         int rightP, rightB;
         int topP, topB;
@@ -130,10 +130,10 @@ bool checkCollision_player(struct Block block, struct Player player) {
         topP = player.hitbox.y;
         bottomP = player.hitbox.y + player.hitbox.h;
 
-        leftB = block.hitX;
-        rightB = block.hitX + block.hitW;
-        topB = block.hitY;
-        bottomB = block.hitY + block.hitH;
+        leftB = asteroid.hitX;
+        rightB = asteroid.hitX + asteroid.hitW;
+        topB = asteroid.hitY;
+        bottomB = asteroid.hitY + asteroid.hitH;
         if(bottomP >= topB
                         && topP <= bottomB
                         && rightP >= leftB

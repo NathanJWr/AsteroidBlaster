@@ -4,7 +4,7 @@
 #include <SDL2/SDL.h>
 #include "player.h"
 #include "bullet.h"
-#include "block.h"
+#include "asteroid.h"
 struct KeyPresses {
         bool w;
         bool a;
@@ -12,11 +12,11 @@ struct KeyPresses {
         bool d;
         bool space;
 };
-bool checkCollision_player(struct Block, struct Player);
-bool checkCollision_bullet(struct Block, struct Bullet);
+bool checkCollision_player(struct Asteroid, struct Player);
+bool checkCollision_bullet(struct Asteroid, struct Bullet);
 bool handleEvents(SDL_Event*, struct KeyPresses*);
 void movePlayer(struct KeyPresses*, struct Player*, bulletVector*);
-void gameTick(blockVector*,
+void gameTick(asteroidVector*,
                 bulletVector*,
                 struct Player*,
                 struct KeyPresses*,

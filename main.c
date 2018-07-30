@@ -2,7 +2,7 @@
 #include <SDL2/SDL_ttf.h>
 #include <stdbool.h>
 #include "display.h"
-#include "block.h"
+#include "asteroid.h"
 #include "player.h"
 #include "bullet.h"
 #include "gamelogic.h"
@@ -18,9 +18,9 @@ TTF_Font* font;
 enum Game_States {MENU, GAME, QUIT};
 enum Game_States game_state;
 int score = 0;
-void drawCalls(blockVector* bv, struct Player* p, bulletVector* b) {
+void drawCalls(asteroidVector* bv, struct Player* p, bulletVector* b) {
         for(int i = 0; i < bv->count; i++) {
-                drawBlock(bv->blocks[i]);
+                drawAsteroid(bv->asteroids[i]);
         }
         for(int i = 0; i < b -> count; i++) {
                 drawBullet(b -> bullets[i]);
@@ -69,8 +69,8 @@ void menuLoop(SDL_Event* e) {
         }
 }
 void gameLoop(SDL_Event* e) {
-        blockVector blockV;
-        blockVector_init(&blockV);
+        asteroidVector asteroidV;
+        asteroidVector_init(&asteroidV);
         bulletVector bulletV;
         bulletVector_init(&bulletV);
 
@@ -93,7 +93,7 @@ void gameLoop(SDL_Event* e) {
                 lastTime = now;
                 while(delta >= 1) {
                         ticks ++;
-                        gameTick(&blockV, &bulletV, &player, &keys, SCREEN_H);
+                        gameTick(&asteroidV, &bulletV, &player, &keys, SCREEN_H);
                         running = handleEvents(e, &keys);
                         if(player.hit) {
                                 running = false;
@@ -103,7 +103,7 @@ void gameLoop(SDL_Event* e) {
                 SDL_Delay(1);
                 frames++;
                 updateGameScreen();
-                drawCalls(&blockV, &player, &bulletV);
+                drawCalls(&asteroidV, &player, &bulletV);
 
                 if(SDL_GetTicks() - lastTimer >= 1000) {
                         lastTimer += 1000;
@@ -111,13 +111,13 @@ void gameLoop(SDL_Event* e) {
                                 ticks, frames);
                         ticks = 0;
                         frames = 0;
-                        if(blockV.count < 10) {
-                                blockVector_add(&blockV, makeBlock(SCREEN_W));
+                        if(asteroidV.count < 10) {
+                                asteroidVector_add(&asteroidV, makeAsteroid(SCREEN_W));
                         }
                 }
         }
         score = 0;              
-        blockVector_free(&blockV);
+        asteroidVector_free(&asteroidV);
         bulletVector_free(&bulletV);
         game_state = MENU;
 }

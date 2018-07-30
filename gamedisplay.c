@@ -17,7 +17,7 @@ SDL_Rect solidRect;
 
 struct Sprite playerT;
 struct Sprite projectile;
-struct Sprite asteroid;
+struct Sprite asteroid_1;
 void querySprite(struct Sprite* sprite) {
         SDL_QueryTexture(sprite -> texture,
                         NULL,
@@ -38,8 +38,8 @@ void setupGameSprites() {
         querySprite(&projectile);
 
         //asteroid
-        asteroid.texture = IMG_LoadTexture(renderer, "assets/asteroid.png");
-        querySprite(&asteroid);
+        asteroid_1.texture = IMG_LoadTexture(renderer, "assets/asteroid.png");
+        querySprite(&asteroid_1);
 }
 
 void updateGameScreen() {
@@ -50,22 +50,22 @@ void updateGameScreen() {
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
         SDL_RenderClear(renderer);
 }
-void drawBlock(struct Block block) {
-        if(block.hit) {
+void drawAsteroid(struct Asteroid asteroid) {
+        if(asteroid.hit) {
                 SDL_SetRenderDrawColor(renderer, 102, 255, 102, 0xFF);
         }
         else {
                 SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0xFF);
         }
         SDL_Rect pos = {
-               block.x,
-               block.y,
-               block.sizeX,
-               block.sizeY};
-        asteroid.current_frame = (SDL_GetTicks() / asteroid.delay) % asteroid.tot_frames;
-        asteroid.tex_rect.x = asteroid.current_frame * asteroid.tex_rect.w;
-        SDL_RenderCopy(renderer, asteroid.texture, &asteroid.tex_rect, &pos);
-        SDL_Rect hitbox = {block.hitX, block.hitY, block.hitW, block.hitH};
+               asteroid.x,
+               asteroid.y,
+               asteroid.sizeX,
+               asteroid.sizeY};
+        asteroid_1.current_frame = (SDL_GetTicks() / asteroid_1.delay) % asteroid_1.tot_frames;
+        asteroid_1.tex_rect.x = asteroid_1.current_frame * asteroid_1.tex_rect.w;
+        SDL_RenderCopy(renderer, asteroid_1.texture, &asteroid_1.tex_rect, &pos);
+        SDL_Rect hitbox = {asteroid.hitX, asteroid.hitY, asteroid.hitW, asteroid.hitH};
         SDL_RenderDrawRect(renderer, &hitbox);
 }
 

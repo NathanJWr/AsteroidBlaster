@@ -1,6 +1,6 @@
 #ifndef GAMEDISPLAY_H
 #define GAMEDISPLAY_H
-#include "block.h"
+#include "asteroid.h"
 #include "player.h"
 #include "bullet.h"
 #include <SDL2/SDL.h>
@@ -14,7 +14,7 @@ struct Sprite {
 
 void setupGameSprites();
 void updateGameScreen();
-void drawBlock(struct Block);
+void drawAsteroid(struct Asteroid);
 void drawPlayer(struct Player);
 void drawBullet(struct Bullet);
 void drawScore(int);
