@@ -4,9 +4,10 @@
 #include <stdbool.h>
 struct Asteroid makeAsteroid(const int SCREEN_W) {
         struct Asteroid b;
+        b.sprite_num = (rand() % 3) + 1;
         b.x = rand() % SCREEN_W;
         b.y = 0;
-        b.sizeX = (rand() % 51) + 50;
+        b.sizeX = (rand() % 31) + 30;
         b.sizeY = b.sizeX; 
         b.dy = 0;
         while(b.dy == 0) {

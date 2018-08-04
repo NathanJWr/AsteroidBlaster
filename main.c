@@ -83,11 +83,8 @@ void gameLoop(SDL_Event* e) {
         double lastTime = SDL_GetTicks();
         double nPerTick = 1000.0/60.0;
         double lastTimer = SDL_GetTicks();
-
         bool running = true;
-
         while(running) {
-
                 double now = SDL_GetTicks();
                 delta += (now - lastTime) / nPerTick;
                 lastTime = now;

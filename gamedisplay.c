@@ -17,7 +17,12 @@ SDL_Rect solidRect;
 
 struct Sprite playerT;
 struct Sprite projectile;
-struct Sprite asteroid_1;
+struct Sprite asteroid1;
+struct Sprite asteroid2;
+struct Sprite asteroid1_exp;
+struct Sprite asteroid2_exp;
+//struct Sprite asteroid_3;
+
 void querySprite(struct Sprite* sprite) {
         SDL_QueryTexture(sprite -> texture,
                         NULL,
@@ -38,8 +43,21 @@ void setupGameSprites() {
         querySprite(&projectile);
 
         //asteroid
-        asteroid_1.texture = IMG_LoadTexture(renderer, "assets/asteroid.png");
-        querySprite(&asteroid_1);
+        asteroid1.texture = IMG_LoadTexture(renderer, "assets/asteroid1.png");
+        querySprite(&asteroid1);
+
+        asteroid2.texture = IMG_LoadTexture(renderer, "assets/asteroid2.png");
+        querySprite(&asteroid2);
+
+        //asteroid explosions
+        asteroid1_exp.texture = IMG_LoadTexture(renderer, "assets/asteroid1_explode.png");
+        querySprite(&asteroid1_exp);
+
+        asteroid2_exp.texture = IMG_LoadTexture(renderer, "assets/asteroid2_explode.png");
+        querySprite(&asteroid2_exp);
+
+        //asteroid_3.texture = IMG_LoadTexture(renderer, "assets/asteroid3.png");
+        //querySprite(&asteroid_3);
 }
 
 void updateGameScreen() {
@@ -50,34 +68,51 @@ void updateGameScreen() {
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
         SDL_RenderClear(renderer);
 }
+
+void renderSprite(struct Sprite* sprite, SDL_Rect* pos) {
+        sprite -> current_frame = (SDL_GetTicks() / sprite -> delay) % sprite -> tot_frames;
+        sprite -> tex_rect.x = sprite -> current_frame * sprite -> tex_rect.w;
+        SDL_RenderCopy(renderer, sprite -> texture, &(sprite -> tex_rect), pos);
+}
+void drawAsteroidExplosion(struct Asteroid asteroid, SDL_Rect* pos) {
+        if(asteroid.sprite_num == 1) {
+                renderSprite(&asteroid1_exp, pos);
+        }
+        if(asteroid.sprite_num == 2) {
+                renderSprite(&asteroid2_exp, pos);
+        }
+}
 void drawAsteroid(struct Asteroid asteroid) {
-        if(asteroid.hit) {
-                SDL_SetRenderDrawColor(renderer, 102, 255, 102, 0xFF);
-        }
-        else {
-                SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0xFF);
-        }
         SDL_Rect pos = {
                asteroid.x,
                asteroid.y,
                asteroid.sizeX,
                asteroid.sizeY};
-        asteroid_1.current_frame = (SDL_GetTicks() / asteroid_1.delay) % asteroid_1.tot_frames;
-        asteroid_1.tex_rect.x = asteroid_1.current_frame * asteroid_1.tex_rect.w;
-        SDL_RenderCopy(renderer, asteroid_1.texture, &asteroid_1.tex_rect, &pos);
+        if(asteroid.hit) {
+                SDL_SetRenderDrawColor(renderer, 102, 255, 102, 0xFF);
+                drawAsteroidExplosion(asteroid, &pos);
+                return;
+        }
+        else {
+                SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0xFF);
+        }
+        if(asteroid.sprite_num == 1) {
+                renderSprite(&asteroid1, &pos);
+        }
+        else if(asteroid.sprite_num == 2) {
+                renderSprite(&asteroid2, &pos);
+        }
         SDL_Rect hitbox = {asteroid.hitX, asteroid.hitY, asteroid.hitW, asteroid.hitH};
         SDL_RenderDrawRect(renderer, &hitbox);
 }
 
 void drawPlayer(struct Player player) {
-        playerT.current_frame = (SDL_GetTicks() / playerT.delay) % playerT.tot_frames;
-        playerT.tex_rect.x = playerT.current_frame * playerT.tex_rect.w;
         SDL_Rect pos = {
                 player.x,
                 player.y,
                 player.sizeX,
                 player.sizeY};
-        SDL_RenderCopy(renderer, playerT.texture, &playerT.tex_rect, &pos);
+        renderSprite(&playerT, &pos);
         SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF);		    
         SDL_RenderDrawRect(renderer, &player.hitbox);
 }
@@ -109,4 +144,9 @@ void cleanupGameDisplay() {
         SDL_DestroyTexture(scoreTexture);
         SDL_DestroyTexture(playerT.texture);
         SDL_DestroyTexture(projectile.texture);
+        SDL_DestroyTexture(asteroid1.texture);
+        SDL_DestroyTexture(asteroid2.texture);
+        SDL_DestroyTexture(asteroid1_exp.texture);
+        SDL_DestroyTexture(asteroid2_exp.texture);
+        //SDL_DestroyTexture(asteroid_3.texture);
 }

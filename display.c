@@ -53,9 +53,6 @@ void killVideo() {
         SDL_DestroyWindow(window);
         TTF_CloseFont(font);
 
-        renderer = NULL;
-        window = NULL;
-        
         TTF_Quit();
         IMG_Quit();
         SDL_Quit();

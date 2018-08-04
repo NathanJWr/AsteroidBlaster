@@ -2,6 +2,7 @@
 #define ASTEROID_H
 #include <stdbool.h>
 struct Asteroid {
+        int sprite_num;
         int x;
         int y;
         int dx;
