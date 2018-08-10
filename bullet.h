@@ -2,6 +2,7 @@
 #define BULLET_H
 #include <stdbool.h>
 #include <SDL2/SDL.h>
+#include "sprite.h"
 struct Bullet {
         int x;
         int y;
@@ -10,6 +11,7 @@ struct Bullet {
         int sizeX;
         int sizeY;
         int hitX, hitY, hitW, hitH;
+        struct Sprite sprite;
 };
 
 typedef struct _bulletVector {

@@ -8,7 +8,7 @@ struct Asteroid makeAsteroid(const int SCREEN_W) {
         b.x = rand() % SCREEN_W;
         b.y = 0;
         b.sizeX = (rand() % 31) + 30;
-        b.sizeY = b.sizeX; 
+        b.sizeY = b.sizeX;
         b.dy = 0;
         while(b.dy == 0) {
                 b.dy = (rand() % 1) + 1;
@@ -18,6 +18,8 @@ struct Asteroid makeAsteroid(const int SCREEN_W) {
         b.hitY = b.y;
         b.hitW = b.sizeX;
         b.hitH = b.sizeY;
+        b.explode_iterations = 0;
+        setupAsteroidSprite(b.sprite_num, &b.asteroid, &b.explosion);
         return b;
 }
 
@@ -61,6 +63,7 @@ void asteroidVector_erase(asteroidVector* v, int index) {
         if(index >= v->size || index < 0) {
                 exit(1);
         }
+        destroySprite(&(v -> asteroids[index].asteroid));
         v->asteroids[index] = makeAsteroid(1024);
 }
 

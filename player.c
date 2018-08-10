@@ -15,6 +15,7 @@ struct Player makePlayer() {
         player.hitbox.y = player.y + 17;
         player.hitbox.w = player.sizeX - 35;
         player.hitbox.h = player.sizeY - 45;
+        setupPlayerSprite(&player.sprite);
         return player;
 }
 void playerMoveUp(struct Player* p) {
@@ -43,4 +44,7 @@ void playerMoveRight(struct Player* p) {
                 p -> x += p -> dx;
                 p -> hitbox.x += p -> dx;
         }
+}
+void playerCleanup(struct Player* p) {
+        destroySprite(&(p -> sprite));
 }

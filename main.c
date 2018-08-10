@@ -20,7 +20,7 @@ enum Game_States game_state;
 int score = 0;
 void drawCalls(asteroidVector* bv, struct Player* p, bulletVector* b) {
         for(int i = 0; i < bv->count; i++) {
-                drawAsteroid(bv->asteroids[i]);
+                drawAsteroid(&(bv->asteroids[i]));
         }
         for(int i = 0; i < b -> count; i++) {
                 drawBullet(b -> bullets[i]);
@@ -39,8 +39,8 @@ int main() {
         initVideo(SCREEN_W, SCREEN_H);
         setupMenu();
         SDL_Event e;
-        setupGameSprites();
-        
+        //setupGameSprites();
+
         while(game_state != QUIT) {
                 if(game_state == MENU) {
                         menuLoop(&e);
@@ -74,7 +74,7 @@ void gameLoop(SDL_Event* e) {
         bulletVector bulletV;
         bulletVector_init(&bulletV);
 
-        struct Player player = makePlayer(); 
+        struct Player player = makePlayer();
         struct KeyPresses keys = {false, false, false, false};
 
         int ticks = 0;
@@ -113,8 +113,9 @@ void gameLoop(SDL_Event* e) {
                         }
                 }
         }
-        score = 0;              
+        score = 0;
         asteroidVector_free(&asteroidV);
         bulletVector_free(&bulletV);
+        playerCleanup(&player);
         game_state = MENU;
 }

@@ -1,6 +1,7 @@
 #ifndef ASTEROID_H
 #define ASTEROID_H
 #include <stdbool.h>
+#include "sprite.h"
 struct Asteroid {
         int sprite_num;
         int x;
@@ -11,6 +12,9 @@ struct Asteroid {
         int sizeY;
         bool hit;
         int hitX, hitY, hitW, hitH;
+        int explode_iterations;
+        struct Sprite asteroid;
+        struct Sprite explosion;
 };
 
 typedef struct _bVector {

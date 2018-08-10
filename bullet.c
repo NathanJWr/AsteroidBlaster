@@ -1,8 +1,9 @@
 #include "bullet.h"
 #include <stdlib.h>
 #include <stdbool.h>
+#include "sprite.h"
 struct Bullet makeBullet(int x, int y) {
-        struct Bullet b; 
+        struct Bullet b;
         b.x = x;
         b.y = y;
         b.dx = 3;
@@ -14,6 +15,7 @@ struct Bullet makeBullet(int x, int y) {
         b.hitY = y;
         b.hitW = 10;
         b.hitH = 30;
+        setupBulletSprite(&b.sprite);
         return b;
 }
 bool moveBullet(struct Bullet* b, const int SCREEN_H) {
@@ -54,6 +56,7 @@ void bulletVector_erase(bulletVector* v, int index) {
         if(index >= v -> size || index < 0) {
                 exit(1);
         }
+        destroySprite(&(v -> bullets[index].sprite));
         for(int i = index; i < v -> count ; i++) {
                 v -> bullets[i] = v -> bullets[i+1];
         }
