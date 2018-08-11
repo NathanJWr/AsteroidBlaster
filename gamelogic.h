@@ -11,6 +11,7 @@ struct KeyPresses {
         bool s;
         bool d;
         bool space;
+        bool escape;
 };
 bool checkCollision_player(struct Asteroid, struct Player);
 bool checkCollision_bullet(struct Asteroid, struct Bullet);

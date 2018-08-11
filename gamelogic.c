@@ -1,4 +1,4 @@
-#include <stdbool.h> 
+#include <stdbool.h>
 #include "gamelogic.h"
 void gameTick(asteroidVector* asteroidV,
                 bulletVector* bulletV,
@@ -26,12 +26,12 @@ void gameTick(asteroidVector* asteroidV,
                 }
         }
         for(int i = 0; i < asteroidV -> count; i++) {
-                if(checkCollision_player(*asteroidVector_get(asteroidV, i), *player) 
+                if(checkCollision_player(*asteroidVector_get(asteroidV, i), *player)
                                 && !asteroidV -> asteroids[i].hit) {
                         player -> hit = true;
                 }
         }
-                                
+
 }
 bool handleEvents(SDL_Event* e, struct KeyPresses* k) {
         while(SDL_PollEvent(e) != 0) {
@@ -67,6 +67,9 @@ bool handleEvents(SDL_Event* e, struct KeyPresses* k) {
                                 case SDLK_SPACE:
                                         k -> space = true;
                                         break;
+                                case SDLK_ESCAPE:
+                                        k -> escape = true;
+                                        break;
                         }
                 }
         }
@@ -89,7 +92,6 @@ void movePlayer(struct KeyPresses* k, struct Player* p, bulletVector* bv) {
                 bulletVector_add(bv, makeBullet(p -> x + (p -> sizeX / 2), p -> y));
                 k -> space = false;
         }
-                                
 }
 
 

@@ -75,7 +75,7 @@ void gameLoop(SDL_Event* e) {
         bulletVector_init(&bulletV);
 
         struct Player player = makePlayer();
-        struct KeyPresses keys = {false, false, false, false};
+        struct KeyPresses keys = {false, false, false, false, false};
 
         int ticks = 0;
         int frames = 0;
@@ -111,6 +111,9 @@ void gameLoop(SDL_Event* e) {
                         if(asteroidV.count < 10) {
                                 asteroidVector_add(&asteroidV, makeAsteroid(SCREEN_W));
                         }
+                }
+                if(keys.escape) {
+                        running = false;
                 }
         }
         score = 0;
