@@ -7,7 +7,8 @@
 #include "bullet.h"
 #include "gamelogic.h"
 #include "gamedisplay.h"
-#include "menu.h"
+#include "mainmenu.h"
+#include "gamemenu.h"
 
 const int SCREEN_W = 1024;
 const int SCREEN_H = 768;
@@ -15,7 +16,7 @@ SDL_Window* window;
 SDL_Renderer* renderer;
 TTF_Font* font;
 
-enum Game_States {MENU, GAME, QUIT};
+enum Game_States {MAIN_MENU, GAME_MENU, GAME, QUIT};
 enum Game_States game_state;
 int score = 0;
 void drawCalls(asteroidVector* bv, struct Player* p, bulletVector* b) {
@@ -33,36 +34,56 @@ void drawCalls(asteroidVector* bv, struct Player* p, bulletVector* b) {
 }
 
 void gameLoop(SDL_Event* e);
-void menuLoop(SDL_Event* e);
+void mainMenuLoop(SDL_Event* e);
+void gameMenuLoop(SDL_Event* e);
 int main() {
-        game_state = MENU;
+        game_state = MAIN_MENU;
         initVideo(SCREEN_W, SCREEN_H);
-        setupMenu();
+        setupMainMenu();
+        setupGameMenu();
         SDL_Event e;
         //setupGameSprites();
 
         while(game_state != QUIT) {
-                if(game_state == MENU) {
-                        menuLoop(&e);
+                if(game_state == MAIN_MENU) {
+                        mainMenuLoop(&e);
+                }
+                else if(game_state == GAME_MENU) {
+                        gameMenuLoop(&e);
                 }
                 else if(game_state == GAME) {
                         gameLoop(&e);
                 }
+
         }
-        cleanupMenuScreen();
+        cleanupMainMenu();
         cleanupGameDisplay();
         killVideo();
         return 0;
 }
-void menuLoop(SDL_Event* e) {
+void mainMenuLoop(SDL_Event* e) {
         int decision = -1;
         while(decision == -1) {
-                drawMenu();
-                updateMenuScreen();
-                decision = handleMenuEvents(e);
+                drawMainMenu();
+                updateMainMenu();
+                decision = handleMainMenuEvents(e);
         }
         if(decision == 0) {
                 game_state = QUIT;
+        }
+        else if(decision == 1) {
+                game_state = GAME;
+        }
+}
+void gameMenuLoop(SDL_Event* e) {
+        int decision = -1;
+        while(decision == -1) {
+                drawGameMenu();
+                updateGameMenu();
+                decision = handleGameMenuEvents(e);
+        }
+        if(decision == 0) {
+                game_state = MAIN_MENU;
         }
         else if(decision == 1) {
                 game_state = GAME;
@@ -120,5 +141,5 @@ void gameLoop(SDL_Event* e) {
         asteroidVector_free(&asteroidV);
         bulletVector_free(&bulletV);
         playerCleanup(&player);
-        game_state = MENU;
+        game_state = GAME_MENU;
 }
