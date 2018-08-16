@@ -23,6 +23,7 @@ void updateGameScreen() {
         //Reset for next frame
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
         SDL_RenderClear(renderer);
+        SDL_DestroyTexture(scoreTexture);
 }
 void drawAsteroidExplosion(struct Asteroid* asteroid, SDL_Rect* pos) {
         if(asteroid -> explode_iterations < 500) {
