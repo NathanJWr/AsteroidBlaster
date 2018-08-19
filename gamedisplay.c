@@ -25,6 +25,26 @@ void updateGameScreen() {
         SDL_RenderClear(renderer);
         SDL_DestroyTexture(scoreTexture);
 }
+void drawHorizontalBar(int percent, int x, int y,
+                int w, int h, SDL_Color fg, SDL_Color bg) {
+
+        SDL_SetRenderDrawColor(renderer, bg.r, bg.g, bg.b, bg.a);
+        SDL_Rect bgrect = {x, y, w, h};
+        SDL_RenderFillRect(renderer, &bgrect);
+
+        SDL_SetRenderDrawColor(renderer, fg.r, fg.g, fg.b, fg.a);
+        SDL_Rect fgrect = {x, y, percent, h};
+        SDL_RenderFillRect(renderer, &fgrect);
+}
+void drawLaserPercentage(int percent) {
+       int w = 100;
+       int h = 30;
+       int x = 0;
+       int y = 0;
+       SDL_Color blue = {0, 0, 255, 0};
+       SDL_Color red = {255, 0, 0, 0};
+       drawHorizontalBar(percent, x, y, w, h, blue, red);
+}
 void drawAsteroidExplosion(struct Asteroid* asteroid, SDL_Rect* pos) {
         if(asteroid -> explode_iterations < 500) {
                 renderSprite(&(asteroid -> explosion), pos);

@@ -31,7 +31,13 @@ void gameTick(asteroidVector* asteroidV,
                         player -> hit = true;
                 }
         }
-
+        player -> laser_percent++;
+        if(player -> laser_percent < 0) {
+                player -> laser_percent = 0;
+        }
+        if(player -> laser_percent > 100) {
+                player -> laser_percent = 100;
+        }
 }
 bool handleEvents(SDL_Event* e, struct KeyPresses* k) {
         while(SDL_PollEvent(e) != 0) {
@@ -89,7 +95,10 @@ void movePlayer(struct KeyPresses* k, struct Player* p, bulletVector* bv) {
                 playerMoveRight(p);
         }
         if(k -> space) {
-                bulletVector_add(bv, makeBullet(p -> x + (p -> sizeX / 2), p -> y));
+                if(p -> laser_percent >= 33) {
+                        bulletVector_add(bv, makeBullet(p -> x + (p -> sizeX / 2), p -> y));
+                        p -> laser_percent -= 33;
+                }
                 k -> space = false;
         }
 }

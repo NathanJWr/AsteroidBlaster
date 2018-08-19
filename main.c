@@ -58,7 +58,9 @@ void drawCalls(asteroidVector* bv, struct Player* p, bulletVector* b, int score)
                 score = p -> score;
                 drawScore(score);
         }
+        drawLaserPercentage(p -> laser_percent);
 }
+
 
 void gameLoop(struct GameObjects*, SDL_Event*);
 void mainMenuLoop(SDL_Event* e);
@@ -135,12 +137,17 @@ void gameLoop(struct GameObjects* game, SDL_Event* e) {
                 delta += (now - lastTime) / nPerTick;
                 lastTime = now;
                 updateGameScreen();
-                drawCalls(&(game -> asteroidV), &(game -> player), &(game -> bulletV), game -> score);
-
-
+                drawCalls(&(game -> asteroidV),
+                                &(game -> player),
+                                &(game -> bulletV),
+                                game -> score);
                 while(delta >= 1) {
                         ticks ++;
-                        gameTick(&(game -> asteroidV), &(game -> bulletV), &(game -> player), &(game -> keys), SCREEN_H);
+                        gameTick(&(game -> asteroidV),
+                                        &(game -> bulletV),
+                                        &(game -> player),
+                                        &(game -> keys),
+                                        SCREEN_H);
                         game -> running = handleEvents(e, &(game -> keys));
                         if(game -> player.hit) {
                                 game -> running = false;
@@ -156,7 +163,8 @@ void gameLoop(struct GameObjects* game, SDL_Event* e) {
                         ticks = 0;
                         frames = 0;
                         if(game -> asteroidV.count < 10) {
-                                asteroidVector_add(&(game -> asteroidV), makeAsteroid(SCREEN_W));
+                                asteroidVector_add(&(game -> asteroidV),
+                                                makeAsteroid(SCREEN_W));
                         }
                 }
                 if(game -> keys.escape) {

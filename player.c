@@ -11,6 +11,7 @@ struct Player makePlayer() {
         player.sizeY = 100;
         player.hit = false;
         player.score = 0;
+        player.laser_percent = 100;
         player.hitbox.x = player.x + 17;
         player.hitbox.y = player.y + 17;
         player.hitbox.w = player.sizeX - 35;

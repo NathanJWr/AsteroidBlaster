@@ -13,6 +13,7 @@ struct Player {
         int sizeY;
         bool hit;
         int score;
+        int laser_percent;
         struct Sprite sprite;
 };
 struct Player makePlayer();
