@@ -8,6 +8,7 @@ struct Sprite {
         int current_frame;
         int delay;
 };
+void setupAllSprites();
 void renderSprite(struct Sprite*, SDL_Rect*);
 void destroySprite(struct Sprite*);
 void setupPlayerSprite(struct Sprite*);

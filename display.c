@@ -65,3 +65,9 @@ SDL_Texture* surfaceToTexture(SDL_Surface* surf) {
         return text;
 }
 
+SDL_Texture* surfaceToTextureSafe(SDL_Surface* surf) {
+        SDL_Texture* text;
+        text = SDL_CreateTextureFromSurface(renderer, surf);
+        return text;
+}
+

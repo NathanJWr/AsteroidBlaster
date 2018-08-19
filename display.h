@@ -5,4 +5,5 @@
         bool initVideo();
         void killVideo();
         SDL_Texture* surfaceToTexture(SDL_Surface*);
+        SDL_Texture* surfaceToTextureSafe(SDL_Surface*);
 #endif

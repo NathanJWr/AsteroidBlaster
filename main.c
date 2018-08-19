@@ -64,6 +64,7 @@ void gameLoop(struct GameObjects*, SDL_Event*);
 void mainMenuLoop(SDL_Event* e);
 void gameMenuLoop(SDL_Event* e);
 int main() {
+        setupAllSprites();
         game_state = MAIN_MENU;
         initVideo(SCREEN_W, SCREEN_H);
         struct GameObjects gameObjects;
