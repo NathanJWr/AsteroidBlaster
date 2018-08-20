@@ -136,10 +136,10 @@ bool checkCollision_player(struct Asteroid asteroid, struct Player player) {
         int topP, topB;
         int bottomP, bottomB;
 
-        leftP = player.hitbox.x;
-        rightP = player.hitbox.x + player.hitbox.w;
-        topP = player.hitbox.y;
-        bottomP = player.hitbox.y + player.hitbox.h;
+        leftP = player.hitX;
+        rightP = player.hitX + player.hitW;
+        topP = player.hitY;
+        bottomP = player.hitY + player.hitH;
 
         leftB = asteroid.hitX;
         rightB = asteroid.hitX + asteroid.hitW;

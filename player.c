@@ -12,38 +12,38 @@ struct Player makePlayer() {
         player.hit = false;
         player.score = 0;
         player.laser_percent = 100;
-        player.hitbox.x = player.x + 17;
-        player.hitbox.y = player.y + 17;
-        player.hitbox.w = player.sizeX - 35;
-        player.hitbox.h = player.sizeY - 45;
+        player.hitX= player.x + 17;
+        player.hitY = player.y + 17;
+        player.hitW = player.sizeX - 35;
+        player.hitH = player.sizeY - 45;
         setupPlayerSprite(&player.sprite);
         return player;
 }
 void playerMoveUp(struct Player* p) {
         if(p -> y  > 0){
                 p -> y -= p -> dy;
-                p -> hitbox.y -= p -> dy;
+                p -> hitY -= p -> dy;
         }
 }
 
 void playerMoveDown(struct Player* p) {
         if(p -> y + p -> sizeY < SCREEN_H) {
                 p -> y += p -> dy;
-                p -> hitbox.y += p -> dy;
+                p -> hitY += p -> dy;
         }
 }
 
 void playerMoveLeft(struct Player* p) {
         if(p -> x > 0) {
                 p -> x -= p -> dx;
-                p -> hitbox.x -= p -> dx;
+                p -> hitX -= p -> dx;
         }
 }
 
 void playerMoveRight(struct Player* p) {
         if(p -> x + p -> sizeX < SCREEN_W) {
                 p -> x += p -> dx;
-                p -> hitbox.x += p -> dx;
+                p -> hitX += p -> dx;
         }
 }
 void playerCleanup(struct Player* p) {

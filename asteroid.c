@@ -14,7 +14,7 @@ struct Asteroid makeAsteroid(const int SCREEN_W) {
                 b.dy = (rand() % 1) + 1;
         }
         b.hit = false;
-        b.hitX = b.x - 5;
+        b.hitX = b.x; 
         b.hitY = b.y;
         b.hitW = b.sizeX;
         b.hitH = b.sizeY;

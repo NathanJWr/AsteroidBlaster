@@ -4,7 +4,6 @@
 #include <SDL2/SDL.h>
 #include "sprite.h"
 struct Player {
-        SDL_Rect hitbox;
         int x;
         int y;
         int dx;
@@ -13,6 +12,10 @@ struct Player {
         int sizeY;
         bool hit;
         int score;
+        int hitX;
+        int hitY;
+        int hitW;
+        int hitH;
         int laser_percent;
         struct Sprite sprite;
 };

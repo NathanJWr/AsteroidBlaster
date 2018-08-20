@@ -62,6 +62,9 @@ void drawAsteroid(struct Asteroid* asteroid) {
                 return;
         }
         renderSprite(&(asteroid -> asteroid), &pos);
+        SDL_Rect hitbox = {asteroid -> hitX, asteroid -> hitY, asteroid -> hitW, asteroid -> hitH};
+        SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF);
+        SDL_RenderDrawRect(renderer, &hitbox);
 }
 
 void drawPlayer(struct Player player) {
@@ -72,7 +75,8 @@ void drawPlayer(struct Player player) {
                 player.sizeY};
         renderSprite(&player.sprite, &pos);
         SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF);
-        SDL_RenderDrawRect(renderer, &player.hitbox);
+        SDL_Rect hitbox = {player.hitX, player.hitY, player.hitW, player.hitH};
+        SDL_RenderDrawRect(renderer, &hitbox);
 }
 
 void drawBullet(struct Bullet bullet) {
