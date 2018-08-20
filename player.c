@@ -17,6 +17,7 @@ struct Player makePlayer() {
         player.hitW = player.sizeX - 35;
         player.hitH = player.sizeY - 45;
         setupPlayerSprite(&player.sprite);
+        player.lives = 3;
         return player;
 }
 void playerMoveUp(struct Player* p) {
@@ -48,4 +49,6 @@ void playerMoveRight(struct Player* p) {
 }
 void playerCleanup(struct Player* p) {
         destroySprite(&(p -> sprite));
+        p -> lives = 3;
+        p -> hit = false;
 }

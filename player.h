@@ -17,6 +17,7 @@ struct Player {
         int hitW;
         int hitH;
         int laser_percent;
+        int lives;
         struct Sprite sprite;
 };
 struct Player makePlayer();

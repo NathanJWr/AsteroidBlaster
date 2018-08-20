@@ -1,5 +1,7 @@
 #include <stdbool.h>
 #include "gamelogic.h"
+#include "timer.h"
+struct Timer player_invuln_time;
 void gameTick(asteroidVector* asteroidV,
                 bulletVector* bulletV,
                 struct Player* player,
@@ -12,6 +14,8 @@ void gameTick(asteroidVector* asteroidV,
                         asteroidVector_erase(asteroidV, i);
                 }
         }
+
+        //Bullet Collision
         for(int i = 0; i < bulletV -> count; i++) {
                 if(!moveBullet(&(bulletV -> bullets[i]), SCREEN_H)) {
                         bulletVector_erase(bulletV, i);
@@ -25,12 +29,25 @@ void gameTick(asteroidVector* asteroidV,
                         }
                 }
         }
+
+        //Player Collision
         for(int i = 0; i < asteroidV -> count; i++) {
                 if(checkCollision_player(*asteroidVector_get(asteroidV, i), *player)
-                                && !asteroidV -> asteroids[i].hit) {
+                                && !asteroidV -> asteroids[i].hit && !player -> hit) {
+                              
                         player -> hit = true;
+                        player -> lives -= 1;
+                        player_invuln_time = newTimer(2000);
                 }
         }
+        if(player -> hit) {
+                updateTimer(&player_invuln_time);
+                if(isTimerDone(player_invuln_time)) {
+                        player -> hit = false;
+                }
+        }
+
+        //Laser charging
         player -> laser_percent++;
         if(player -> laser_percent < 0) {
                 player -> laser_percent = 0;
@@ -38,6 +55,7 @@ void gameTick(asteroidVector* asteroidV,
         if(player -> laser_percent > 100) {
                 player -> laser_percent = 100;
         }
+
 }
 bool handleEvents(SDL_Event* e, struct KeyPresses* k) {
         while(SDL_PollEvent(e) != 0) {
@@ -148,7 +166,10 @@ bool checkCollision_player(struct Asteroid asteroid, struct Player player) {
         if(bottomP >= topB
                         && topP <= bottomB
                         && rightP >= leftB
-                        && leftP <= rightB) {
+                        && leftP <= rightB
+                        ) {
+                printf("HIT!\n");
+                printf("%d\n", player.lives);
                 return true;
         }
         return false;

@@ -9,13 +9,11 @@
 #include "gamedisplay.h"
 #include "mainmenu.h"
 #include "gamemenu.h"
-
 const int SCREEN_W = 1024;
 const int SCREEN_H = 768;
 SDL_Window* window;
 SDL_Renderer* renderer;
 TTF_Font* font;
-
 enum Game_States {MAIN_MENU, GAME_MENU, GAME, QUIT};
 enum Game_States game_state;
 struct GameObjects {
@@ -149,7 +147,7 @@ void gameLoop(struct GameObjects* game, SDL_Event* e) {
                                         &(game -> keys),
                                         SCREEN_H);
                         game -> running = handleEvents(e, &(game -> keys));
-                        if(game -> player.hit) {
+                        if(game -> player.lives == 0) {
                                 game -> running = false;
                         }
                         delta--;
