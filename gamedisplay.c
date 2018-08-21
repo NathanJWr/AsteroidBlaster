@@ -73,10 +73,18 @@ void drawPlayer(struct Player player) {
                 player.y,
                 player.sizeX,
                 player.sizeY};
-        renderSprite(&player.sprite, &pos);
+        renderSprite(&player.player, &pos);
         SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF);
         SDL_Rect hitbox = {player.hitX, player.hitY, player.hitW, player.hitH};
         SDL_RenderDrawRect(renderer, &hitbox);
+
+        int offset = 50;
+        int current_pos  = 0;
+        for(int i = 0; i < player.lives; i++) {
+                SDL_Rect heart_pos = {SCREEN_W - offset * 2, current_pos, 100, 100};
+                renderSprite(&player.heart, &heart_pos);
+                current_pos += offset;
+        }
 }
 
 void drawBullet(struct Bullet bullet) {

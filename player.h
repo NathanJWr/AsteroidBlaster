@@ -18,7 +18,8 @@ struct Player {
         int hitH;
         int laser_percent;
         int lives;
-        struct Sprite sprite;
+        struct Sprite player;
+        struct Sprite heart;
 };
 struct Player makePlayer();
 void playerMoveUp(struct Player*);

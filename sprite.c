@@ -11,6 +11,7 @@ SDL_Surface* asteroid1_exp;
 SDL_Surface* asteroid2_exp;
 SDL_Surface* asteroid3_exp;
 SDL_Surface* bullet;
+SDL_Surface* heart;
 
 void querySprite(struct Sprite* sprite) {
         SDL_QueryTexture(sprite -> texture,
@@ -33,6 +34,7 @@ void setupAllSprites() {
         asteroid2_exp = IMG_Load("assets/asteroid2_explode.png");
         asteroid3_exp = IMG_Load("assets/asteroid3_explode.png");
         bullet = IMG_Load("assets/laser.png");
+        heart = IMG_Load("assets/heart.png");
 }
 void renderSprite(struct Sprite* sprite, SDL_Rect* pos) {
         if(sprite -> texture == NULL) {
@@ -46,6 +48,11 @@ void renderSprite(struct Sprite* sprite, SDL_Rect* pos) {
 
 void destroySprite(struct Sprite* sprite) {
         SDL_DestroyTexture(sprite -> texture);
+}
+
+void setupHeartSprite(struct Sprite* h) {
+        h -> texture = surfaceToTextureSafe(heart);
+        querySprite(h);
 }
 
 void setupPlayerSprite(struct Sprite* p) {
