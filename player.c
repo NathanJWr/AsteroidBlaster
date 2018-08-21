@@ -50,6 +50,7 @@ void playerMoveRight(struct Player* p) {
 }
 void playerCleanup(struct Player* p) {
         destroySprite(&(p -> player));
+        destroySprite(&(p -> heart));
         p -> lives = 3;
         p -> hit = false;
 }
