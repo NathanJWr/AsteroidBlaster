@@ -47,7 +47,10 @@ void renderSprite(struct Sprite* sprite, SDL_Rect* pos) {
 }
 
 void destroySprite(struct Sprite* sprite) {
-        SDL_DestroyTexture(sprite -> texture);
+        if(sprite -> texture != NULL) {
+                SDL_DestroyTexture(sprite -> texture);
+                sprite -> texture = NULL;
+        }
 }
 
 void setupHeartSprite(struct Sprite* h) {
@@ -82,4 +85,16 @@ void setupAsteroidSprite(int type, struct Sprite* asteroid,
         }
         querySprite(asteroid);
         querySprite(explosion);
+}
+
+void cleanupSpriteSurfaces() {
+        SDL_FreeSurface(player);
+        SDL_FreeSurface(asteroid1);
+        SDL_FreeSurface(asteroid2);
+        SDL_FreeSurface(asteroid3);
+        SDL_FreeSurface(asteroid1_exp);
+        SDL_FreeSurface(asteroid2_exp);
+        SDL_FreeSurface(asteroid3_exp);
+        SDL_FreeSurface(bullet);
+        SDL_FreeSurface(heart);
 }

@@ -64,10 +64,19 @@ void asteroidVector_erase(asteroidVector* v, int index) {
                 exit(1);
         }
         destroySprite(&(v -> asteroids[index].asteroid));
-        v->asteroids[index] = makeAsteroid(1024);
+        destroySprite(&(v -> asteroids[index].explosion));
+        for(int i = index; i < v -> count; i++) {
+                v -> asteroids[i] = v -> asteroids[i+1];
+        }
+        v -> count--;
 }
 
 void asteroidVector_free(asteroidVector* v) {
+        for(int i = 0; i < v -> count; i++) {
+                destroySprite(&(v -> asteroids[i].asteroid));
+                destroySprite(&(v -> asteroids[i].explosion));
+                printf("Freed Asteroid Texture\n");
+        }
         free(v->asteroids);
         v->size = 0;
         v->count = 0;

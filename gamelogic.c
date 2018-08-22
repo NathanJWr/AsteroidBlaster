@@ -168,8 +168,6 @@ bool checkCollision_player(struct Asteroid asteroid, struct Player player) {
                         && rightP >= leftB
                         && leftP <= rightB
                         ) {
-                printf("HIT!\n");
-                printf("%d\n", player.lives);
                 return true;
         }
         return false;

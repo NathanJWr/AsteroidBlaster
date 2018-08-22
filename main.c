@@ -9,6 +9,7 @@
 #include "gamedisplay.h"
 #include "mainmenu.h"
 #include "gamemenu.h"
+#include "sprite.h"
 const int SCREEN_W = 1024;
 const int SCREEN_H = 768;
 SDL_Window* window;
@@ -92,6 +93,7 @@ int main() {
         cleanupGameMenu();
         cleanupGameObjects(&gameObjects);
         cleanupGameDisplay();
+        cleanupSpriteSurfaces();
         killVideo();
         return 0;
 }

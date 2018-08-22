@@ -15,4 +15,5 @@ void setupHeartSprite(struct Sprite*);
 void setupPlayerSprite(struct Sprite*);
 void setupBulletSprite(struct Sprite*);
 void setupAsteroidSprite(int, struct Sprite*, struct Sprite*);
+void cleanupSpriteSurfaces();
 #endif

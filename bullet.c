@@ -64,6 +64,9 @@ void bulletVector_erase(bulletVector* v, int index) {
 }
 
 void bulletVector_free(bulletVector* v) {
+        for(int i = 0; i < v -> count; i++) {
+                destroySprite(&(v -> bullets[i].sprite));
+        }
         free(v -> bullets);
         v -> size = 0;
         v -> count = 0;

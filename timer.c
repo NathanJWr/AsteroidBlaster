@@ -1,7 +1,6 @@
 #include <SDL2/SDL.h>
 #include "timer.h"
 struct Timer newTimer(int delta) {
-        printf("New Timer Started!\n");
         struct Timer timer;
         timer.start_time = SDL_GetTicks();
         timer.current_time = SDL_GetTicks();
