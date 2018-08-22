@@ -5,6 +5,7 @@
 #include "bullet.h"
 #include <SDL2/SDL.h>
 void updateGameScreen();
+void setupGameScreen();
 void drawLaserPercentage(int);
 void drawAsteroid(struct Asteroid*);
 void drawPlayer(struct Player);

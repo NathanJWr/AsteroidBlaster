@@ -10,20 +10,30 @@ extern const int SCREEN_H;
 extern SDL_Window* window;
 extern SDL_Renderer* renderer;
 extern TTF_Font* font;
+SDL_Texture* background;
+SDL_Rect background_pos;
 
-SDL_Color backgroundColor = {255, 255, 255, 255}; //white
-SDL_Color textColor = {0, 0, 0, 255}; //black
+SDL_Color textColor = {255, 255, 255, 255}; //white
+SDL_Color backgroundColor = {0, 0, 0, 255}; //black
 SDL_Texture* scoreTexture;
 SDL_Rect solidRect;
 
+void setupGameScreen() {
+        background = IMG_LoadTexture(renderer, "assets/background.png");
+        background_pos.x = 0;
+        background_pos.y = 0;
+        background_pos.w = SCREEN_W;
+        background_pos.h = SCREEN_H;
+}
+       
 void updateGameScreen() {
         SDL_RenderCopy(renderer, scoreTexture, NULL, &solidRect);
         SDL_RenderPresent(renderer);
 
         //Reset for next frame
-        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
         SDL_RenderClear(renderer);
         SDL_DestroyTexture(scoreTexture);
+        SDL_RenderCopy(renderer, background, NULL, &background_pos);
 }
 void drawHorizontalBar(int percent, int x, int y,
                 int w, int h, SDL_Color fg, SDL_Color bg) {
@@ -112,4 +122,5 @@ void drawScore(int score) {
 
 void cleanupGameDisplay() {
         SDL_DestroyTexture(scoreTexture);
+        SDL_DestroyTexture(background);
 }

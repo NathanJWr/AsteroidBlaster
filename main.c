@@ -72,6 +72,7 @@ int main() {
         initGameObjects(&gameObjects);
         setupMainMenu();
         setupGameMenu();
+        setupGameScreen();
         SDL_Event e;
 
 
