@@ -4,12 +4,20 @@
 #include "player.h"
 #include "bullet.h"
 #include <SDL2/SDL.h>
+struct Screen_Elements {
+        SDL_Texture* heart;
+        SDL_Texture* score;
+        SDL_Texture* background;
+        SDL_Rect background_pos;
+        SDL_Rect laser_pos;
+        SDL_Color blue;
+        SDL_Color red;
+};
 void updateGameScreen();
 void setupGameScreen();
-void drawLaserPercentage(int);
+void drawHUD(int, int, int);
 void drawAsteroid(struct Asteroid*);
 void drawPlayer(struct Player);
 void drawBullet(struct Bullet);
-void drawScore(int);
 void cleanupGameDisplay();
 #endif

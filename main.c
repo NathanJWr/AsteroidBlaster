@@ -55,9 +55,8 @@ void drawCalls(asteroidVector* bv, struct Player* p, bulletVector* b, int score)
         drawPlayer(*p);
         if(p -> score > score || score == 0) {
                 score = p -> score;
-                drawScore(score);
+                drawHUD(score, p -> lives, p -> laser_percent);
         }
-        drawLaserPercentage(p -> laser_percent);
 }
 
 
