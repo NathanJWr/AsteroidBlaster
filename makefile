@@ -1,5 +1,10 @@
-game.out: 
-	gcc -std=c99 -g *.c -Wall -Werror -lSDL2 -lSDL2_ttf -lSDL2_image -o game.out
+src = $(wildcard *.c)
+obj = $(src:.c=.o)
+
+LDFLAGS = -g -Wall -Werror -lSDL2 -lSDL2_image -lSDL2_ttf 
+
+game.out: $(obj)
+	$(CC) -o $@ $^ $(LDFLAGS)
 
 clean:
-	rm -f *.out *.h.gch 
+	rm -f $(obj) game.out

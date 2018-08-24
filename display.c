@@ -39,7 +39,7 @@ bool initVideo(const int SCREEN_W, const int SCREEN_H) {
                 printf("Failed to initialize TTF: %s\n", SDL_GetError());
                 success = false;
         }
-        font = TTF_OpenFont("Ubuntu.ttf", 90);
+        font = TTF_OpenFont("assets/Ubuntu.ttf", 90);
         if(font == NULL) {
                 printf("Failed to load font: %s\n", SDL_GetError());
                 success = false;
