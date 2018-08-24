@@ -78,11 +78,17 @@ void updateGameMenu() {
         SDL_RenderClear(renderer);
 }
 
-void drawGameMenu() {
-        SDL_QueryTexture(continue_texture, NULL, NULL, &continue_pos.w, &continue_pos.h);
-        SDL_QueryTexture(menu_texture, NULL, NULL, &menu_pos.w, &menu_pos.h);
-        SDL_RenderCopy(renderer, menu_texture, NULL, &menu_pos);
-        SDL_RenderCopy(renderer, continue_texture, NULL, &continue_pos);
+void drawGameMenu(int game_outcome) {
+        if(game_outcome == 0) {
+                SDL_QueryTexture(continue_texture, NULL, NULL, &continue_pos.w, &continue_pos.h);
+                SDL_QueryTexture(menu_texture, NULL, NULL, &menu_pos.w, &menu_pos.h);
+                SDL_RenderCopy(renderer, menu_texture, NULL, &menu_pos);
+                SDL_RenderCopy(renderer, continue_texture, NULL, &continue_pos);
+        }
+        if(game_outcome == 1) {
+                SDL_QueryTexture(menu_texture, NULL, NULL, &menu_pos.w, &menu_pos.h);
+                SDL_RenderCopy(renderer, menu_texture, NULL, &menu_pos);
+        }
 }
 
 void cleanupGameMenu() {

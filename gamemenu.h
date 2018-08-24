@@ -3,7 +3,7 @@
 #include <SDL2/SDL.h>
 int handleGameMenuEvents(SDL_Event*);
 void setupGameMenu();
-void drawGameMenu();
+void drawGameMenu(int);
 void updateGameMenu();
 void cleanupGameMenu();
 #endif

@@ -60,9 +60,9 @@ void drawCalls(asteroidVector* bv, struct Player* p, bulletVector* b, int score)
 }
 
 
-void gameLoop(struct GameObjects*, SDL_Event*);
+int gameLoop(struct GameObjects*, SDL_Event*);
 void mainMenuLoop(SDL_Event* e);
-void gameMenuLoop(SDL_Event* e);
+void gameMenuLoop(SDL_Event* e, int game_outcome);
 int main() {
         setupAllSprites();
         game_state = MAIN_MENU;
@@ -73,6 +73,7 @@ int main() {
         setupGameMenu();
         setupGameScreen();
         SDL_Event e;
+        int game_outcome;
 
 
         while(game_state != QUIT) {
@@ -82,11 +83,11 @@ int main() {
                         mainMenuLoop(&e);
                 }
                 else if(game_state == GAME_MENU) {
-                        gameMenuLoop(&e);
+                        gameMenuLoop(&e, game_outcome);
                 }
                 else if(game_state == GAME) {
                         gameObjects.running = true;
-                        gameLoop(&gameObjects, &e);
+                        game_outcome = gameLoop(&gameObjects, &e);
                 }
         }
         cleanupMainMenu();
@@ -111,10 +112,10 @@ void mainMenuLoop(SDL_Event* e) {
                 game_state = GAME;
         }
 }
-void gameMenuLoop(SDL_Event* e) {
+void gameMenuLoop(SDL_Event* e, int game_outcome) {
         int decision = -1;
         while(decision == -1) {
-                drawGameMenu();
+                drawGameMenu(game_outcome);
                 updateGameMenu();
                 decision = handleGameMenuEvents(e);
         }
@@ -125,7 +126,7 @@ void gameMenuLoop(SDL_Event* e) {
                 game_state = GAME;
         }
 }
-void gameLoop(struct GameObjects* game, SDL_Event* e) {
+int gameLoop(struct GameObjects* game, SDL_Event* e) {
         int ticks = 0;
         int frames = 0;
         double delta = 0;
@@ -173,4 +174,10 @@ void gameLoop(struct GameObjects* game, SDL_Event* e) {
         }
         game -> keys.escape = false;
         game_state = GAME_MENU;
+        if(game -> player.lives <= 0) {
+                return 1;
+        }
+        else {
+                return 0;
+        }
 }
