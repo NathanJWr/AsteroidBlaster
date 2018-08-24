@@ -1,6 +1,7 @@
 #include "mainmenu.h"
 #include "display.h"
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include <stdio.h>
 extern const int SCREEN_W;
@@ -9,36 +10,50 @@ extern SDL_Window* window;
 extern SDL_Renderer* renderer;
 extern TTF_Font* font;
 
-SDL_Texture* start_texture;
-SDL_Texture* exit_texture;
-SDL_Rect start_pos;
-SDL_Rect quit_pos;
+struct MainMenuAssets main_menu;
 SDL_Color text_color = {255, 255, 255, 255};
-
-int start_w;
-int start_h;
-int quit_w;
-int quit_h;
 
 int mousePressMain(SDL_MouseButtonEvent b) {
         if(b.button == SDL_BUTTON_LEFT) {
                 //Start Button
-                if(b.x >= start_pos.x
-                                && b.x <= start_pos.x + start_w
-                                && b.y >= start_pos.y
-                                && b.y <= start_pos.y + start_h) {
+                if(b.x >= main_menu.start_pos.x
+                                && b.x <= main_menu.start_pos.x + main_menu.start_pos.w
+                                && b.y >= main_menu.start_pos.y
+                                && b.y <= main_menu.start_pos.y + main_menu.start_pos.h) {
                         return 1;
                 }
                 //Quit button
-                else if(b.x >= quit_pos.x
-                                && b.x <= quit_pos.x + quit_w
-                                && b.y >= quit_pos.y
-                                && b.y <= quit_pos.y + quit_h) {
+                else if(b.x >= main_menu.quit_pos.x
+                                && b.x <= main_menu.quit_pos.x + main_menu.quit_pos.w
+                                && b.y >= main_menu.quit_pos.y
+                                && b.y <= main_menu.quit_pos.y + main_menu.quit_pos.h) {
                         return 0;
                 }
                 else return -1;
         }
         else return -1;
+}
+void mouseSelectMain() {
+        int mouse_x, mouse_y;
+        SDL_GetMouseState(&mouse_x, &mouse_y);
+        if(mouse_x >= main_menu.start_pos.x
+                        && mouse_x <= main_menu.start_pos.x + main_menu.start_pos.w
+                        && mouse_y >= main_menu.start_pos.y
+                        && mouse_y <= main_menu.start_pos.y + main_menu.start_pos.h) {
+                main_menu.is_start_selected = true;
+        }
+        else {
+                main_menu.is_start_selected = false;
+        }
+        if(mouse_x >= main_menu.quit_pos.x
+                        && mouse_x <= main_menu.quit_pos.x + main_menu.start_pos.w
+                        && mouse_y >= main_menu.quit_pos.y
+                        && mouse_y <= main_menu.quit_pos.y + main_menu.start_pos.h) {
+                main_menu.is_quit_selected = true;
+        }
+        else {
+                main_menu.is_quit_selected = false;
+        }
 }
 /*
  * Returns
@@ -55,32 +70,48 @@ int handleMainMenuEvents(SDL_Event* e) {
                        button = mousePressMain(e -> button);
                        return button;
                 }
+                else {
+                        mouseSelectMain();
+                }
         }
-        return -1;
+        return button;
 }
 
 void setupMainMenu() {
-        SDL_Surface* start = TTF_RenderText_Solid(font, "Start", text_color);
-        SDL_Surface* quit = TTF_RenderText_Solid(font, "Quit", text_color);
+        main_menu.start_white = IMG_LoadTexture(renderer, "assets/start_text.png");
+        main_menu.start_green = IMG_LoadTexture(renderer, "assets/start_text_green.png");
 
-        start_w = start -> w;
-        start_h = start -> h;
-        quit_w = quit -> w;
-        quit_h = quit -> h;
+        main_menu.quit_white = IMG_LoadTexture(renderer, "assets/quit_text.png");
+        main_menu.quit_green = IMG_LoadTexture(renderer, "assets/quit_text_green.png");
 
-        start_texture = surfaceToTexture(start);
-        exit_texture = surfaceToTexture(quit);
+        main_menu.start_pos.w = 300;
+        main_menu.start_pos.h = 100;
+        main_menu.start_pos.x = (SCREEN_W / 2) - main_menu.start_pos.w / 2;
+        main_menu.start_pos.y = (SCREEN_H / 2) - main_menu.start_pos.h / 2;
 
-        start_pos.x = (SCREEN_W / 2) - 100;
-        start_pos.y = (SCREEN_H / 2) - 100;
-        quit_pos.x = (SCREEN_W / 2) - 100;
-        quit_pos.y = (SCREEN_H / 2) + 10;
+        main_menu.quit_pos.w = 300;
+        main_menu.quit_pos.h = 100;
+        main_menu.quit_pos.x  = (SCREEN_W / 2) - main_menu.quit_pos.w / 2;
+        main_menu.quit_pos.y = (SCREEN_H / 2) - (main_menu.quit_pos.h / 2) 
+                + main_menu.start_pos.h;
 }
 void drawMainMenu() {
-        SDL_QueryTexture(start_texture, NULL, NULL, &start_pos.w, &start_pos.h);
-        SDL_QueryTexture(exit_texture, NULL, NULL, &quit_pos.w, &quit_pos.h);
-        SDL_RenderCopy(renderer, start_texture, NULL, &start_pos);
-        SDL_RenderCopy(renderer, exit_texture, NULL, &quit_pos);
+        if(main_menu.is_start_selected) {
+                SDL_RenderCopy(renderer, main_menu.start_green,
+                                NULL, &main_menu.start_pos);
+        }
+        else {
+                SDL_RenderCopy(renderer, main_menu.start_white,
+                                NULL, &main_menu.start_pos);
+        }
+        if(main_menu.is_quit_selected) {
+                SDL_RenderCopy(renderer, main_menu.quit_green,
+                                NULL, &main_menu.quit_pos);
+        }
+        else {
+                SDL_RenderCopy(renderer, main_menu.quit_white,
+                                NULL, &main_menu.quit_pos);
+        }
 }
 
 void updateMainMenu() {
@@ -90,6 +121,6 @@ void updateMainMenu() {
 }
 
 void cleanupMainMenu() {
-        SDL_DestroyTexture(start_texture);
-        SDL_DestroyTexture(exit_texture);
+        SDL_DestroyTexture(main_menu.start_white);
+//        SDL_DestroyTexture(exit_texture);
 }
