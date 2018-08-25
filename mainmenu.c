@@ -13,6 +13,13 @@ extern TTF_Font* font;
 struct MainMenuAssets main_menu;
 SDL_Color text_color = {255, 255, 255, 255};
 
+
+/*
+ * Returns
+ * 0 for Quit
+ * 1 for Start
+ * -1 for no choice
+ */
 int mousePressMain(SDL_MouseButtonEvent b) {
         if(b.button == SDL_BUTTON_LEFT) {
                 //Start Button
@@ -55,10 +62,12 @@ void mouseSelectMain() {
                 main_menu.is_quit_selected = false;
         }
 }
+
 /*
  * Returns
  * 0 for Quit
  * 1 for Start
+ * -1 for no choice
  */
 int handleMainMenuEvents(SDL_Event* e) {
         int button = -1;
@@ -80,7 +89,6 @@ int handleMainMenuEvents(SDL_Event* e) {
 void setupMainMenu() {
         main_menu.start_white = IMG_LoadTexture(renderer, "assets/start_text.png");
         main_menu.start_green = IMG_LoadTexture(renderer, "assets/start_text_green.png");
-
         main_menu.quit_white = IMG_LoadTexture(renderer, "assets/quit_text.png");
         main_menu.quit_green = IMG_LoadTexture(renderer, "assets/quit_text_green.png");
 
@@ -94,6 +102,18 @@ void setupMainMenu() {
         main_menu.quit_pos.x  = (SCREEN_W / 2) - main_menu.quit_pos.w / 2;
         main_menu.quit_pos.y = (SCREEN_H / 2) - (main_menu.quit_pos.h / 2) 
                 + main_menu.start_pos.h;
+
+        main_menu.background1 = IMG_LoadTexture(renderer, "assets/background.png");
+        main_menu.background2= IMG_LoadTexture(renderer, "assets/background.png");
+        main_menu.background1_pos.w = SCREEN_W;
+        main_menu.background1_pos.h = SCREEN_H;
+        main_menu.background1_pos.x = 0;
+        main_menu.background1_pos.y = 0;
+        main_menu.background2_pos.w = SCREEN_W;
+        main_menu.background2_pos.h = SCREEN_H;
+        main_menu.background2_pos.x = 0;
+        main_menu.background2_pos.y = -SCREEN_H;
+        main_menu.background_offset = 0;
 }
 void drawMainMenu() {
         if(main_menu.is_start_selected) {
@@ -118,6 +138,18 @@ void updateMainMenu() {
         SDL_RenderPresent(renderer);
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
         SDL_RenderClear(renderer);
+
+        if(main_menu.background1_pos.y <= SCREEN_H) {
+                main_menu.background1_pos.y++;
+                main_menu.background2_pos.y++;
+        }
+        else {
+                main_menu.background1_pos.y = 0;
+                main_menu.background2_pos.y = -SCREEN_H;
+        }
+        SDL_RenderCopy(renderer, main_menu.background1, NULL, &main_menu.background1_pos);
+        SDL_RenderCopy(renderer, main_menu.background2, NULL, &main_menu.background2_pos);
+        SDL_Delay(10);
 }
 
 void cleanupMainMenu() {

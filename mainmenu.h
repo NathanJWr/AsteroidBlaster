@@ -12,6 +12,12 @@ struct MainMenuAssets {
         SDL_Texture* quit_green;
         SDL_Rect quit_pos;
         bool is_quit_selected;
+
+        SDL_Texture* background1;
+        SDL_Texture* background2;
+        SDL_Rect background1_pos;
+        SDL_Rect background2_pos;
+        int background_offset;
 };
 int handleMainMenuEvents(SDL_Event* e);
 void setupMainMenu();
