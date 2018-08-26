@@ -18,6 +18,9 @@ struct MainMenuAssets {
         SDL_Rect background1_pos;
         SDL_Rect background2_pos;
         int background_offset;
+
+        SDL_Texture* logo;
+        SDL_Rect logo_pos;
 };
 int handleMainMenuEvents(SDL_Event* e);
 void setupMainMenu();

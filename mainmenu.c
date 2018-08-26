@@ -114,6 +114,12 @@ void setupMainMenu() {
         main_menu.background2_pos.x = 0;
         main_menu.background2_pos.y = -SCREEN_H;
         main_menu.background_offset = 0;
+
+        main_menu.logo = IMG_LoadTexture(renderer, "assets/logo.png");
+        main_menu.logo_pos.w = 810;
+        main_menu.logo_pos.h = 110;
+        main_menu.logo_pos.x = SCREEN_W / 2 - (main_menu.logo_pos.w / 2);
+        main_menu.logo_pos.y = 150;
 }
 void drawMainMenu() {
         if(main_menu.is_start_selected) {
@@ -132,6 +138,8 @@ void drawMainMenu() {
                 SDL_RenderCopy(renderer, main_menu.quit_white,
                                 NULL, &main_menu.quit_pos);
         }
+
+        SDL_RenderCopy(renderer, main_menu.logo, NULL, &main_menu.logo_pos);
 }
 
 void updateMainMenu() {
