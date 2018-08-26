@@ -100,10 +100,17 @@ void setupGameScreen() {
         screen.background_pos.h = SCREEN_H;
 
         screen.heart = IMG_LoadTexture(renderer, "assets/heart.png");
-        screen.laser_pos.x = 0;
-        screen.laser_pos.y = 0;
-        screen.laser_pos.w = 100;
+        screen.laser_pos.x = 10;
+        screen.laser_pos.y = 5;
+        screen.laser_pos.w = 96;
         screen.laser_pos.h = 30;
+
+        screen.empty_bar = IMG_LoadTexture(renderer, "assets/empty_bar.png");
+        screen.bar_pos.x = 5;
+        screen.bar_pos.y = 5;
+        screen.bar_pos.w = 110;
+        screen.bar_pos.h = 32;
+
 }
 
 void drawHorizontalBar(int percent, int x, int y,
@@ -119,12 +126,13 @@ void drawHorizontalBar(int percent, int x, int y,
 }
 
 void drawLaserPercentage(int percent) {
-       SDL_Color blue = {0, 0, 255, 0};
+       SDL_Color blue = {144, 245, 0, 0};
        SDL_Color red = {255, 0, 0, 0};
        drawHorizontalBar(percent, screen.laser_pos.x, 
                        screen.laser_pos.y, 
                        screen.laser_pos.w, 
                        screen.laser_pos.h, blue, red);
+       SDL_RenderCopy(renderer, screen.empty_bar, NULL, &screen.bar_pos);
 }
 
 void drawScore(int score) {

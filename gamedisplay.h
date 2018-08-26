@@ -8,8 +8,10 @@ struct Screen_Elements {
         SDL_Texture* heart;
         SDL_Texture* score;
         SDL_Texture* background;
+        SDL_Texture* empty_bar;
         SDL_Rect background_pos;
         SDL_Rect laser_pos;
+        SDL_Rect bar_pos;
         SDL_Color blue;
         SDL_Color red;
 };
