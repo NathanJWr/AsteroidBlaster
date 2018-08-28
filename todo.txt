@@ -1,8 +1,0 @@
-==Rename block stuff to asteroid stuff
-**done
-
-==Change the randomization of asteroid size to choosing a random size Y
-(dimensions of YxY so the sprites aren't stretched)
-**done
-
-==Make more asteroid sprites to have random choice b/w all of them

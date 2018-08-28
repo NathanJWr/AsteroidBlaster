@@ -1,10 +1,25 @@
-src = $(wildcard *.c)
-obj = $(src:.c=.o)
+EXE = game
 
-LDFLAGS = -g -Wall -Werror -lSDL2 -lSDL2_image -lSDL2_ttf 
+SRC_DIR = src
+OBJ_DIR = obj
 
-game.out: $(obj)
-	$(CC) -o $@ $^ $(LDFLAGS)
+SRC = $(wildcard $(SRC_DIR)/*.c)
+OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+
+CPPFLAGS += -Iinclude
+CFLAGS += -Wall
+LDFLAGS += -Llib
+LDLIBS += -lSDL2 -lSDL2_image -lSDL2_ttf
+
+.PHONY: all clean
+
+all: $(EXE)
+
+$(EXE): $(OBJ)
+	$(CC) $(LDFLAGS) $^ $(LDLIBS) -o $@
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(obj) game.out
+	$(RM) $(OBJ)
