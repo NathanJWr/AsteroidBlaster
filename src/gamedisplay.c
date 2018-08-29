@@ -81,7 +81,6 @@ void drawBullet(struct Bullet bullet) {
                 bullet.y,
                 bullet.sizeX,
                 bullet.sizeY};
-        //SDL_RenderCopy(renderer, bullet.sprite.texture, &bullet.sprite.tex_rect, &rect);
         renderTexture(bullet.sprite.texture, &bullet.sprite.tex_rect, &rect);
         SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF);
         SDL_Rect hitbox = {bullet.hitX, bullet.hitY, bullet.hitW, bullet.hitH};
