@@ -120,6 +120,10 @@ void renderTexture(SDL_Texture* texture, SDL_Rect* source, SDL_Rect* destination
         SDL_RenderCopy(renderer, texture, source, destination);
 }
 
+void setDrawColor(SDL_Color color) {
+        SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+}
+
 void renderPresent() {
         SDL_RenderPresent(renderer);
 }

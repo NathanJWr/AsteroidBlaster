@@ -57,7 +57,8 @@ void drawAsteroid(struct Asteroid* asteroid) {
         }
         renderSprite(&(asteroid -> asteroid), &pos);
         SDL_Rect hitbox = {asteroid -> hitX, asteroid -> hitY, asteroid -> hitW, asteroid -> hitH};
-        SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF);
+        SDL_Color green = {144, 245, 0};
+        setDrawColor(green);
         SDL_RenderDrawRect(renderer, &hitbox);
 }
 
@@ -68,7 +69,8 @@ void drawPlayer(struct Player player) {
                 player.sizeX,
                 player.sizeY};
         renderSprite(&player.player, &pos);
-        SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF);
+        SDL_Color green = {144, 245, 0};
+        setDrawColor(green);
         SDL_Rect hitbox = {player.hitX, player.hitY, player.hitW, player.hitH};
         SDL_RenderDrawRect(renderer, &hitbox);
 }
@@ -82,7 +84,8 @@ void drawBullet(struct Bullet bullet) {
                 bullet.sizeX,
                 bullet.sizeY};
         renderTexture(bullet.sprite.texture, &bullet.sprite.tex_rect, &rect);
-        SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF);
+        SDL_Color green = {144, 245, 0};
+        setDrawColor(green);
         SDL_Rect hitbox = {bullet.hitX, bullet.hitY, bullet.hitW, bullet.hitH};
         SDL_RenderDrawRect(renderer, &hitbox);
 }
@@ -116,11 +119,11 @@ void setupGameScreen() {
 void drawHorizontalBar(int percent, int x, int y,
                 int w, int h, SDL_Color fg, SDL_Color bg) {
 
-        SDL_SetRenderDrawColor(renderer, bg.r, bg.g, bg.b, bg.a);
+        setDrawColor(bg);
         SDL_Rect bgrect = {x, y, w, h};
         SDL_RenderFillRect(renderer, &bgrect);
 
-        SDL_SetRenderDrawColor(renderer, fg.r, fg.g, fg.b, fg.a);
+        setDrawColor(fg);
         SDL_Rect fgrect = {x, y, percent, h};
         SDL_RenderFillRect(renderer, &fgrect);
 }

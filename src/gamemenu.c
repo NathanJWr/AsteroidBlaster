@@ -111,7 +111,8 @@ void setupGameMenu() {
 
 void updateGameMenu() {
         renderPresent();
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+        SDL_Color black = {0, 0, 0};
+        setDrawColor(black);
         clearRender();
 }
 
