@@ -23,7 +23,8 @@ int mousePressGame(SDL_MouseButtonEvent b) {
                                         + game_menu.continue_pos.w
                                 && b.y >= game_menu.continue_pos.y
                                 && b.y <= game_menu.continue_pos.y
-                                        + game_menu.continue_pos.h) {
+                                        + game_menu.continue_pos.h
+                                && !game_menu.game_over) {
                         return 1;
                 }
 
@@ -135,6 +136,7 @@ void drawGameMenu(int game_outcome) {
         if(game_outcome == 1) {
                 SDL_RenderCopy(renderer, game_menu.menu_white, NULL,
                                 &game_menu.menu_pos);
+                game_menu.game_over = true;
         }
 }
 

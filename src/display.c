@@ -75,6 +75,7 @@ SDL_Texture* surfaceToTextureSafe(SDL_Surface* surf) {
 
         if(text == NULL) {
                 printf("Texture Creation Error: %s\n", SDL_GetError());
+                return NULL;
         }
         return text;
 }
