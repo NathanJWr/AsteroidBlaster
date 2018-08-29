@@ -87,10 +87,12 @@ int handleMainMenuEvents(SDL_Event* e) {
 }
 
 void setupMainMenu() {
-        main_menu.start_white = IMG_LoadTexture(renderer, "assets/start_text.png");
-        main_menu.start_green = IMG_LoadTexture(renderer, "assets/start_text_green.png");
-        main_menu.quit_white = IMG_LoadTexture(renderer, "assets/quit_text.png");
-        main_menu.quit_green = IMG_LoadTexture(renderer, "assets/quit_text_green.png");
+        SDL_Color white = {255, 255, 255};
+        SDL_Color green = {144, 245, 0};
+        main_menu.start_white = createTextTexture(font, "Start", white);
+        main_menu.start_green = createTextTexture(font, "Start", green);
+        main_menu.quit_white = createTextTexture(font, "Quit", white);
+        main_menu.quit_green = createTextTexture(font, "Quit", green);
 
         main_menu.start_pos.w = 300;
         main_menu.start_pos.h = 100;
@@ -100,7 +102,7 @@ void setupMainMenu() {
         main_menu.quit_pos.w = 300;
         main_menu.quit_pos.h = 100;
         main_menu.quit_pos.x  = (SCREEN_W / 2) - main_menu.quit_pos.w / 2;
-        main_menu.quit_pos.y = (SCREEN_H / 2) - (main_menu.quit_pos.h / 2) 
+        main_menu.quit_pos.y = (SCREEN_H / 2) - (main_menu.quit_pos.h / 2)
                 + main_menu.start_pos.h;
 
         main_menu.background1 = IMG_LoadTexture(renderer, "assets/background.png");
@@ -162,5 +164,7 @@ void updateMainMenu() {
 
 void cleanupMainMenu() {
         SDL_DestroyTexture(main_menu.start_white);
-//        SDL_DestroyTexture(exit_texture);
+        SDL_DestroyTexture(main_menu.start_green);
+        SDL_DestroyTexture(main_menu.quit_white);
+        SDL_DestroyTexture(main_menu.quit_green);
 }

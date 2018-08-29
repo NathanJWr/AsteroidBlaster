@@ -59,15 +59,36 @@ void killVideo() {
 }
 
 SDL_Texture* surfaceToTexture(SDL_Surface* surf) {
-        SDL_Texture* text;
+        SDL_Texture* text = NULL;
         text = SDL_CreateTextureFromSurface(renderer, surf);
         SDL_FreeSurface(surf);
+
+        if(text == NULL) {
+                printf("Texture Creation Error: %s\n", SDL_GetError());
+        }
         return text;
 }
 
 SDL_Texture* surfaceToTextureSafe(SDL_Surface* surf) {
-        SDL_Texture* text;
+        SDL_Texture* text = NULL;
         text = SDL_CreateTextureFromSurface(renderer, surf);
+
+        if(text == NULL) {
+                printf("Texture Creation Error: %s\n", SDL_GetError());
+        }
         return text;
 }
 
+SDL_Texture* createTextTexture(TTF_Font* font, char* text, SDL_Color color) {
+        SDL_Surface* surface = NULL;
+        SDL_Texture* texture = NULL;
+        surface = TTF_RenderText_Solid(font, text, color);
+
+        if(surface == NULL) {
+                printf("Text Render Error: %s\n", TTF_GetError());
+                return NULL;
+        }
+
+        texture = surfaceToTexture(surface);
+        return texture;
+}

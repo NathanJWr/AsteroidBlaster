@@ -19,20 +19,20 @@ int mousePressGame(SDL_MouseButtonEvent b) {
         if(b.button == SDL_BUTTON_LEFT) {
                 //Continue Button
                 if(b.x >= game_menu.continue_pos.x
-                                && b.x <= game_menu.continue_pos.x 
+                                && b.x <= game_menu.continue_pos.x
                                         + game_menu.continue_pos.w
                                 && b.y >= game_menu.continue_pos.y
-                                && b.y <= game_menu.continue_pos.y 
+                                && b.y <= game_menu.continue_pos.y
                                         + game_menu.continue_pos.h) {
                         return 1;
                 }
 
                 //Main Menu Button
                 if(b.x >= game_menu.menu_pos.x
-                                && b.x <= game_menu.menu_pos.x 
+                                && b.x <= game_menu.menu_pos.x
                                         + game_menu.menu_pos.w
                                 && b.y >= game_menu.menu_pos.y
-                                && b.y <= game_menu.menu_pos.y 
+                                && b.y <= game_menu.menu_pos.y
                                         + game_menu.menu_pos.h) {
                         return 0;
                 }
@@ -45,10 +45,10 @@ void mouseSelectGame() {
         int mouse_x, mouse_y;
         SDL_GetMouseState(&mouse_x, &mouse_y);
         if(mouse_x >= game_menu.continue_pos.x
-                        && mouse_x <= game_menu.continue_pos.x 
+                        && mouse_x <= game_menu.continue_pos.x
                                 + game_menu.continue_pos.w
                         && mouse_y >= game_menu.continue_pos.y
-                        && mouse_y <= game_menu.continue_pos.y 
+                        && mouse_y <= game_menu.continue_pos.y
                                 + game_menu.continue_pos.h) {
 
                 game_menu.is_continue_selected = true;
@@ -57,10 +57,10 @@ void mouseSelectGame() {
                 game_menu.is_continue_selected = false;
         }
         if(mouse_x >= game_menu.menu_pos.x
-                        && mouse_x <= game_menu.menu_pos.x 
+                        && mouse_x <= game_menu.menu_pos.x
                                 + game_menu.menu_pos.w
                         && mouse_y >= game_menu.menu_pos.y
-                        && mouse_y <= game_menu.menu_pos.y 
+                        && mouse_y <= game_menu.menu_pos.y
                                 + game_menu.menu_pos.h) {
 
                 game_menu.is_menu_selected = true;
@@ -89,19 +89,17 @@ int handleGameMenuEvents(SDL_Event* e) {
         return -1;
 }
 void setupGameMenu() {
-        game_menu.menu_white = IMG_LoadTexture(renderer,
-                        "assets/mainmenu_text.png");
-        game_menu.menu_green = IMG_LoadTexture(renderer,
-                        "assets/mainmenu_text_green.png");
+        SDL_Color white = {255, 255, 255};
+        SDL_Color green = {144, 245, 0};
+        game_menu.menu_white = createTextTexture(font, "Main Menu", white);
+        game_menu.menu_green = createTextTexture(font, "Main Menu", green);
         game_menu.menu_pos.w = 800;
         game_menu.menu_pos.h = 100;
         game_menu.menu_pos.x = (SCREEN_W / 2) - game_menu.menu_pos.w / 2;
         game_menu.menu_pos.y = (SCREEN_H / 2) + 20;
 
-        game_menu.continue_white = IMG_LoadTexture(renderer, 
-                        "assets/continue_text.png");
-        game_menu.continue_green = IMG_LoadTexture(renderer,
-                        "assets/continue_text_green.png");
+        game_menu.continue_white = createTextTexture(font, "Continue", white);
+        game_menu.continue_green = createTextTexture(font, "Continue", green);
         game_menu.continue_pos.w = 800;
         game_menu.continue_pos.h = 100;
         game_menu.continue_pos.x = (SCREEN_W / 2) - game_menu.continue_pos.w / 2;

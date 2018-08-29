@@ -34,7 +34,7 @@ void gameTick(asteroidVector* asteroidV,
         for(int i = 0; i < asteroidV -> count; i++) {
                 if(checkCollision_player(*asteroidVector_get(asteroidV, i), *player)
                                 && !asteroidV -> asteroids[i].hit && !player -> hit) {
-                              
+
                         player -> hit = true;
                         player -> lives -= 1;
                         player_invuln_time = newTimer(2000);
@@ -113,9 +113,9 @@ void movePlayer(struct KeyPresses* k, struct Player* p, bulletVector* bv) {
                 playerMoveRight(p);
         }
         if(k -> space) {
-                if(p -> laser_percent >= 33) {
+                if(p -> laser_percent >= 50) {
                         bulletVector_add(bv, makeBullet(p -> x + (p -> sizeX / 2), p -> y));
-                        p -> laser_percent -= 33;
+                        p -> laser_percent -= 50;
                 }
                 k -> space = false;
         }

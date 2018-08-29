@@ -7,7 +7,7 @@ SRC = $(wildcard $(SRC_DIR)/*.c)
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 CPPFLAGS += -Iinclude
-CFLAGS += -Wall
+CFLAGS += -Wall -Werror -g
 LDFLAGS += -Llib
 LDLIBS += -lSDL2 -lSDL2_image -lSDL2_ttf
 
