@@ -5,6 +5,7 @@
 struct GameMenuAssets {
         SDL_Texture* continue_white;
         SDL_Texture* continue_green;
+        SDL_Texture* continue_red;
         SDL_Rect continue_pos;
         bool is_continue_selected;
 

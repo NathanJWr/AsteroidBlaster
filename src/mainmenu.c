@@ -125,23 +125,18 @@ void setupMainMenu() {
 }
 void drawMainMenu() {
         if(main_menu.is_start_selected) {
-                SDL_RenderCopy(renderer, main_menu.start_green,
-                                NULL, &main_menu.start_pos);
+                renderTexture(main_menu.start_green, &main_menu.start_pos);
         }
         else {
-                SDL_RenderCopy(renderer, main_menu.start_white,
-                                NULL, &main_menu.start_pos);
+                renderTexture(main_menu.start_white, &main_menu.start_pos);
         }
         if(main_menu.is_quit_selected) {
-                SDL_RenderCopy(renderer, main_menu.quit_green,
-                                NULL, &main_menu.quit_pos);
+                renderTexture(main_menu.quit_green, &main_menu.quit_pos);
         }
         else {
-                SDL_RenderCopy(renderer, main_menu.quit_white,
-                                NULL, &main_menu.quit_pos);
+                renderTexture(main_menu.quit_white, &main_menu.quit_pos);
         }
-
-        SDL_RenderCopy(renderer, main_menu.logo, NULL, &main_menu.logo_pos);
+        renderTexture(main_menu.logo, &main_menu.logo_pos);
 }
 
 void updateMainMenu() {
@@ -157,8 +152,8 @@ void updateMainMenu() {
                 main_menu.background1_pos.y = 0;
                 main_menu.background2_pos.y = -SCREEN_H;
         }
-        SDL_RenderCopy(renderer, main_menu.background1, NULL, &main_menu.background1_pos);
-        SDL_RenderCopy(renderer, main_menu.background2, NULL, &main_menu.background2_pos);
+        renderTexture(main_menu.background1, &main_menu.background1_pos);
+        renderTexture(main_menu.background2, &main_menu.background2_pos);
         SDL_Delay(10);
 }
 

@@ -92,6 +92,7 @@ int handleGameMenuEvents(SDL_Event* e) {
 void setupGameMenu() {
         SDL_Color white = {255, 255, 255};
         SDL_Color green = {144, 245, 0};
+        SDL_Color red = {255, 17, 0};
         game_menu.menu_white = createTextTexture(font, "Main Menu", white);
         game_menu.menu_green = createTextTexture(font, "Main Menu", green);
         game_menu.menu_pos.w = 800;
@@ -101,6 +102,7 @@ void setupGameMenu() {
 
         game_menu.continue_white = createTextTexture(font, "Continue", white);
         game_menu.continue_green = createTextTexture(font, "Continue", green);
+        game_menu.continue_red = createTextTexture(font, "Continue", red);
         game_menu.continue_pos.w = 800;
         game_menu.continue_pos.h = 100;
         game_menu.continue_pos.x = (SCREEN_W / 2) - game_menu.continue_pos.w / 2;
@@ -116,26 +118,32 @@ void updateGameMenu() {
 void drawGameMenu(int game_outcome) {
         if(game_outcome == 0) {
                 if(game_menu.is_menu_selected) {
-                        SDL_RenderCopy(renderer, game_menu.menu_green,
-                                        NULL, &game_menu.menu_pos);
+                        renderTexture(game_menu.menu_green, &game_menu.menu_pos);
                 }
                 else {
-                        SDL_RenderCopy(renderer, game_menu.menu_white,
-                                        NULL, &game_menu.menu_pos);
+                        renderTexture(game_menu.menu_white, &game_menu.menu_pos);
                 }
 
                 if(game_menu.is_continue_selected) {
-                        SDL_RenderCopy(renderer, game_menu.continue_green,
-                                        NULL, &game_menu.continue_pos);
+                        renderTexture(game_menu.continue_green, &game_menu.continue_pos);
                 }
                 else {
-                        SDL_RenderCopy(renderer, game_menu.continue_white,
-                                        NULL, &game_menu.continue_pos);
+                        renderTexture(game_menu.continue_white, &game_menu.continue_pos);
                 }
         }
         if(game_outcome == 1) {
-                SDL_RenderCopy(renderer, game_menu.menu_white, NULL,
-                                &game_menu.menu_pos);
+                if(game_menu.is_menu_selected) {
+                        renderTexture(game_menu.menu_green, &game_menu.menu_pos);
+                }
+                else {
+                        renderTexture(game_menu.menu_white, &game_menu.menu_pos);
+                }
+                if(game_menu.is_continue_selected) {
+                        renderTexture(game_menu.continue_red, &game_menu.continue_pos);
+                }
+                else {
+                        renderTexture(game_menu.continue_white, &game_menu.continue_pos);
+                }
                 game_menu.game_over = true;
         }
 }
@@ -143,6 +151,7 @@ void drawGameMenu(int game_outcome) {
 void cleanupGameMenu() {
         SDL_DestroyTexture(game_menu.continue_white);
         SDL_DestroyTexture(game_menu.continue_green);
+        SDL_DestroyTexture(game_menu.continue_red);
         SDL_DestroyTexture(game_menu.menu_white);
         SDL_DestroyTexture(game_menu.menu_green);
 }

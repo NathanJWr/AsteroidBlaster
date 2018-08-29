@@ -21,7 +21,7 @@ SDL_Color backgroundColor = {0, 0, 0, 255}; //black
 SDL_Rect solidRect;
 
 struct Screen_Elements screen;
-       
+
 void updateGameScreen() {
         SDL_RenderCopy(renderer, screen.score, NULL, &solidRect);
         SDL_RenderPresent(renderer);
@@ -128,18 +128,17 @@ void drawHorizontalBar(int percent, int x, int y,
 void drawLaserPercentage(int percent) {
        SDL_Color blue = {144, 245, 0, 0};
        SDL_Color red = {255, 0, 0, 0};
-       drawHorizontalBar(percent, screen.laser_pos.x, 
-                       screen.laser_pos.y, 
-                       screen.laser_pos.w, 
+       drawHorizontalBar(percent, screen.laser_pos.x,
+                       screen.laser_pos.y,
+                       screen.laser_pos.w,
                        screen.laser_pos.h, blue, red);
-       SDL_RenderCopy(renderer, screen.empty_bar, NULL, &screen.bar_pos);
+       renderTexture(screen.empty_bar, &screen.bar_pos);
 }
 
 void drawScore(int score) {
         char result[50];
         sprintf(result, "%d", score);
-        SDL_Surface* solid = TTF_RenderText_Solid(font, result, textColor);
-        screen.score = surfaceToTexture(solid);
+        screen.score = createTextTexture(font, result, textColor);
         SDL_QueryTexture(screen.score, NULL, NULL, &solidRect.w, &solidRect.h);
         solidRect.x = SCREEN_W / 2;
         solidRect.y = 0;
@@ -150,7 +149,7 @@ void drawPlayerLives(int lives) {
         int current_pos  = 0;
         for(int i = 0; i < lives; i++) {
                 SDL_Rect heart_pos = {SCREEN_W - offset * 2, current_pos, 100, 100};
-                SDL_RenderCopy(renderer, screen.heart, NULL, &heart_pos);
+                renderTexture(screen.heart, &heart_pos);
                 current_pos += offset;
         }
 }

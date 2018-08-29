@@ -93,3 +93,7 @@ SDL_Texture* createTextTexture(TTF_Font* font, char* text, SDL_Color color) {
         texture = surfaceToTexture(surface);
         return texture;
 }
+
+void renderTexture(SDL_Texture* texture, SDL_Rect* pos) {
+        SDL_RenderCopy(renderer, texture, NULL, pos);
+}
