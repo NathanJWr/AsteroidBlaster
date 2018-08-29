@@ -118,31 +118,31 @@ void updateGameMenu() {
 void drawGameMenu(int game_outcome) {
         if(game_outcome == 0) {
                 if(game_menu.is_menu_selected) {
-                        renderTexture(game_menu.menu_green, &game_menu.menu_pos);
+                        renderTexture(game_menu.menu_green, NULL, &game_menu.menu_pos);
                 }
                 else {
-                        renderTexture(game_menu.menu_white, &game_menu.menu_pos);
+                        renderTexture(game_menu.menu_white, NULL, &game_menu.menu_pos);
                 }
 
                 if(game_menu.is_continue_selected) {
-                        renderTexture(game_menu.continue_green, &game_menu.continue_pos);
+                        renderTexture(game_menu.continue_green, NULL, &game_menu.continue_pos);
                 }
                 else {
-                        renderTexture(game_menu.continue_white, &game_menu.continue_pos);
+                        renderTexture(game_menu.continue_white, NULL, &game_menu.continue_pos);
                 }
         }
         if(game_outcome == 1) {
                 if(game_menu.is_menu_selected) {
-                        renderTexture(game_menu.menu_green, &game_menu.menu_pos);
+                        renderTexture(game_menu.menu_green, NULL, &game_menu.menu_pos);
                 }
                 else {
-                        renderTexture(game_menu.menu_white, &game_menu.menu_pos);
+                        renderTexture(game_menu.menu_white, NULL, &game_menu.menu_pos);
                 }
                 if(game_menu.is_continue_selected) {
-                        renderTexture(game_menu.continue_red, &game_menu.continue_pos);
+                        renderTexture(game_menu.continue_red, NULL, &game_menu.continue_pos);
                 }
                 else {
-                        renderTexture(game_menu.continue_white, &game_menu.continue_pos);
+                        renderTexture(game_menu.continue_white, NULL, &game_menu.continue_pos);
                 }
                 game_menu.game_over = true;
         }

@@ -43,7 +43,8 @@ void renderSprite(struct Sprite* sprite, SDL_Rect* pos) {
         }
         sprite -> current_frame = (SDL_GetTicks() / sprite -> delay) % sprite -> tot_frames;
         sprite -> tex_rect.x = sprite -> current_frame * sprite -> tex_rect.w;
-        SDL_RenderCopy(renderer, sprite -> texture, &(sprite -> tex_rect), pos);
+        //SDL_RenderCopy(renderer, sprite -> texture, &(sprite -> tex_rect), pos);
+        renderTexture(sprite -> texture, &(sprite -> tex_rect), pos);
 }
 
 void destroySprite(struct Sprite* sprite) {

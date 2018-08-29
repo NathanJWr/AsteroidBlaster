@@ -23,13 +23,13 @@ SDL_Rect solidRect;
 struct Screen_Elements screen;
 
 void updateGameScreen() {
-        SDL_RenderCopy(renderer, screen.score, NULL, &solidRect);
+        renderTexture(screen.score, NULL, &solidRect);
         SDL_RenderPresent(renderer);
 
         //Reset for next frame
         SDL_RenderClear(renderer);
         SDL_DestroyTexture(screen.score);
-        SDL_RenderCopy(renderer, screen.background, NULL, &screen.background_pos);
+        renderTexture(screen.background, NULL, &screen.background_pos);
 }
 
 void drawHUD(int score, int lives, int laser_percent) {
@@ -81,7 +81,8 @@ void drawBullet(struct Bullet bullet) {
                 bullet.y,
                 bullet.sizeX,
                 bullet.sizeY};
-        SDL_RenderCopy(renderer, bullet.sprite.texture, &bullet.sprite.tex_rect, &rect);
+        //SDL_RenderCopy(renderer, bullet.sprite.texture, &bullet.sprite.tex_rect, &rect);
+        renderTexture(bullet.sprite.texture, &bullet.sprite.tex_rect, &rect);
         SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF);
         SDL_Rect hitbox = {bullet.hitX, bullet.hitY, bullet.hitW, bullet.hitH};
         SDL_RenderDrawRect(renderer, &hitbox);
@@ -132,7 +133,7 @@ void drawLaserPercentage(int percent) {
                        screen.laser_pos.y,
                        screen.laser_pos.w,
                        screen.laser_pos.h, blue, red);
-       renderTexture(screen.empty_bar, &screen.bar_pos);
+       renderTexture(screen.empty_bar, NULL, &screen.bar_pos);
 }
 
 void drawScore(int score) {
@@ -149,7 +150,7 @@ void drawPlayerLives(int lives) {
         int current_pos  = 0;
         for(int i = 0; i < lives; i++) {
                 SDL_Rect heart_pos = {SCREEN_W - offset * 2, current_pos, 100, 100};
-                renderTexture(screen.heart, &heart_pos);
+                renderTexture(screen.heart, NULL, &heart_pos);
                 current_pos += offset;
         }
 }

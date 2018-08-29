@@ -116,6 +116,6 @@ SDL_Surface* loadImageSurface(char* path) {
         return surface;
 }
 
-void renderTexture(SDL_Texture* texture, SDL_Rect* pos) {
-        SDL_RenderCopy(renderer, texture, NULL, pos);
+void renderTexture(SDL_Texture* texture, SDL_Rect* source, SDL_Rect* destination) {
+        SDL_RenderCopy(renderer, texture, source, destination);
 }
