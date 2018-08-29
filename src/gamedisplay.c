@@ -24,10 +24,10 @@ struct Screen_Elements screen;
 
 void updateGameScreen() {
         renderTexture(screen.score, NULL, &solidRect);
-        SDL_RenderPresent(renderer);
+        renderPresent();
 
         //Reset for next frame
-        SDL_RenderClear(renderer);
+        clearRender();
         SDL_DestroyTexture(screen.score);
         renderTexture(screen.background, NULL, &screen.background_pos);
 }

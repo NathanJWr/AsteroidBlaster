@@ -11,4 +11,6 @@
         SDL_Texture* loadImageTexture(char*);
         SDL_Surface* loadImageSurface(char*);
         void renderTexture(SDL_Texture*, SDL_Rect*, SDL_Rect*);
+        void renderPresent();
+        void clearRender();
 #endif

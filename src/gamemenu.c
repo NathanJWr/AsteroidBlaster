@@ -110,9 +110,9 @@ void setupGameMenu() {
 }
 
 void updateGameMenu() {
-        SDL_RenderPresent(renderer);
+        renderPresent();
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-        SDL_RenderClear(renderer);
+        clearRender();
 }
 
 void drawGameMenu(int game_outcome) {

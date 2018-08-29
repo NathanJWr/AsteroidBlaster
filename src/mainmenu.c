@@ -140,9 +140,9 @@ void drawMainMenu() {
 }
 
 void updateMainMenu() {
-        SDL_RenderPresent(renderer);
+        renderPresent();
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-        SDL_RenderClear(renderer);
+        clearRender();
 
         if(main_menu.background1_pos.y <= SCREEN_H) {
                 main_menu.background1_pos.y++;
