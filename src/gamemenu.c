@@ -4,7 +4,6 @@
 #include "gamemenu.h"
 #include "display.h"
 extern TTF_Font* font;
-extern SDL_Renderer* renderer;
 extern const int SCREEN_W;
 extern const int SCREEN_H;
 

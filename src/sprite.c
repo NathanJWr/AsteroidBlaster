@@ -2,7 +2,6 @@
 #include <SDL2/SDL_image.h>
 #include "sprite.h"
 #include "display.h"
-extern SDL_Renderer* renderer;
 SDL_Surface* player;
 SDL_Surface* asteroid1;
 SDL_Surface* asteroid2;

@@ -8,7 +8,6 @@
 extern const int SCREEN_W;
 extern const int SCREEN_H;
 extern SDL_Window* window;
-extern SDL_Renderer* renderer;
 extern TTF_Font* font;
 
 void drawScore(int);
@@ -59,7 +58,7 @@ void drawAsteroid(struct Asteroid* asteroid) {
         SDL_Rect hitbox = {asteroid -> hitX, asteroid -> hitY, asteroid -> hitW, asteroid -> hitH};
         SDL_Color green = {144, 245, 0};
         setDrawColor(green);
-        SDL_RenderDrawRect(renderer, &hitbox);
+        renderRectangleOutline(&hitbox);
 }
 
 void drawPlayer(struct Player player) {
@@ -72,7 +71,7 @@ void drawPlayer(struct Player player) {
         SDL_Color green = {144, 245, 0};
         setDrawColor(green);
         SDL_Rect hitbox = {player.hitX, player.hitY, player.hitW, player.hitH};
-        SDL_RenderDrawRect(renderer, &hitbox);
+        renderRectangleOutline(&hitbox);
 }
 
 void drawBullet(struct Bullet bullet) {
@@ -87,7 +86,7 @@ void drawBullet(struct Bullet bullet) {
         SDL_Color green = {144, 245, 0};
         setDrawColor(green);
         SDL_Rect hitbox = {bullet.hitX, bullet.hitY, bullet.hitW, bullet.hitH};
-        SDL_RenderDrawRect(renderer, &hitbox);
+        renderRectangleOutline(&hitbox);
 }
 
 void cleanupGameDisplay() {
@@ -121,11 +120,11 @@ void drawHorizontalBar(int percent, int x, int y,
 
         setDrawColor(bg);
         SDL_Rect bgrect = {x, y, w, h};
-        SDL_RenderFillRect(renderer, &bgrect);
+        renderRectangleFull(&bgrect);
 
         setDrawColor(fg);
         SDL_Rect fgrect = {x, y, percent, h};
-        SDL_RenderFillRect(renderer, &fgrect);
+        renderRectangleFull(&fgrect);
 }
 
 void drawLaserPercentage(int percent) {

@@ -124,6 +124,14 @@ void setDrawColor(SDL_Color color) {
         SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
 }
 
+void renderRectangleOutline(SDL_Rect* rect) {
+        SDL_RenderDrawRect(renderer, rect);
+}
+
+void renderRectangleFull(SDL_Rect* rect) {
+        SDL_RenderFillRect(renderer, rect);
+}
+
 void renderPresent() {
         SDL_RenderPresent(renderer);
 }

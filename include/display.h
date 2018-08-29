@@ -12,6 +12,8 @@
         SDL_Surface* loadImageSurface(char*);
         void renderTexture(SDL_Texture*, SDL_Rect*, SDL_Rect*);
         void setDrawColor(SDL_Color);
+        void renderRectangleOutline(SDL_Rect*);
+        void renderRectangleFull(SDL_Rect*);
         void renderPresent();
         void clearRender();
 #endif

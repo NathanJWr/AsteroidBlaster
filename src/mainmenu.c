@@ -7,7 +7,6 @@
 extern const int SCREEN_W;
 extern const int SCREEN_H;
 extern SDL_Window* window;
-extern SDL_Renderer* renderer;
 extern TTF_Font* font;
 
 struct MainMenuAssets main_menu;
