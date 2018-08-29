@@ -105,8 +105,8 @@ void setupMainMenu() {
         main_menu.quit_pos.y = (SCREEN_H / 2) - (main_menu.quit_pos.h / 2)
                 + main_menu.start_pos.h;
 
-        main_menu.background1 = IMG_LoadTexture(renderer, "assets/background.png");
-        main_menu.background2= IMG_LoadTexture(renderer, "assets/background.png");
+        main_menu.background1 = loadImageTexture("assets/background.png");
+        main_menu.background2= loadImageTexture("assets/background.png");
         main_menu.background1_pos.w = SCREEN_W;
         main_menu.background1_pos.h = SCREEN_H;
         main_menu.background1_pos.x = 0;
@@ -117,7 +117,7 @@ void setupMainMenu() {
         main_menu.background2_pos.y = -SCREEN_H;
         main_menu.background_offset = 0;
 
-        main_menu.logo = IMG_LoadTexture(renderer, "assets/logo.png");
+        main_menu.logo = loadImageTexture("assets/logo.png");
         main_menu.logo_pos.w = 810;
         main_menu.logo_pos.h = 110;
         main_menu.logo_pos.x = SCREEN_W / 2 - (main_menu.logo_pos.w / 2);

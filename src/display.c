@@ -94,6 +94,28 @@ SDL_Texture* createTextTexture(TTF_Font* font, char* text, SDL_Color color) {
         return texture;
 }
 
+SDL_Texture* loadImageTexture(char* path) {
+        SDL_Texture* tex = NULL;
+        tex = IMG_LoadTexture(renderer, path);
+
+        if(tex == NULL) {
+                printf("Image Load Error: %s\n", IMG_GetError());
+                return NULL;
+        }
+        return tex;
+}
+
+SDL_Surface* loadImageSurface(char* path) {
+        SDL_Surface* surface = NULL;
+        surface = IMG_Load(path);
+
+        if(surface == NULL) {
+                printf("Image Load Error: %s\n", IMG_GetError());
+                return NULL;
+        }
+        return surface;
+}
+
 void renderTexture(SDL_Texture* texture, SDL_Rect* pos) {
         SDL_RenderCopy(renderer, texture, NULL, pos);
 }
