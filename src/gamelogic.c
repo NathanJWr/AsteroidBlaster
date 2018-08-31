@@ -2,6 +2,7 @@
 #include "gamelogic.h"
 #include "timer.h"
 struct Timer player_invuln_time;
+struct Timer laser_recharge_time;
 void gameTick(asteroidVector* asteroidV,
                 bulletVector* bulletV,
                 struct Player* player,
@@ -48,14 +49,14 @@ void gameTick(asteroidVector* asteroidV,
         }
 
         //Laser charging
-        player -> laser_percent++;
-        if(player -> laser_percent < 0) {
-                player -> laser_percent = 0;
+        if(isTimerDone(laser_recharge_time)) {
+                laser_recharge_time = newTimer(100 / player -> laser_regen);
+                player -> laser_percent += 2;
+                if(player -> laser_percent > 100) {
+                        player -> laser_percent = 100;
+                }
         }
-        if(player -> laser_percent > 100) {
-                player -> laser_percent = 100;
-        }
-
+        updateTimer(&laser_recharge_time);
 }
 bool handleEvents(SDL_Event* e, struct KeyPresses* k) {
         while(SDL_PollEvent(e) != 0) {
@@ -121,6 +122,9 @@ void movePlayer(struct KeyPresses* k, struct Player* p, bulletVector* bv) {
         }
 }
 
+void upgradePlayerAtrribute(struct Player* player) {
+
+}
 
 bool checkCollision_bullet(struct Asteroid asteroid, struct Bullet bullet) {
         int leftA, leftB;

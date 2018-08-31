@@ -9,13 +9,14 @@
 #include "gamedisplay.h"
 #include "mainmenu.h"
 #include "gamemenu.h"
+#include "upgrademenu.h"
 #include "sprite.h"
 const int SCREEN_W = 1024;
 const int SCREEN_H = 768;
 SDL_Window* window;
 SDL_Renderer* renderer;
 TTF_Font* font;
-enum Game_States {MAIN_MENU, GAME_MENU, GAME, QUIT};
+enum Game_States {MAIN_MENU, GAME_MENU, UPGRADE_MENU, GAME, QUIT};
 enum Game_States game_state;
 struct GameObjects {
         asteroidVector asteroidV;
@@ -63,6 +64,7 @@ void drawCalls(asteroidVector* bv, struct Player* p, bulletVector* b, int score)
 int gameLoop(struct GameObjects*, SDL_Event*);
 void mainMenuLoop(SDL_Event* e);
 void gameMenuLoop(SDL_Event* e, int game_outcome);
+void upgradeMenuLoop(SDL_Event* e, struct Player* player);
 int main() {
         setupAllSprites();
         game_state = MAIN_MENU;
@@ -71,6 +73,7 @@ int main() {
         initGameObjects(&gameObjects);
         setupMainMenu();
         setupGameMenu();
+        setupUpgradeMenu();
         setupGameScreen();
         SDL_Event e;
         int game_outcome;
@@ -84,6 +87,9 @@ int main() {
                 }
                 else if(game_state == GAME_MENU) {
                         gameMenuLoop(&e, game_outcome);
+                }
+                else if(game_state == UPGRADE_MENU) {
+                        upgradeMenuLoop(&e, &(gameObjects.player));
                 }
                 else if(game_state == GAME) {
                         gameObjects.running = true;
@@ -125,6 +131,18 @@ void gameMenuLoop(SDL_Event* e, int game_outcome) {
         else if(decision == 1) {
                 game_state = GAME;
         }
+        else if(decision == 2) {
+                game_state = UPGRADE_MENU;
+        }
+}
+void upgradeMenuLoop(SDL_Event* e, struct Player* player) {
+        int decision = -1;
+        while(decision == -1) {
+                decision = handleUpgradeMenuEvents(e, player);
+                updateUpgradeMenu();
+                drawUpgradeMenu();
+        }
+        game_state = GAME_MENU;
 }
 int gameLoop(struct GameObjects* game, SDL_Event* e) {
         int ticks = 0;

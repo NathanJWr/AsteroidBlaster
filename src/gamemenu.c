@@ -3,38 +3,34 @@
 #include <SDL2/SDL.h>
 #include "gamemenu.h"
 #include "display.h"
+#include "menu.h"
 extern TTF_Font* font;
 extern const int SCREEN_W;
 extern const int SCREEN_H;
 
 struct GameMenuAssets game_menu;
-
 /*
 Return 0 for main_menu
 Return 1 for Continue
+Return 2 for Upgrades
 Return -1 for nothing
 */
 int mousePressGame(SDL_MouseButtonEvent b) {
         if(b.button == SDL_BUTTON_LEFT) {
+                //Main Menu Button
+                if(checkBoundaries(b.x, b.y, game_menu.menu_pos)) {
+                        return 0;
+                }
+
                 //Continue Button
-                if(b.x >= game_menu.continue_pos.x
-                                && b.x <= game_menu.continue_pos.x
-                                        + game_menu.continue_pos.w
-                                && b.y >= game_menu.continue_pos.y
-                                && b.y <= game_menu.continue_pos.y
-                                        + game_menu.continue_pos.h
+                if(checkBoundaries(b.x, b.y, game_menu.continue_pos)
                                 && !game_menu.game_over) {
                         return 1;
                 }
 
-                //Main Menu Button
-                if(b.x >= game_menu.menu_pos.x
-                                && b.x <= game_menu.menu_pos.x
-                                        + game_menu.menu_pos.w
-                                && b.y >= game_menu.menu_pos.y
-                                && b.y <= game_menu.menu_pos.y
-                                        + game_menu.menu_pos.h) {
-                        return 0;
+                //Upgrades Button
+                if(checkBoundaries(b.x, b.y, game_menu.upgrades_pos)) {
+                        return 2;
                 }
                 else return -1;
         }
@@ -44,34 +40,32 @@ int mousePressGame(SDL_MouseButtonEvent b) {
 void mouseSelectGame() {
         int mouse_x, mouse_y;
         SDL_GetMouseState(&mouse_x, &mouse_y);
-        if(mouse_x >= game_menu.continue_pos.x
-                        && mouse_x <= game_menu.continue_pos.x
-                                + game_menu.continue_pos.w
-                        && mouse_y >= game_menu.continue_pos.y
-                        && mouse_y <= game_menu.continue_pos.y
-                                + game_menu.continue_pos.h) {
 
+        if(checkBoundaries(mouse_x, mouse_y, game_menu.continue_pos)) {
                 game_menu.is_continue_selected = true;
         }
         else {
                 game_menu.is_continue_selected = false;
         }
-        if(mouse_x >= game_menu.menu_pos.x
-                        && mouse_x <= game_menu.menu_pos.x
-                                + game_menu.menu_pos.w
-                        && mouse_y >= game_menu.menu_pos.y
-                        && mouse_y <= game_menu.menu_pos.y
-                                + game_menu.menu_pos.h) {
 
+        if(checkBoundaries(mouse_x, mouse_y, game_menu.menu_pos)) {
                 game_menu.is_menu_selected = true;
         }
         else {
                 game_menu.is_menu_selected = false;
         }
+
+        if(checkBoundaries(mouse_x, mouse_y, game_menu.upgrades_pos)) {
+                game_menu.is_upgrades_selected = true;
+        }
+        else {
+                game_menu.is_upgrades_selected = false;
+        }
 }
 /*
 Return 0 for main_menu
 Return 1 for Continue
+Retrun 2 for Upgrades
 Return -1 for nothing
 */
 int handleGameMenuEvents(SDL_Event* e) {
@@ -105,7 +99,14 @@ void setupGameMenu() {
         game_menu.continue_pos.w = 800;
         game_menu.continue_pos.h = 100;
         game_menu.continue_pos.x = (SCREEN_W / 2) - game_menu.continue_pos.w / 2;
-        game_menu.continue_pos.y = (SCREEN_H / 2) - 100;
+        game_menu.continue_pos.y = (SCREEN_H / 2) - 200;
+
+        game_menu.upgrades_white = createTextTexture(font, "Upgrades", white);
+        game_menu.upgrades_green = createTextTexture(font, "Upgrades", green);
+        game_menu.upgrades_pos.w = 800;
+        game_menu.upgrades_pos.h = 100;
+        game_menu.upgrades_pos.x = (SCREEN_W / 2) - game_menu.upgrades_pos.w / 2;
+        game_menu.upgrades_pos.y = (SCREEN_H / 2) - 100;
 }
 
 void updateGameMenu() {
@@ -116,35 +117,30 @@ void updateGameMenu() {
 }
 
 void drawGameMenu(int game_outcome) {
-        if(game_outcome == 0) {
-                if(game_menu.is_menu_selected) {
-                        renderTexture(game_menu.menu_green, NULL, &game_menu.menu_pos);
-                }
-                else {
-                        renderTexture(game_menu.menu_white, NULL, &game_menu.menu_pos);
-                }
-
-                if(game_menu.is_continue_selected) {
-                        renderTexture(game_menu.continue_green, NULL, &game_menu.continue_pos);
-                }
-                else {
-                        renderTexture(game_menu.continue_white, NULL, &game_menu.continue_pos);
-                }
+        if(game_menu.is_menu_selected) {
+                renderTexture(game_menu.menu_green, NULL, &game_menu.menu_pos);
         }
-        if(game_outcome == 1) {
-                if(game_menu.is_menu_selected) {
-                        renderTexture(game_menu.menu_green, NULL, &game_menu.menu_pos);
-                }
-                else {
-                        renderTexture(game_menu.menu_white, NULL, &game_menu.menu_pos);
-                }
-                if(game_menu.is_continue_selected) {
+        else {
+                renderTexture(game_menu.menu_white, NULL, &game_menu.menu_pos);
+        }
+
+        if(game_menu.is_continue_selected) {
+                if(game_menu.game_over) {
                         renderTexture(game_menu.continue_red, NULL, &game_menu.continue_pos);
                 }
                 else {
-                        renderTexture(game_menu.continue_white, NULL, &game_menu.continue_pos);
+                        renderTexture(game_menu.continue_green, NULL, &game_menu.continue_pos);
                 }
-                game_menu.game_over = true;
+        }
+        else {
+                renderTexture(game_menu.continue_white, NULL, &game_menu.continue_pos);
+        }
+
+        if(game_menu.is_upgrades_selected) {
+                renderTexture(game_menu.upgrades_green, NULL, &game_menu.upgrades_pos);
+        }
+        else {
+                renderTexture(game_menu.upgrades_white, NULL, &game_menu.upgrades_pos);
         }
 }
 
@@ -154,4 +150,6 @@ void cleanupGameMenu() {
         SDL_DestroyTexture(game_menu.continue_red);
         SDL_DestroyTexture(game_menu.menu_white);
         SDL_DestroyTexture(game_menu.menu_green);
+        SDL_DestroyTexture(game_menu.upgrades_white);
+        SDL_DestroyTexture(game_menu.upgrades_green);
 }

@@ -19,6 +19,9 @@ struct Player makePlayer() {
         setupPlayerSprite(&player.player);
         setupHeartSprite(&player.heart);
         player.lives = 3;
+
+        //Upgrades
+        player.laser_regen = 1;
         return player;
 }
 void playerMoveUp(struct Player* p) {
@@ -28,6 +31,14 @@ void playerMoveUp(struct Player* p) {
         }
 }
 
+void playerHandleUpgrades(Player_Upgrades upgrade, struct Player* player) {
+        switch(upgrade) {
+                case LASER_REGEN:
+                        player -> laser_regen++;
+                        break;
+        }
+                        
+}
 void playerMoveDown(struct Player* p) {
         if(p -> y + p -> sizeY < SCREEN_H) {
                 p -> y += p -> dy;

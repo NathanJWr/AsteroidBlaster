@@ -3,6 +3,9 @@
 #include <stdbool.h>
 #include <SDL2/SDL.h>
 #include "sprite.h"
+typedef enum  {
+        LASER_REGEN
+} Player_Upgrades;
 struct Player {
         int x;
         int y;
@@ -20,11 +23,16 @@ struct Player {
         int lives;
         struct Sprite player;
         struct Sprite heart;
+
+        //Upgrades
+        int laser_regen;
 };
 struct Player makePlayer();
+void playerHandleUpgrades(Player_Upgrades, struct Player* player);
 void playerMoveUp(struct Player*);
 void playerMoveDown(struct Player*);
 void playerMoveLeft(struct Player*);
 void playerMoveRight(struct Player*);
 void playerCleanup(struct Player*);
+
 #endif

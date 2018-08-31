@@ -14,6 +14,11 @@ struct GameMenuAssets {
         SDL_Rect menu_pos;
         bool is_menu_selected;
 
+        SDL_Texture* upgrades_white;
+        SDL_Texture* upgrades_green;
+        SDL_Rect upgrades_pos;
+        bool is_upgrades_selected;
+        
         bool game_over;
 };
 int handleGameMenuEvents(SDL_Event*);
