@@ -6,6 +6,7 @@
 extern SDL_Window* window;
 extern SDL_Renderer* renderer;
 extern TTF_Font* font;
+TTF_Font* ubuntu;
 bool initVideo(const int SCREEN_W, const int SCREEN_H) {
         bool success = true;
         if(SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -40,6 +41,8 @@ bool initVideo(const int SCREEN_W, const int SCREEN_H) {
                 success = false;
         }
         font = TTF_OpenFont("assets/prstart.ttf", 90);
+        ubuntu = TTF_OpenFont("assets/Ubuntu.ttf", 12);
+
         if(font == NULL) {
                 printf("Failed to load font: %s\n", SDL_GetError());
                 success = false;
@@ -52,6 +55,7 @@ void killVideo() {
         SDL_DestroyRenderer(renderer);
         SDL_DestroyWindow(window);
         TTF_CloseFont(font);
+        TTF_CloseFont(ubuntu);
 
         TTF_Quit();
         IMG_Quit();
@@ -93,6 +97,17 @@ SDL_Texture* createTextTexture(TTF_Font* font, char* text, SDL_Color color) {
         texture = surfaceToTexture(surface);
         return texture;
 }
+SDL_Texture* createTextTextureWrapped(TTF_Font* font, char* text, SDL_Color color, int length) {
+        SDL_Surface* surf = NULL;
+        SDL_Texture* tex = NULL;
+        surf = TTF_RenderText_Blended_Wrapped(font, text, color, length);
+        if(surf == NULL) {
+                printf("Text Render Error: %s\n", TTF_GetError());
+                return NULL;
+        }
+        tex = surfaceToTexture(surf);
+        return tex;
+}
 
 SDL_Texture* loadImageTexture(char* path) {
         SDL_Texture* tex = NULL;
@@ -115,6 +130,22 @@ SDL_Surface* loadImageSurface(char* path) {
         }
         return surface;
 }
+
+void renderTextBox(int x, int y, char* text) {
+        SDL_Color white = {255, 255, 255};
+        SDL_Color black = {0, 0, 0};
+        int w, h;
+        SDL_Texture* tex = createTextTextureWrapped(ubuntu, text, white, 400);
+        SDL_QueryTexture(tex, NULL, NULL, &w, &h);
+        SDL_Rect text_box = {x, y, w, h};
+        setDrawColor(black);
+        renderRectangleFull(&text_box);
+        setDrawColor(white);
+        renderRectangleOutline(&text_box);
+        renderTexture(tex, NULL, &text_box);
+        SDL_DestroyTexture(tex);
+}
+        
 
 void renderTexture(SDL_Texture* texture, SDL_Rect* source, SDL_Rect* destination) {
         SDL_RenderCopy(renderer, texture, source, destination);

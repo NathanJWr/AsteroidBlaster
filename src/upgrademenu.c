@@ -45,8 +45,11 @@ int handleUpgradeMenuEvents(SDL_Event* e, struct Player* p) {
 }
 
 void drawUpgradeMenu() {
+        int mouse_x, mouse_y;
+        SDL_GetMouseState(&mouse_x, &mouse_y);
         if(up_menu.laser_upgrade.selected) {
                 renderTexture(up_menu.laser_upgrade.textures[1], NULL, &up_menu.laser_upgrade.pos);
+                renderTextBox(mouse_x, mouse_y, "This is a cool test that totally works and word wraps like a boss.");
         }
         else {
                 renderTexture(up_menu.laser_upgrade.textures[0], NULL, &up_menu.laser_upgrade.pos);

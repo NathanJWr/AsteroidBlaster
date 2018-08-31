@@ -8,10 +8,12 @@
         SDL_Texture* surfaceToTexture(SDL_Surface*);
         SDL_Texture* surfaceToTextureSafe(SDL_Surface*);
         SDL_Texture* createTextTexture(TTF_Font*, char*, SDL_Color);
+        SDL_Texture* createTextTextureWrapped(TTF_Font*, char*, SDL_Color, int);
         SDL_Texture* loadImageTexture(char*);
         SDL_Surface* loadImageSurface(char*);
         void renderTexture(SDL_Texture*, SDL_Rect*, SDL_Rect*);
         void setDrawColor(SDL_Color);
+        void renderTextBox(int, int, char*);
         void renderRectangleOutline(SDL_Rect*);
         void renderRectangleFull(SDL_Rect*);
         void renderPresent();
