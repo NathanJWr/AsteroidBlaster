@@ -7,6 +7,7 @@ struct Button {
         SDL_Rect pos;
         int num_textures;
         SDL_Texture** textures;
+        char* mouseover_text;
 };
 struct Button makeButton(int, SDL_Rect);
 void destroyButton(struct Button*);

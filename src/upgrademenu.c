@@ -1,5 +1,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
+#include <stdio.h>
 #include "upgrademenu.h"
 #include "display.h"
 #include "menu.h"
@@ -49,7 +50,7 @@ void drawUpgradeMenu() {
         SDL_GetMouseState(&mouse_x, &mouse_y);
         if(up_menu.laser_upgrade.selected) {
                 renderTexture(up_menu.laser_upgrade.textures[1], NULL, &up_menu.laser_upgrade.pos);
-                renderTextBox(mouse_x, mouse_y, "This is a cool test that totally works and word wraps like a boss.");
+                renderTextBox(mouse_x, mouse_y, up_menu.laser_upgrade.mouseover_text);
         }
         else {
                 renderTexture(up_menu.laser_upgrade.textures[0], NULL, &up_menu.laser_upgrade.pos);
@@ -62,10 +63,32 @@ void updateUpgradeMenu() {
         setDrawColor(black);
         clearRender();
 }
+char* loadText(char* path, char* title) {
+        FILE *fp = NULL;
+        fp = fopen(path, "r");
+        if(fp == NULL) {
+                printf("Failed to open file %s\n", path);
+        }
+        char* line = NULL;
+        char* description = NULL;
+        size_t len = 0;
+        size_t len2 = 0;
+        while(getline(&line,&len, fp) != -1) {
+                if(strstr(line, title)) {
+                        getline(&description, &len2, fp); 
+                }
+        }
+        fclose(fp);
+        if(description == NULL) {
+                printf("%s not found in %s\n", title, path);
+        }
+        return description;
+}
 void setupUpgradeMenu() {
         SDL_Color white = {255, 255, 255};
         SDL_Color green = {144, 245, 0};
         SDL_Color yellow = {255, 255, 0};
+        char* path = "assets/text/upgrades.txt";
 
         SDL_Rect laser_pos = {0, 0, 300, 50};
         up_menu.laser_upgrade = makeButton(3, laser_pos); 
@@ -75,4 +98,5 @@ void setupUpgradeMenu() {
                         "Laser Regeneration", yellow);
         up_menu.laser_upgrade.textures[2] = createTextTexture(font,
                         "Laser Regeneration", green);
+        up_menu.laser_upgrade.mouseover_text = loadText(path, "Laser Upgrade");
 }

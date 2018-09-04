@@ -1,4 +1,5 @@
 #include <SDL2/SDL.h>
+#include <stdio.h>
 #include "menu.h"
 struct Button makeButton(int num_textures, SDL_Rect pos) {
         struct Button button;
@@ -15,6 +16,7 @@ void destroyButton(struct Button* button) {
        }
        free(button -> textures);
 }
+
 
 bool checkBoundaries(int x, int y, SDL_Rect rect) {
         if(x >= rect.x
