@@ -4,7 +4,10 @@
 #include <SDL2/SDL.h>
 #include "sprite.h"
 typedef enum  {
-        LASER_REGEN
+        LASER_REGEN,
+        MOVE_SPEED,
+        NONE
+
 } Player_Upgrades;
 struct Player {
         int x;
@@ -26,6 +29,7 @@ struct Player {
 
         //Upgrades
         int laser_regen;
+        int move_speed;
 };
 struct Player makePlayer();
 void playerHandleUpgrades(Player_Upgrades, struct Player* player);

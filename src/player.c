@@ -22,6 +22,7 @@ struct Player makePlayer() {
 
         //Upgrades
         player.laser_regen = 1;
+        player.move_speed = 1;
         return player;
 }
 void playerMoveUp(struct Player* p) {
@@ -36,9 +37,15 @@ void playerHandleUpgrades(Player_Upgrades upgrade, struct Player* player) {
                 case LASER_REGEN:
                         player -> laser_regen++;
                         break;
+                case MOVE_SPEED:
+                        player -> dx += 1;
+                        player -> dy += 1;
+                        break;
+                case NONE:
+                        break;
         }
-                        
 }
+
 void playerMoveDown(struct Player* p) {
         if(p -> y + p -> sizeY < SCREEN_H) {
                 p -> y += p -> dy;

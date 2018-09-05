@@ -131,7 +131,7 @@ SDL_Surface* loadImageSurface(char* path) {
         return surface;
 }
 
-void renderTextBox(int x, int y, char* text) {
+void renderTextBox(int x, int y, char text[]) {
         SDL_Color white = {255, 255, 255};
         SDL_Color black = {0, 0, 0};
         int w, h;

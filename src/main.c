@@ -98,6 +98,7 @@ int main() {
         }
         cleanupMainMenu();
         cleanupGameMenu();
+        cleanupUpgradeMenu();
         cleanupGameObjects(&gameObjects);
         cleanupGameDisplay();
         cleanupSpriteSurfaces();

@@ -5,14 +5,8 @@
 #include "menu.h"
 
 struct UpgradeMenuAssets {
-/*        SDL_Texture* laser_regen_w;
-        SDL_Texture* laser_regen_y;
-        SDL_Texture* laser_regen_g;
-        SDL_Rect laser_pos;
-        bool laser_selected;
-        int laser_upgrades;
-        */
         struct Button laser_upgrade;
+        struct Button move_speed;
 };
 int handleUpgradeMenuEvents(SDL_Event*, struct Player*);
 void setupUpgradeMenu();

@@ -1,2 +1,5 @@
-Laser Upgrade:
+Laser Regeneration:
 Increases the regeneration abilities of your ship. More bullets in less time! 
+
+Move Speed:
+Increases the movement speed of your ship. 
