@@ -68,6 +68,7 @@ void drawUpgradeMenu() {
         drawUpgradeButton(up_menu.laser_split);
         drawUpgradeText(up_menu.laser_upgrade);
         drawUpgradeText(up_menu.move_speed);
+        drawUpgradeText(up_menu.laser_split);
 }
 
 void updateUpgradeMenu() {
@@ -85,6 +86,12 @@ void cleanupUpgradeMenu() {
         for(int i = 0; i < up_menu.move_speed.num_textures; i++) {
                 SDL_DestroyTexture(up_menu.move_speed.textures[i]);
         }
+}
+void resetUpgradeMenu() {
+        up_menu.laser_upgrade.clicked = 0;
+        up_menu.laser_split.clicked = 0;
+        up_menu.move_speed.clicked = 0;
+        cleanupUpgradeMenu();
 }
 
 bool updateTimesClicked(struct Button* button) {

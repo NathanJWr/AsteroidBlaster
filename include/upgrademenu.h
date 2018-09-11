@@ -14,4 +14,5 @@ void setupUpgradeMenu();
 void drawUpgradeMenu();
 void updateUpgradeMenu();
 void cleanupUpgradeMenu();
+void resetUpgradeMenu();
 #endif

@@ -81,6 +81,8 @@ int main() {
 
         while(game_state != QUIT) {
                 if(game_state == MAIN_MENU) {
+                        resetUpgradeMenu();
+                        setupUpgradeMenu();
                         cleanupGameObjects(&gameObjects);
                         initGameObjects(&gameObjects);
                         mainMenuLoop(&e);

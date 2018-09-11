@@ -180,9 +180,7 @@ bool checkCollision_player(struct Asteroid asteroid, struct Player player) {
         return false;
 }
 void splitLaser(bulletVector** vec, struct Player p, int x, int y) {
-                printf("Called Outer\n");
         if(p.split_laser) {
-                printf("Called\n");
                 bulletVector_add(*vec,
                                 makeBullet(x,
                                         y, 3, 0));
