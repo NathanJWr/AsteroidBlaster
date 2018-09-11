@@ -2,12 +2,12 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "sprite.h"
-struct Bullet makeBullet(int x, int y) {
+struct Bullet makeBullet(int x, int y, int dx, int dy) {
         struct Bullet b;
         b.x = x;
         b.y = y;
-        b.dx = 3;
-        b.dy = 3;
+        b.dx = dx;
+        b.dy = dy;
         b.sizeX = 30;
         b.sizeY = 30;
 
@@ -21,6 +21,8 @@ struct Bullet makeBullet(int x, int y) {
 bool moveBullet(struct Bullet* b, const int SCREEN_H) {
         b -> y -= b -> dy;
         b -> hitY -= b -> dy;
+        b -> x += b -> dx;
+        b -> hitX += b -> dx;
         if(b -> y <= 0) {
                 return false;
         }
@@ -45,11 +47,11 @@ void bulletVector_add(bulletVector* v, struct Bullet b) {
         v -> count++;
 }
 
-struct Bullet* bulletVector_get(bulletVector* v, int index) {
+struct Bullet bulletVector_get(bulletVector* v, int index) {
         if(index >= v -> size || index < 0) {
                 exit(1);
         }
-        return &(v -> bullets[index]);
+        return (v -> bullets[index]);
 }
 
 void bulletVector_erase(bulletVector* v, int index) {

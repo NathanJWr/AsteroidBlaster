@@ -36,6 +36,7 @@ int handleUpgradeMenuEvents(SDL_Event* e, struct Player* p) {
 void setupUpgradeMenu() {
         char* path = "assets/text/upgrades.txt";
 
+        /* laser_upgrade  */
         SDL_Rect laser_pos = {0, 0, 350, 50};
         up_menu.laser_upgrade = makeButton(3, 3, laser_pos); 
         strcpy(up_menu.laser_upgrade.title,
@@ -44,17 +45,27 @@ void setupUpgradeMenu() {
         strcpy(up_menu.laser_upgrade.mouseover_text,
                         loadText(path, "Laser Regeneration"));
 
+        /* move_speed */
         SDL_Rect moveSpeed_pos = {0, 50, 300, 50};
         up_menu.move_speed = makeButton(3, 3, moveSpeed_pos);
         strcpy(up_menu.move_speed.title, "Move Speed (%d/%d)");
         updateUpgradeButton(&up_menu.move_speed);
         strcpy(up_menu.move_speed.mouseover_text,
                         loadText(path, "Move Speed"));
+
+        /* laser_split */
+        SDL_Rect laserSplit_pos = {0, 100, 300, 50};
+        up_menu.laser_split = makeButton(3, 1, laserSplit_pos);
+        strcpy(up_menu.laser_split.title, "Laser Split (%d/%d)");
+        updateUpgradeButton(&up_menu.laser_split);
+        strcpy(up_menu.laser_split.mouseover_text,
+                        loadText(path, "Laser Split"));
 }
 
 void drawUpgradeMenu() {
         drawUpgradeButton(up_menu.laser_upgrade);
         drawUpgradeButton(up_menu.move_speed);
+        drawUpgradeButton(up_menu.laser_split);
         drawUpgradeText(up_menu.laser_upgrade);
         drawUpgradeText(up_menu.move_speed);
 }
@@ -86,7 +97,9 @@ bool updateTimesClicked(struct Button* button) {
 
 Player_Upgrades mousePressUpgrades(SDL_MouseButtonEvent b) {
         if(b.button == SDL_BUTTON_LEFT) {
-                if(checkBoundaries(b.x, b.y, up_menu.laser_upgrade.pos)) {
+                if(checkBoundaries(b.x,
+                        b.y,
+                        up_menu.laser_upgrade.pos)) {
 
                         bool upgrade = 
                                 updateTimesClicked(&up_menu.laser_upgrade);
@@ -96,7 +109,10 @@ Player_Upgrades mousePressUpgrades(SDL_MouseButtonEvent b) {
                         }
                         else return NONE;
                 }
-                if(checkBoundaries(b.x, b.y, up_menu.move_speed.pos)) {
+                if(checkBoundaries(b.x,
+                        b.y,
+                        up_menu.move_speed.pos)) {
+
                         bool u = updateTimesClicked(&up_menu.move_speed);
                         updateUpgradeButton(&up_menu.move_speed);
                         if(u) {
@@ -104,8 +120,19 @@ Player_Upgrades mousePressUpgrades(SDL_MouseButtonEvent b) {
                         }
                         else return NONE;
                 }
+                if(checkBoundaries(b.x,
+                        b.y,
+                        up_menu.laser_split.pos)) {
+
+                        bool u = updateTimesClicked(&up_menu.laser_split);
+                        updateUpgradeButton(&up_menu.laser_split);
+                        if(u) {
+                                return LASER_SPLIT;
+                        }
+                        else return NONE;
+                }
         }
-        return -1;
+        return NONE;
 }
 
 void mouseSelectUpgrades() {
@@ -122,6 +149,12 @@ void mouseSelectUpgrades() {
         }
         else {
                 up_menu.move_speed.selected = false;
+        }
+        if(checkBoundaries(mouse_x, mouse_y, up_menu.laser_split.pos)) {
+                up_menu.laser_split.selected = true;
+        }
+        else {
+                up_menu.laser_split.selected = false;
         }
 }
 

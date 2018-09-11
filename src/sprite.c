@@ -25,15 +25,15 @@ void querySprite(struct Sprite* sprite) {
         sprite -> delay = 100;
 }
 void setupAllSprites() {
-        player = loadImageSurface("assets/ship.png");
-        asteroid1 = loadImageSurface("assets/asteroid1.png");
-        asteroid2 = loadImageSurface("assets/asteroid2.png");
-        asteroid3 = loadImageSurface("assets/asteroid3.png");
-        asteroid1_exp = loadImageSurface("assets/asteroid1_explode.png");
-        asteroid2_exp = loadImageSurface("assets/asteroid2_explode.png");
-        asteroid3_exp = loadImageSurface("assets/asteroid3_explode.png");
-        bullet = loadImageSurface("assets/laser.png");
-        heart = loadImageSurface("assets/heart.png");
+        player = loadImageSurface("assets/images/ship.png");
+        asteroid1 = loadImageSurface("assets/images/asteroid1.png");
+        asteroid2 = loadImageSurface("assets/images/asteroid2.png");
+        asteroid3 = loadImageSurface("assets/images/asteroid3.png");
+        asteroid1_exp = loadImageSurface("assets/images/asteroid1_explode.png");
+        asteroid2_exp = loadImageSurface("assets/images/asteroid2_explode.png");
+        asteroid3_exp = loadImageSurface("assets/images/asteroid3_explode.png");
+        bullet = loadImageSurface("assets/images/laser.png");
+        heart = loadImageSurface("assets/images/heart.png");
 }
 void renderSprite(struct Sprite* sprite, SDL_Rect* pos) {
         if(sprite -> texture == NULL) {

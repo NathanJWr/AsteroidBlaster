@@ -3,6 +3,7 @@
 #include "timer.h"
 struct Timer player_invuln_time;
 struct Timer laser_recharge_time;
+void splitLaser(bulletVector**, struct Player, int, int);
 void gameTick(asteroidVector* asteroidV,
                 bulletVector* bulletV,
                 struct Player* player,
@@ -23,10 +24,12 @@ void gameTick(asteroidVector* asteroidV,
                 }
                 for(int j = 0; j < asteroidV -> count; j++) {
                         if(checkCollision_bullet(*asteroidVector_get(asteroidV, j),
-                                                *bulletVector_get(bulletV, i))) {
+                                                bulletVector_get(bulletV, i))) {
                                 asteroidV -> asteroids[j].hit = true;
+                                struct Bullet b = bulletVector_get(bulletV, i);
                                 bulletVector_erase(bulletV , i);
                                 player -> score++;
+                                splitLaser(&bulletV, *player, b.x, b.y);
                         }
                 }
         }
@@ -115,7 +118,7 @@ void movePlayer(struct KeyPresses* k, struct Player* p, bulletVector* bv) {
         }
         if(k -> space) {
                 if(p -> laser_percent >= 50) {
-                        bulletVector_add(bv, makeBullet(p -> x + (p -> sizeX / 2), p -> y));
+                        bulletVector_add(bv, makeBullet(p -> x + (p -> sizeX / 2), p -> y, 0, 3));
                         p -> laser_percent -= 50;
                 }
                 k -> space = false;
@@ -175,4 +178,16 @@ bool checkCollision_player(struct Asteroid asteroid, struct Player player) {
                 return true;
         }
         return false;
+}
+void splitLaser(bulletVector** vec, struct Player p, int x, int y) {
+                printf("Called Outer\n");
+        if(p.split_laser) {
+                printf("Called\n");
+                bulletVector_add(*vec,
+                                makeBullet(x,
+                                        y, 3, 0));
+                bulletVector_add(*vec,
+                                makeBullet(x,
+                                        y, -3, 0));
+        }
 }

@@ -3,3 +3,6 @@ Increases the regeneration abilities of your ship. More bullets in less time!
 
 Move Speed:
 Increases the movement speed of your ship. 
+
+Laser Split:
+Your laser beams will explode in two directions on contact with an asteroid

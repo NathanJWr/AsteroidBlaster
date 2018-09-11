@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include "player.h"
 extern const int SCREEN_W;
 extern const int SCREEN_H;
@@ -23,6 +24,7 @@ struct Player makePlayer() {
         //Upgrades
         player.laser_regen = 1;
         player.move_speed = 1;
+        player.split_laser = false;
         return player;
 }
 void playerMoveUp(struct Player* p) {
@@ -40,6 +42,9 @@ void playerHandleUpgrades(Player_Upgrades upgrade, struct Player* player) {
                 case MOVE_SPEED:
                         player -> dx += 1;
                         player -> dy += 1;
+                        break;
+                case LASER_SPLIT:
+                        player -> split_laser = true;
                         break;
                 case NONE:
                         break;

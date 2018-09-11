@@ -6,6 +6,7 @@
 typedef enum  {
         LASER_REGEN,
         MOVE_SPEED,
+        LASER_SPLIT,
         NONE
 
 } Player_Upgrades;
@@ -30,6 +31,7 @@ struct Player {
         //Upgrades
         int laser_regen;
         int move_speed;
+        bool split_laser;
 };
 struct Player makePlayer();
 void playerHandleUpgrades(Player_Upgrades, struct Player* player);

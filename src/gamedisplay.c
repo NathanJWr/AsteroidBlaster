@@ -95,19 +95,19 @@ void cleanupGameDisplay() {
 }
 
 void setupGameScreen() {
-        screen.background = loadImageTexture("assets/background.png");
+        screen.background = loadImageTexture("assets/images/background.png");
         screen.background_pos.x = 0;
         screen.background_pos.y = 0;
         screen.background_pos.w = SCREEN_W;
         screen.background_pos.h = SCREEN_H;
 
-        screen.heart = loadImageTexture("assets/heart.png");
+        screen.heart = loadImageTexture("assets/images/heart.png");
         screen.laser_pos.x = 10;
         screen.laser_pos.y = 5;
         screen.laser_pos.w = 96;
         screen.laser_pos.h = 30;
 
-        screen.empty_bar = loadImageTexture("assets/empty_bar.png");
+        screen.empty_bar = loadImageTexture("assets/images/empty_bar.png");
         screen.bar_pos.x = 5;
         screen.bar_pos.y = 5;
         screen.bar_pos.w = 110;

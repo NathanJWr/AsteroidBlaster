@@ -7,6 +7,7 @@
 struct UpgradeMenuAssets {
         struct Button laser_upgrade;
         struct Button move_speed;
+        struct Button laser_split;
 };
 int handleUpgradeMenuEvents(SDL_Event*, struct Player*);
 void setupUpgradeMenu();
