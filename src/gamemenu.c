@@ -114,6 +114,9 @@ void updateGameMenu(int game_outcome) {
         if(game_outcome == 1) {
                 game_menu.game_over = true;
         }
+        if(game_outcome == 0) {
+                game_menu.game_over = false;
+        }
         renderPresent();
         SDL_Color black = {0, 0, 0};
         setDrawColor(black);

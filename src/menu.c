@@ -2,14 +2,11 @@
 #include <stdio.h>
 #include "menu.h"
 #include "display.h"
-struct Button makeButton(int num_textures, int max_clicks, SDL_Rect pos) {
+struct Button makeButton(int num_textures, SDL_Rect pos) {
         struct Button button;
         button.selected = false;
-        button.upgraded = false;
         button.pos = pos;
         button.num_textures = num_textures;
-        button.clicked = 0;
-        button.max_clicks = max_clicks;
         button.textures = malloc(num_textures * sizeof(SDL_Texture*));
         for(int i = 0; i < num_textures; i++) {
                 button.textures[i] = NULL;
@@ -23,7 +20,7 @@ void destroyButton(struct Button* button) {
        }
        free(button -> textures);
 }
-
+/*
 void drawButton(struct Button button) {
         if(button.selected) {
                 if(button.upgraded) {
@@ -37,6 +34,7 @@ void drawButton(struct Button button) {
                 renderTexture(button.textures[0], NULL, &button.pos);
         }
 }
+*/
 
 bool checkBoundaries(int x, int y, SDL_Rect rect) {
         if(x >= rect.x
