@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "sprite.h"
+extern int SCREEN_W;
 struct Bullet makeBullet(int x, int y, int dx, int dy) {
         struct Bullet b;
         b.x = x;
@@ -24,6 +25,9 @@ bool moveBullet(struct Bullet* b, const int SCREEN_H) {
         b -> x += b -> dx;
         b -> hitX += b -> dx;
         if(b -> y <= 0) {
+                return false;
+        }
+        else if(b -> x <= 0 || b -> x >= SCREEN_W) {
                 return false;
         }
         else return true;
@@ -58,6 +62,7 @@ void bulletVector_erase(bulletVector* v, int index) {
         if(index >= v -> size || index < 0) {
                 exit(1);
         }
+        printf("laser destroyed\n");
         destroySprite(&(v -> bullets[index].sprite));
         for(int i = index; i < v -> count ; i++) {
                 v -> bullets[i] = v -> bullets[i+1];

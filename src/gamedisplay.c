@@ -75,14 +75,12 @@ void drawPlayer(struct Player player) {
 }
 
 void drawBullet(struct Bullet bullet) {
-        bullet.sprite.current_frame = (SDL_GetTicks() / bullet.sprite.delay) % bullet.sprite.tot_frames;
-        bullet.sprite.tex_rect.x = bullet.sprite.current_frame * bullet.sprite.tex_rect.w;
         SDL_Rect rect = {
                 bullet.x - bullet.sprite.tex_rect.w / 4,
                 bullet.y,
                 bullet.sizeX,
                 bullet.sizeY};
-        renderTexture(bullet.sprite.texture, &bullet.sprite.tex_rect, &rect);
+        renderSprite(&bullet.sprite, &rect);
         SDL_Color green = {144, 245, 0};
         setDrawColor(green);
         SDL_Rect hitbox = {bullet.hitX, bullet.hitY, bullet.hitW, bullet.hitH};
