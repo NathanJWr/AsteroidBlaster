@@ -124,8 +124,8 @@ void mainMenuLoop(SDL_Event* e) {
 void gameMenuLoop(SDL_Event* e, int game_outcome) {
         int decision = -1;
         while(decision == -1) {
-                drawGameMenu(game_outcome);
-                updateGameMenu();
+                drawGameMenu();
+                updateGameMenu(game_outcome);
                 decision = handleGameMenuEvents(e);
         }
         if(decision == 0) {

@@ -23,7 +23,7 @@ struct GameMenuAssets {
 };
 int handleGameMenuEvents(SDL_Event*);
 void setupGameMenu();
-void drawGameMenu(int);
-void updateGameMenu();
+void drawGameMenu();
+void updateGameMenu(int);
 void cleanupGameMenu();
 #endif

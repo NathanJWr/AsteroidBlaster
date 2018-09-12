@@ -107,16 +107,20 @@ void setupGameMenu() {
         game_menu.upgrades_pos.h = 100;
         game_menu.upgrades_pos.x = (SCREEN_W / 2) - game_menu.upgrades_pos.w / 2;
         game_menu.upgrades_pos.y = (SCREEN_H / 2) - 100;
+        game_menu.game_over = false;
 }
 
-void updateGameMenu() {
+void updateGameMenu(int game_outcome) {
+        if(game_outcome == 1) {
+                game_menu.game_over = true;
+        }
         renderPresent();
         SDL_Color black = {0, 0, 0};
         setDrawColor(black);
         clearRender();
 }
 
-void drawGameMenu(int game_outcome) {
+void drawGameMenu() {
         if(game_menu.is_menu_selected) {
                 renderTexture(game_menu.menu_green, NULL, &game_menu.menu_pos);
         }
