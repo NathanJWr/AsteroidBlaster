@@ -10,6 +10,7 @@ struct Button {
         bool selected;
 };
 struct Button makeButton(int, SDL_Rect);
+void drawButton(struct Button);
 void destroyButton(struct Button*);
 bool checkBoundaries(int, int, SDL_Rect);
 #endif

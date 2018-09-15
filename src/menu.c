@@ -17,24 +17,18 @@ struct Button makeButton(int num_textures, SDL_Rect pos) {
 void destroyButton(struct Button* button) {
        for(int i = 0; i < button -> num_textures; i++) {
                SDL_DestroyTexture(button -> textures[i]);
+               button -> textures[i] = NULL;
        }
        free(button -> textures);
 }
-/*
 void drawButton(struct Button button) {
         if(button.selected) {
-                if(button.upgraded) {
-                        renderTexture(button.textures[2], NULL, &button.pos);
-                }
-                else {
-                        renderTexture(button.textures[1], NULL, &button.pos);
-                }
+                renderTexture(button.textures[1], NULL, &button.pos);
         }
         else {
                 renderTexture(button.textures[0], NULL, &button.pos);
         }
 }
-*/
 
 bool checkBoundaries(int x, int y, SDL_Rect rect) {
         if(x >= rect.x
