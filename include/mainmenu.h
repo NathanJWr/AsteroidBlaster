@@ -2,16 +2,10 @@
 #define MAINMENU_H
 #include <SDL2/SDL.h>
 #include <stdbool.h>
+#include "menu.h"
 struct MainMenuAssets {
-        SDL_Texture* start_white;
-        SDL_Texture* start_green;
-        SDL_Rect start_pos;
-        bool is_start_selected;
-
-        SDL_Texture* quit_white;
-        SDL_Texture* quit_green;
-        SDL_Rect quit_pos;
-        bool is_quit_selected;
+        struct Button start;
+        struct Button quit;
 
         SDL_Texture* background1;
         SDL_Texture* background2;
