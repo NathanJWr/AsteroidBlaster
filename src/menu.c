@@ -39,3 +39,25 @@ bool checkBoundaries(int x, int y, SDL_Rect rect) {
         }
         else return false;
 }
+
+char* loadText(char* path, char* title) {
+        FILE *fp = NULL;
+        fp = fopen(path, "r");
+        if(fp == NULL) {
+                printf("Failed to open file %s\n", path);
+        }
+        char* line = NULL;
+        char* description = NULL;
+        size_t len = 0;
+        size_t len2 = 0;
+        while(getline(&line,&len, fp) != -1) {
+                if(strstr(line, title)) {
+                        getline(&description, &len2, fp); 
+                }
+        }
+        fclose(fp);
+        if(description == NULL) {
+                printf("%s not found in %s\n", title, path);
+        }
+        return description;
+}

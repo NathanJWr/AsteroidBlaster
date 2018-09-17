@@ -14,7 +14,6 @@ Player_Upgrades mousePressUpgrades(SDL_MouseButtonEvent b);
 void mouseSelectUpgrades();
 void drawUpgradeButton(struct UpgradeButton button);
 void drawUpgradeText(struct UpgradeButton button);
-char* loadText(char* path, char* title);
 struct UpgradeButton makeUpgradeButton(int, int, SDL_Rect);
 
 int handleUpgradeMenuEvents(SDL_Event* e, struct Player* p) {
@@ -189,28 +188,6 @@ void drawUpgradeText(struct UpgradeButton b) {
         if(b.button.selected) {
                 renderTextBox(mouse_x, mouse_y, b.mouseover_text);
         }
-}
-
-char* loadText(char* path, char* title) {
-        FILE *fp = NULL;
-        fp = fopen(path, "r");
-        if(fp == NULL) {
-                printf("Failed to open file %s\n", path);
-        }
-        char* line = NULL;
-        char* description = NULL;
-        size_t len = 0;
-        size_t len2 = 0;
-        while(getline(&line,&len, fp) != -1) {
-                if(strstr(line, title)) {
-                        getline(&description, &len2, fp); 
-                }
-        }
-        fclose(fp);
-        if(description == NULL) {
-                printf("%s not found in %s\n", title, path);
-        }
-        return description;
 }
 
 void updateUpgradeButton(struct UpgradeButton* b) {

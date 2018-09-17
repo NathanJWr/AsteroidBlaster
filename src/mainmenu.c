@@ -161,4 +161,6 @@ void updateMainMenu() {
 }
 
 void cleanupMainMenu() {
+        destroyButton(&main_menu.start);
+        destroyButton(&main_menu.quit);
 }
