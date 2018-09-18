@@ -25,6 +25,7 @@ struct Player {
         int hitH;
         int laser_percent;
         int lives;
+        int currency;
         struct Sprite player;
         struct Sprite heart;
 

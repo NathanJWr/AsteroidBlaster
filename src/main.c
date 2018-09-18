@@ -1,6 +1,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <stdbool.h>
+#include <time.h>
 #include "display.h"
 #include "asteroid.h"
 #include "player.h"
@@ -11,6 +12,7 @@
 #include "gamemenu.h"
 #include "upgrademenu.h"
 #include "sprite.h"
+#include "currency.h"
 const int SCREEN_W = 1024;
 const int SCREEN_H = 768;
 SDL_Window* window;
@@ -21,6 +23,7 @@ enum Game_States game_state;
 struct GameObjects {
         asteroidVector asteroidV;
         bulletVector bulletV;
+        rubyVector rubyV;
         struct Player player;
         struct KeyPresses keys;
         int score;
@@ -30,6 +33,7 @@ struct GameObjects {
 void initGameObjects(struct GameObjects* g) {
         asteroidVector_init(&(g -> asteroidV));
         bulletVector_init(&(g -> bulletV));
+        rubyVector_init(&(g -> rubyV));
         g -> player = makePlayer();
         g -> keys.w = false;
         g -> keys.a = false;
@@ -43,15 +47,19 @@ void initGameObjects(struct GameObjects* g) {
 void cleanupGameObjects(struct GameObjects* g) {
           asteroidVector_free(&(g -> asteroidV));
           bulletVector_free(&(g -> bulletV));
+          rubyVector_free(&(g -> rubyV));
           playerCleanup(&(g -> player));
 }
 
-void drawCalls(asteroidVector* bv, struct Player* p, bulletVector* b, int score) {
+void drawCalls(asteroidVector* bv, struct Player* p, bulletVector* b, rubyVector* r, int score) {
         for(int i = 0; i < bv->count; i++) {
                 drawAsteroid(&(bv->asteroids[i]));
         }
         for(int i = 0; i < b -> count; i++) {
                 drawBullet(b -> bullets[i]);
+        }
+        for(int i = 0; i < r -> count; i++) {
+                drawRuby(r -> rubies[i]);
         }
         drawPlayer(*p);
         if(p -> score > score || score == 0) {
@@ -77,6 +85,7 @@ int main() {
         setupGameScreen();
         SDL_Event e;
         int game_outcome;
+        srand(time(NULL));
 
 
         while(game_state != QUIT) {
@@ -162,11 +171,13 @@ int gameLoop(struct GameObjects* game, SDL_Event* e) {
                 drawCalls(&(game -> asteroidV),
                                 &(game -> player),
                                 &(game -> bulletV),
+                                &(game -> rubyV),
                                 game -> score);
                 while(delta >= 1) {
                         ticks ++;
                         gameTick(&(game -> asteroidV),
                                         &(game -> bulletV),
+                                        &(game -> rubyV),
                                         &(game -> player),
                                         &(game -> keys),
                                         SCREEN_H);

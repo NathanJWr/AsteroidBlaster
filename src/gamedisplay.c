@@ -74,6 +74,11 @@ void drawPlayer(struct Player player) {
         renderRectangleOutline(&hitbox);
 }
 
+void drawRuby(struct Ruby ruby) {
+        SDL_Rect pos = {ruby.x, ruby.y, ruby.sizeX, ruby.sizeY};
+        renderSprite(&ruby.sprite, &pos);
+}
+
 void drawBullet(struct Bullet bullet) {
         SDL_Rect rect = {
                 bullet.x - bullet.sprite.tex_rect.w / 4,

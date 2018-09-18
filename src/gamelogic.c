@@ -1,11 +1,13 @@
 #include <stdbool.h>
 #include "gamelogic.h"
 #include "timer.h"
+#include "currency.h"
 struct Timer player_invuln_time;
 struct Timer laser_recharge_time;
 void splitLaser(bulletVector**, struct Player, int, int);
 void gameTick(asteroidVector* asteroidV,
                 bulletVector* bulletV,
+                rubyVector* rubyV,
                 struct Player* player,
                 struct KeyPresses* keys,
                 const int SCREEN_H) {
@@ -30,6 +32,7 @@ void gameTick(asteroidVector* asteroidV,
                                 bulletVector_erase(bulletV , i);
                                 player -> score++;
                                 splitLaser(&bulletV, *player, b.x, b.y);
+                                generateCurrency(rubyV, b.x, b.y);
                         }
                 }
         }
@@ -48,6 +51,14 @@ void gameTick(asteroidVector* asteroidV,
                 updateTimer(&player_invuln_time);
                 if(isTimerDone(player_invuln_time)) {
                         player -> hit = false;
+                }
+        }
+
+        for(int i = 0; i < rubyV -> count; i++) {
+                moveRuby(&(rubyV -> rubies[i]));
+                if(checkCollision_ruby(*rubyVector_get(rubyV, i), *player)) {
+                        player -> currency++;
+                        rubyVector_erase(rubyV, i);
                 }
         }
 
@@ -179,6 +190,32 @@ bool checkCollision_player(struct Asteroid asteroid, struct Player player) {
         }
         return false;
 }
+bool checkCollision_ruby(struct Ruby r, struct Player p) {
+        int leftR, leftP;
+        int rightR, rightP;
+        int topR, topP;
+        int bottomR, bottomP;
+
+        leftP = p.hitX;
+        rightP = p.hitX + p.hitW;
+        topP = p.hitY;
+        bottomP = p.hitY + p.hitH;
+
+        leftR = r.x;
+        rightR = r.x + r.sizeX;
+        topR = r.y;
+        bottomR = r.y +r.sizeY;
+
+        if(bottomP >= topR
+                        && topP <= bottomR
+                        && rightP >= leftR
+                        && leftP <= rightR
+                        ) {
+                return true;
+        }
+        return false;
+
+}
 void splitLaser(bulletVector** vec, struct Player p, int x, int y) {
         if(p.split_laser) {
                 bulletVector_add(*vec,
@@ -189,3 +226,4 @@ void splitLaser(bulletVector** vec, struct Player p, int x, int y) {
                                         y, -3, 0));
         }
 }
+

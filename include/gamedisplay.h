@@ -3,6 +3,7 @@
 #include "asteroid.h"
 #include "player.h"
 #include "bullet.h"
+#include "currency.h"
 #include <SDL2/SDL.h>
 struct Screen_Elements {
         SDL_Texture* heart;
@@ -20,6 +21,7 @@ void setupGameScreen();
 void drawHUD(int, int, int);
 void drawAsteroid(struct Asteroid*);
 void drawPlayer(struct Player);
+void drawRuby(struct Ruby);
 void drawBullet(struct Bullet);
 void cleanupGameDisplay();
 #endif

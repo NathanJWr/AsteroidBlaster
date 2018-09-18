@@ -11,6 +11,7 @@ SDL_Surface* asteroid2_exp;
 SDL_Surface* asteroid3_exp;
 SDL_Surface* bullet;
 SDL_Surface* heart;
+SDL_Surface* ruby;
 
 void querySprite(struct Sprite* sprite) {
         SDL_QueryTexture(sprite -> texture,
@@ -34,6 +35,7 @@ void setupAllSprites() {
         asteroid3_exp = loadImageSurface("assets/images/asteroid3_explode.png");
         bullet = loadImageSurface("assets/images/laser.png");
         heart = loadImageSurface("assets/images/heart.png");
+        ruby = loadImageSurface("assets/images/ruby.png");
 }
 void renderSprite(struct Sprite* sprite, SDL_Rect* pos) {
         if(sprite -> texture == NULL) {
@@ -84,6 +86,11 @@ void setupAsteroidSprite(int type, struct Sprite* asteroid,
         }
         querySprite(asteroid);
         querySprite(explosion);
+}
+
+void setupRubySprite(struct Sprite* r) {
+        r -> texture = surfaceToTextureSafe(ruby);
+        querySprite(r);
 }
 
 void cleanupSpriteSurfaces() {

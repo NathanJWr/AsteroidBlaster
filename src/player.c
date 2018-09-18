@@ -20,6 +20,7 @@ struct Player makePlayer() {
         setupPlayerSprite(&player.player);
         setupHeartSprite(&player.heart);
         player.lives = 3;
+        player.currency = 0;
 
         //Upgrades
         player.laser_regen = 1;

@@ -20,6 +20,7 @@ struct Asteroid makeAsteroid(const int SCREEN_W) {
         b.hitH = b.sizeY;
         b.explode_iterations = 0;
         setupAsteroidSprite(b.sprite_num, &b.asteroid, &b.explosion);
+        b.explosion.delay = 300;
         return b;
 }
 
