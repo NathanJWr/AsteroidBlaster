@@ -13,6 +13,7 @@ extern TTF_Font* font;
 void drawScore(int);
 void drawPlayerLives(int);
 void drawLaserPercentage(int);
+void drawPlayerCurrency(int);
 
 
 SDL_Color textColor = {255, 255, 255, 255}; //white
@@ -22,19 +23,21 @@ SDL_Rect solidRect;
 struct Screen_Elements screen;
 
 void updateGameScreen() {
-        renderTexture(screen.score, NULL, &solidRect);
         renderPresent();
 
         //Reset for next frame
         clearRender();
-        SDL_DestroyTexture(screen.score);
         renderTexture(screen.background, NULL, &screen.background_pos);
 }
 
-void drawHUD(int score, int lives, int laser_percent) {
+void drawHUD(int score,
+                int lives,
+                int laser_percent,
+                int currency) {
         drawScore(score);
         drawPlayerLives(lives);
         drawLaserPercentage(laser_percent);
+        drawPlayerCurrency(currency);
 }
 
 void drawAsteroidExplosion(struct Asteroid* asteroid, SDL_Rect* pos) {
@@ -116,6 +119,16 @@ void setupGameScreen() {
         screen.bar_pos.w = 110;
         screen.bar_pos.h = 32;
 
+        screen.ruby = loadImageTexture("assets/images/ruby_single.png");
+        screen.ruby_pos.x = 5;
+        screen.ruby_pos.y = 40;
+        screen.ruby_pos.w = 40;
+        screen.ruby_pos.h = 40;
+
+        screen.curr = 0;
+        screen.scor = 0;
+        screen.currency = createTextTexture(font, "0", textColor);
+        screen.score = createTextTexture(font, "0", textColor);
 }
 
 void drawHorizontalBar(int percent, int x, int y,
@@ -141,12 +154,17 @@ void drawLaserPercentage(int percent) {
 }
 
 void drawScore(int score) {
-        char result[50];
-        sprintf(result, "%d", score);
-        screen.score = createTextTexture(font, result, textColor);
+        if(screen.scor < score) {
+                screen.scor = score;
+                SDL_DestroyTexture(screen.score);
+                char result[50];
+                sprintf(result, "%d", score);
+                screen.score = createTextTexture(font, result, textColor);
+        }
         SDL_QueryTexture(screen.score, NULL, NULL, &solidRect.w, &solidRect.h);
         solidRect.x = SCREEN_W / 2;
         solidRect.y = 0;
+        renderTexture(screen.score, NULL, &solidRect);
 }
 
 void drawPlayerLives(int lives) {
@@ -157,4 +175,17 @@ void drawPlayerLives(int lives) {
                 renderTexture(screen.heart, NULL, &heart_pos);
                 current_pos += offset;
         }
+}
+
+void drawPlayerCurrency(int currency) {
+        SDL_Rect pos = {50, 45, 35, 35};
+        if(screen.curr < currency) {
+                screen.curr = currency;
+                SDL_DestroyTexture(screen.currency);
+                char c[50];
+                sprintf(c, "%d", currency);
+                screen.currency = createTextTexture(font, c, textColor);
+        }
+        renderTexture(screen.currency, NULL, &pos);
+        renderTexture(screen.ruby, NULL, &screen.ruby_pos);
 }

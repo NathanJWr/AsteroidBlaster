@@ -64,7 +64,7 @@ void drawCalls(asteroidVector* bv, struct Player* p, bulletVector* b, rubyVector
         drawPlayer(*p);
         if(p -> score > score || score == 0) {
                 score = p -> score;
-                drawHUD(score, p -> lives, p -> laser_percent);
+                drawHUD(score, p -> lives, p -> laser_percent, p -> currency);
         }
 }
 

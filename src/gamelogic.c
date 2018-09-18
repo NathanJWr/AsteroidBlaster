@@ -54,9 +54,12 @@ void gameTick(asteroidVector* asteroidV,
                 }
         }
 
+        //Ruby Collision
         for(int i = 0; i < rubyV -> count; i++) {
-                moveRuby(&(rubyV -> rubies[i]));
-                if(checkCollision_ruby(*rubyVector_get(rubyV, i), *player)) {
+                if(!moveRuby(&(rubyV -> rubies[i]))) {
+                        rubyVector_erase(rubyV, i);
+                }
+                else if(checkCollision_ruby(*rubyVector_get(rubyV, i), *player)) {
                         player -> currency++;
                         rubyVector_erase(rubyV, i);
                 }

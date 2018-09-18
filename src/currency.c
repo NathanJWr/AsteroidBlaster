@@ -2,6 +2,7 @@
 #include "sprite.h"
 #include <stdlib.h>
 #include <string.h>
+extern int SCREEN_H;
 struct Ruby makeRuby(int x, int y) {
         struct Ruby ruby;
         ruby.x = x;
@@ -14,8 +15,12 @@ struct Ruby makeRuby(int x, int y) {
         return ruby;
 }
 
-void moveRuby(struct Ruby* r) {
+bool moveRuby(struct Ruby* r) {
         r -> y += r -> dy;
+        if(r -> y > SCREEN_H) {
+                return false;
+        }
+        else return true;
 }
 
 void generateCurrency(rubyVector* v, int x, int y) {
@@ -61,6 +66,7 @@ void rubyVector_erase(rubyVector* v, int index) {
                 v -> rubies[i] = v -> rubies[i+1];
         }
         v -> count--;
+        printf("Ruby Erased\n");
 }
 
 void rubyVector_free(rubyVector* v) {

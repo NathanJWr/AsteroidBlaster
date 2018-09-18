@@ -1,6 +1,7 @@
 #ifndef CURRENCY_H
 #define CURRENCY_H
 #include "sprite.h"
+#include <stdbool.h>
 struct Ruby {
         int x;
         int y;
@@ -18,7 +19,7 @@ typedef struct _rVector {
 } rubyVector;
 
 struct Ruby makeRuby();
-void moveRuby(struct Ruby*);
+bool moveRuby(struct Ruby*);
 void generateCurrency(rubyVector*, int, int);
 
 void rubyVector_init(rubyVector*);
