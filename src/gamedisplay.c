@@ -179,7 +179,7 @@ void drawPlayerLives(int lives) {
 
 void drawPlayerCurrency(int currency) {
         SDL_Rect pos = {50, 45, 35, 35};
-        if(screen.curr < currency) {
+        if(screen.curr < currency || screen.curr > currency) {
                 screen.curr = currency;
                 SDL_DestroyTexture(screen.currency);
                 char c[50];

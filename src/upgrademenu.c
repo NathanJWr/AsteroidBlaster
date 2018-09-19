@@ -9,8 +9,8 @@
 extern TTF_Font* font;
 struct UpgradeMenuAssets up_menu; 
 void updateUpgradeButton(struct UpgradeButton* button);
-bool updateTimesClicked(struct UpgradeButton* button);
-Player_Upgrades mousePressUpgrades(SDL_MouseButtonEvent b);
+bool updateTimesClicked(struct UpgradeButton* button, struct Player* p);
+Player_Upgrades mousePressUpgrades(SDL_MouseButtonEvent b, struct Player* p);
 void mouseSelectUpgrades();
 void drawUpgradeButton(struct UpgradeButton button);
 void drawUpgradeText(struct UpgradeButton button);
@@ -23,7 +23,7 @@ int handleUpgradeMenuEvents(SDL_Event* e, struct Player* p) {
                         button = 0;
                 }
                 else if(e -> type == SDL_MOUSEBUTTONDOWN) {
-                        playerHandleUpgrades(mousePressUpgrades(e -> button), p);
+                        playerHandleUpgrades(mousePressUpgrades(e -> button, p), p);
                 }
                 else {
                         mouseSelectUpgrades();
@@ -44,6 +44,7 @@ void setupUpgradeMenu() {
         updateUpgradeButton(&up_menu.laser_upgrade);
         strcpy(up_menu.laser_upgrade.mouseover_text,
                         loadText(path, "Laser Regeneration"));
+        up_menu.laser_upgrade.cost = 5;
 
         /* move_speed */
         SDL_Rect moveSpeed_pos = {0, 50, 300, 50};
@@ -52,6 +53,7 @@ void setupUpgradeMenu() {
         updateUpgradeButton(&up_menu.move_speed);
         strcpy(up_menu.move_speed.mouseover_text,
                         loadText(path, "Move Speed"));
+        up_menu.move_speed.cost = 15;
 
         /* laser_split */
         SDL_Rect laserSplit_pos = {0, 100, 300, 50};
@@ -60,6 +62,7 @@ void setupUpgradeMenu() {
         updateUpgradeButton(&up_menu.laser_split);
         strcpy(up_menu.laser_split.mouseover_text,
                         loadText(path, "Laser Split"));
+        up_menu.laser_split.cost = 25;
 }
 
 void drawUpgradeMenu() {
@@ -94,22 +97,24 @@ void resetUpgradeMenu() {
         cleanupUpgradeMenu();
 }
 
-bool updateTimesClicked(struct UpgradeButton* button) {
-        if(button -> clicked < button -> max_clicks) {
+bool updateTimesClicked(struct UpgradeButton* button, struct Player* p) {
+        if(button -> clicked < button -> max_clicks
+                        && p -> currency >= button -> cost) {
                 button -> clicked++;
+                p -> currency -= button -> cost;
                 return true;
         }
         else return false;
 }
 
-Player_Upgrades mousePressUpgrades(SDL_MouseButtonEvent b) {
+Player_Upgrades mousePressUpgrades(SDL_MouseButtonEvent b, struct Player* p) {
         if(b.button == SDL_BUTTON_LEFT) {
                 if(checkBoundaries(b.x,
                         b.y,
                         up_menu.laser_upgrade.button.pos)) {
 
                         bool upgrade = 
-                                updateTimesClicked(&up_menu.laser_upgrade);
+                                updateTimesClicked(&up_menu.laser_upgrade, p);
                         updateUpgradeButton(&up_menu.laser_upgrade);
                         if(upgrade) {
                                 return LASER_REGEN;
@@ -120,7 +125,7 @@ Player_Upgrades mousePressUpgrades(SDL_MouseButtonEvent b) {
                         b.y,
                         up_menu.move_speed.button.pos)) {
 
-                        bool u = updateTimesClicked(&up_menu.move_speed);
+                        bool u = updateTimesClicked(&up_menu.move_speed, p);
                         updateUpgradeButton(&up_menu.move_speed);
                         if(u) {
                                 return MOVE_SPEED;
@@ -131,7 +136,7 @@ Player_Upgrades mousePressUpgrades(SDL_MouseButtonEvent b) {
                         b.y,
                         up_menu.laser_split.button.pos)) {
 
-                        bool u = updateTimesClicked(&up_menu.laser_split);
+                        bool u = updateTimesClicked(&up_menu.laser_split, p);
                         updateUpgradeButton(&up_menu.laser_split);
                         if(u) {
                                 return LASER_SPLIT;

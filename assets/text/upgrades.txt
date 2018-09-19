@@ -1,8 +1,8 @@
 Laser Regeneration:
-Increases the regeneration abilities of your ship. More bullets in less time! 
+Increases the regeneration abilities of your ship. More bullets in less time! (Cost: 5 Rubies)
 
 Move Speed:
-Increases the movement speed of your ship. 
+Increases the movement speed of your ship. (Cost: 15 Rubies) 
 
 Laser Split:
-Your laser beams will explode in two directions on contact with an asteroid
+Your laser beams will explode in two directions on contact with an asteroid. (Cost: 25 Rubies)

@@ -9,6 +9,7 @@ struct UpgradeButton {
         char mouseover_text[999];
         int clicked;
         int max_clicks;
+        int cost;
 };
 struct UpgradeMenuAssets {
         struct UpgradeButton laser_upgrade;
