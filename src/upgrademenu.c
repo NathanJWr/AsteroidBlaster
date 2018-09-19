@@ -46,8 +46,18 @@ void setupUpgradeMenu() {
                         loadText(path, "Laser Regeneration"));
         up_menu.laser_upgrade.cost = 5;
 
+        /* laser_cost */
+        SDL_Rect laserCost_pos = {0, 50, 300, 50};
+        up_menu.laser_cost = makeUpgradeButton(3, 3, laserCost_pos);
+        strcpy(up_menu.laser_cost.button.title,
+                        "Laser Cost (%d/%d)");
+        updateUpgradeButton(&up_menu.laser_cost);
+        strcpy(up_menu.laser_cost.mouseover_text,
+                        loadText(path, "Laser Cost"));
+        up_menu.laser_cost.cost = 5;
+
         /* move_speed */
-        SDL_Rect moveSpeed_pos = {0, 50, 300, 50};
+        SDL_Rect moveSpeed_pos = {0, 100, 300, 50};
         up_menu.move_speed = makeUpgradeButton(3, 3, moveSpeed_pos);
         strcpy(up_menu.move_speed.button.title, "Move Speed (%d/%d)");
         updateUpgradeButton(&up_menu.move_speed);
@@ -56,7 +66,7 @@ void setupUpgradeMenu() {
         up_menu.move_speed.cost = 15;
 
         /* laser_split */
-        SDL_Rect laserSplit_pos = {0, 100, 300, 50};
+        SDL_Rect laserSplit_pos = {0, 150, 300, 50};
         up_menu.laser_split = makeUpgradeButton(3, 1, laserSplit_pos);
         strcpy(up_menu.laser_split.button.title, "Laser Split (%d/%d)");
         updateUpgradeButton(&up_menu.laser_split);
@@ -67,9 +77,11 @@ void setupUpgradeMenu() {
 
 void drawUpgradeMenu() {
         drawUpgradeButton(up_menu.laser_upgrade);
+        drawUpgradeButton(up_menu.laser_cost);
         drawUpgradeButton(up_menu.move_speed);
         drawUpgradeButton(up_menu.laser_split);
         drawUpgradeText(up_menu.laser_upgrade);
+        drawUpgradeText(up_menu.laser_cost);
         drawUpgradeText(up_menu.move_speed);
         drawUpgradeText(up_menu.laser_split);
 }
@@ -113,11 +125,22 @@ Player_Upgrades mousePressUpgrades(SDL_MouseButtonEvent b, struct Player* p) {
                         b.y,
                         up_menu.laser_upgrade.button.pos)) {
 
-                        bool upgrade = 
+                        bool u = 
                                 updateTimesClicked(&up_menu.laser_upgrade, p);
                         updateUpgradeButton(&up_menu.laser_upgrade);
-                        if(upgrade) {
+                        if(u) {
                                 return LASER_REGEN;
+                        }
+                        else return NONE;
+                }
+                if(checkBoundaries(b.x,
+                        b.y,
+                        up_menu.laser_cost.button.pos)) {
+
+                        bool u = updateTimesClicked(&up_menu.laser_cost, p);
+                        updateUpgradeButton(&up_menu.laser_cost);
+                        if(u) {
+                                return LASER_COST;
                         }
                         else return NONE;
                 }
@@ -155,6 +178,12 @@ void mouseSelectUpgrades() {
         }
         else {
                 up_menu.laser_upgrade.button.selected = false;
+        }
+        if(checkBoundaries(mouse_x, mouse_y, up_menu.laser_cost.button.pos)) {
+                up_menu.laser_cost.button.selected = true;
+        }
+        else {
+                up_menu.laser_cost.button.selected = false;
         }
         if(checkBoundaries(mouse_x, mouse_y, up_menu.move_speed.button.pos)) {
                 up_menu.move_speed.button.selected = true;

@@ -13,6 +13,7 @@ struct UpgradeButton {
 };
 struct UpgradeMenuAssets {
         struct UpgradeButton laser_upgrade;
+        struct UpgradeButton laser_cost;
         struct UpgradeButton move_speed;
         struct UpgradeButton laser_split;
 };

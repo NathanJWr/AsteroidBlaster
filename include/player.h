@@ -5,6 +5,7 @@
 #include "sprite.h"
 typedef enum  {
         LASER_REGEN,
+        LASER_COST,
         MOVE_SPEED,
         LASER_SPLIT,
         NONE
@@ -31,6 +32,7 @@ struct Player {
 
         //Upgrades
         int laser_regen;
+        int laser_cost;
         int move_speed;
         bool split_laser;
 };

@@ -131,9 +131,9 @@ void movePlayer(struct KeyPresses* k, struct Player* p, bulletVector* bv) {
                 playerMoveRight(p);
         }
         if(k -> space) {
-                if(p -> laser_percent >= 50) {
+                if(p -> laser_percent >= p -> laser_cost) {
                         bulletVector_add(bv, makeBullet(p -> x + (p -> sizeX / 2), p -> y, 0, 3));
-                        p -> laser_percent -= 50;
+                        p -> laser_percent -= p -> laser_cost;
                 }
                 k -> space = false;
         }

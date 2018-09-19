@@ -1,6 +1,9 @@
 Laser Regeneration:
 Increases the regeneration abilities of your ship. More bullets in less time! (Cost: 5 Rubies)
 
+Laser Cost:
+Decreases the cost of firing your ship's laser. (Cost: 5 Rubies)
+
 Move Speed:
 Increases the movement speed of your ship. (Cost: 15 Rubies) 
 

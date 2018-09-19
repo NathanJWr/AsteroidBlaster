@@ -21,6 +21,7 @@ struct Player makePlayer() {
         setupHeartSprite(&player.heart);
         player.lives = 3;
         player.currency = 0;
+        player.laser_cost = 50;
 
         //Upgrades
         player.laser_regen = 1;
@@ -39,6 +40,9 @@ void playerHandleUpgrades(Player_Upgrades upgrade, struct Player* player) {
         switch(upgrade) {
                 case LASER_REGEN:
                         player -> laser_regen++;
+                        break;
+                case LASER_COST:
+                        player -> laser_cost -= 10;
                         break;
                 case MOVE_SPEED:
                         player -> dx += 1;
