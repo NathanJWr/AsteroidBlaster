@@ -103,4 +103,5 @@ void cleanupSpriteSurfaces() {
         SDL_FreeSurface(asteroid3_exp);
         SDL_FreeSurface(bullet);
         SDL_FreeSurface(heart);
+        SDL_FreeSurface(ruby);
 }

@@ -21,12 +21,12 @@ struct Player makePlayer() {
         setupHeartSprite(&player.heart);
         player.lives = 3;
         player.currency = 0;
-        player.laser_cost = 50;
 
         //Upgrades
         player.laser_regen = 1;
         player.move_speed = 1;
         player.split_laser = false;
+        player.laser_cost = 50;
         return player;
 }
 void playerMoveUp(struct Player* p) {
@@ -39,7 +39,9 @@ void playerMoveUp(struct Player* p) {
 void playerHandleUpgrades(Player_Upgrades upgrade, struct Player* player) {
         switch(upgrade) {
                 case LASER_REGEN:
+                        printf("%d\n", player -> laser_regen);
                         player -> laser_regen++;
+                        printf("%d\n", player -> laser_regen);
                         break;
                 case LASER_COST:
                         player -> laser_cost -= 10;

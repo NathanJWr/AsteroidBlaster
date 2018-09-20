@@ -35,6 +35,7 @@ int handleUpgradeMenuEvents(SDL_Event* e, struct Player* p) {
 
 void setupUpgradeMenu() {
         char* path = "assets/text/upgrades.txt";
+        char* text;
 
         /* laser_upgrade  */
         SDL_Rect laser_pos = {0, 0, 350, 50};
@@ -42,9 +43,11 @@ void setupUpgradeMenu() {
         strcpy(up_menu.laser_upgrade.button.title,
                         "Laser Regeneration (%d/%d)");
         updateUpgradeButton(&up_menu.laser_upgrade);
+        text = loadText(path, "Laser Regeneration");
         strcpy(up_menu.laser_upgrade.mouseover_text,
-                        loadText(path, "Laser Regeneration"));
-        up_menu.laser_upgrade.cost = 5;
+                        text);
+        free(text);
+        up_menu.laser_upgrade.cost = 0;
 
         /* laser_cost */
         SDL_Rect laserCost_pos = {0, 50, 300, 50};
@@ -52,8 +55,10 @@ void setupUpgradeMenu() {
         strcpy(up_menu.laser_cost.button.title,
                         "Laser Cost (%d/%d)");
         updateUpgradeButton(&up_menu.laser_cost);
+        text = loadText(path, "Laser Cost");
         strcpy(up_menu.laser_cost.mouseover_text,
-                        loadText(path, "Laser Cost"));
+                        text);
+        free(text);
         up_menu.laser_cost.cost = 5;
 
         /* move_speed */
@@ -61,8 +66,10 @@ void setupUpgradeMenu() {
         up_menu.move_speed = makeUpgradeButton(3, 3, moveSpeed_pos);
         strcpy(up_menu.move_speed.button.title, "Move Speed (%d/%d)");
         updateUpgradeButton(&up_menu.move_speed);
+        text = loadText(path, "Move Speed");
         strcpy(up_menu.move_speed.mouseover_text,
-                        loadText(path, "Move Speed"));
+                        text);
+        free(text);
         up_menu.move_speed.cost = 15;
 
         /* laser_split */
@@ -70,8 +77,10 @@ void setupUpgradeMenu() {
         up_menu.laser_split = makeUpgradeButton(3, 1, laserSplit_pos);
         strcpy(up_menu.laser_split.button.title, "Laser Split (%d/%d)");
         updateUpgradeButton(&up_menu.laser_split);
+        text = loadText(path, "Laser Split");
         strcpy(up_menu.laser_split.mouseover_text,
-                        loadText(path, "Laser Split"));
+                        text);
+        free(text);
         up_menu.laser_split.cost = 25;
 }
 
@@ -95,18 +104,17 @@ void updateUpgradeMenu() {
 }
 
 void cleanupUpgradeMenu() {
-        for(int i = 0; i < up_menu.laser_upgrade.button.num_textures; i++) {
-                SDL_DestroyTexture(up_menu.laser_upgrade.button.textures[i]);
-        }
-        for(int i = 0; i < up_menu.move_speed.button.num_textures; i++) {
-                SDL_DestroyTexture(up_menu.move_speed.button.textures[i]);
-        }
+        destroyButton(&up_menu.laser_upgrade.button);
+        destroyButton(&up_menu.move_speed.button);
+        destroyButton(&up_menu.laser_split.button);
+        destroyButton(&up_menu.laser_cost.button);
 }
 void resetUpgradeMenu() {
         up_menu.laser_upgrade.clicked = 0;
         up_menu.laser_split.clicked = 0;
         up_menu.move_speed.clicked = 0;
-        cleanupUpgradeMenu();
+        up_menu.laser_cost.clicked = 0;
+     //   cleanupUpgradeMenu();
 }
 
 bool updateTimesClicked(struct UpgradeButton* button, struct Player* p) {
@@ -114,6 +122,9 @@ bool updateTimesClicked(struct UpgradeButton* button, struct Player* p) {
                         && p -> currency >= button -> cost) {
                 button -> clicked++;
                 p -> currency -= button -> cost;
+                if(button -> clicked == button -> max_clicks) {
+                        button -> upgraded = true;
+                }
                 return true;
         }
         else return false;
@@ -129,6 +140,7 @@ Player_Upgrades mousePressUpgrades(SDL_MouseButtonEvent b, struct Player* p) {
                                 updateTimesClicked(&up_menu.laser_upgrade, p);
                         updateUpgradeButton(&up_menu.laser_upgrade);
                         if(u) {
+                                printf("Laser Regen Selected\n");
                                 return LASER_REGEN;
                         }
                         else return NONE;
@@ -200,15 +212,13 @@ void mouseSelectUpgrades() {
 }
 
 void drawUpgradeButton(struct UpgradeButton b) {
-        if(b.button.selected) {
-                if(b.upgraded) {
-                        renderTexture(b.button.textures[2],
+        if(b.upgraded) {
+                renderTexture(b.button.textures[2],
+                                NULL, &b.button.pos);
+        }
+        else if(b.button.selected) {
+                renderTexture(b.button.textures[1],
                                         NULL, &b.button.pos);
-                }
-                else {
-                        renderTexture(b.button.textures[1],
-                                        NULL, &b.button.pos);
-                }
         }
         else {
                 renderTexture(b.button.textures[0],

@@ -74,14 +74,12 @@ void mainMenuLoop(SDL_Event* e);
 void gameMenuLoop(SDL_Event* e, int game_outcome);
 void upgradeMenuLoop(SDL_Event* e, struct Player* player);
 int main() {
+        bool game_init = false;
+        bool upgrade_init = false;
         setupAllSprites();
         game_state = MAIN_MENU;
         initVideo(SCREEN_W, SCREEN_H);
         struct GameObjects gameObjects;
-        initGameObjects(&gameObjects);
-        setupMainMenu();
-        setupGameMenu();
-        setupUpgradeMenu();
         setupGameScreen();
         SDL_Event e;
         int game_outcome;
@@ -89,28 +87,47 @@ int main() {
 
 
         while(game_state != QUIT) {
-                if(game_state == MAIN_MENU) {
-                        resetUpgradeMenu();
-                        setupUpgradeMenu();
-                        cleanupGameObjects(&gameObjects);
-                        initGameObjects(&gameObjects);
-                        mainMenuLoop(&e);
-                }
-                else if(game_state == GAME_MENU) {
-                        gameMenuLoop(&e, game_outcome);
-                }
-                else if(game_state == UPGRADE_MENU) {
-                        upgradeMenuLoop(&e, &(gameObjects.player));
-                }
-                else if(game_state == GAME) {
-                        gameObjects.running = true;
-                        game_outcome = gameLoop(&gameObjects, &e);
+                switch(game_state) {
+                        case MAIN_MENU:
+                                setupMainMenu();
+                                if(game_init) {
+                                        cleanupGameObjects(&gameObjects);
+                                        game_init = false;
+                                }
+                                if(upgrade_init) {
+                                        cleanupUpgradeMenu();
+                                        resetUpgradeMenu();
+                                        upgrade_init = false;
+                                }
+                                mainMenuLoop(&e);
+                                cleanupMainMenu();
+                                break;
+                        case GAME_MENU:
+                                setupGameMenu();
+                                gameMenuLoop(&e, game_outcome);
+                                cleanupGameMenu();
+                                break;
+                        case UPGRADE_MENU:
+                                if(!upgrade_init) {
+                                        setupUpgradeMenu();
+                                        resetUpgradeMenu();
+                                        upgrade_init = true;
+                                }
+                                upgradeMenuLoop(&e, &(gameObjects.player));
+                                break;
+                        case GAME:
+                                if(!game_init) {
+                                        initGameObjects(&gameObjects);
+                                        game_init = true;
+                                }
+                                gameObjects.running = true;
+                                game_outcome = gameLoop(&gameObjects, &e);
+                                break;
+                        case QUIT:
+                                break;
+                                
                 }
         }
-        cleanupMainMenu();
-        cleanupGameMenu();
-        cleanupUpgradeMenu();
-        cleanupGameObjects(&gameObjects);
         cleanupGameDisplay();
         cleanupSpriteSurfaces();
         killVideo();

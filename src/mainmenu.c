@@ -6,7 +6,6 @@
 #include <stdio.h>
 extern const int SCREEN_W;
 extern const int SCREEN_H;
-extern SDL_Window* window;
 extern TTF_Font* font;
 
 struct MainMenuAssets main_menu;
@@ -163,4 +162,7 @@ void updateMainMenu() {
 void cleanupMainMenu() {
         destroyButton(&main_menu.start);
         destroyButton(&main_menu.quit);
+        SDL_DestroyTexture(main_menu.background1);
+        SDL_DestroyTexture(main_menu.background2);
+        SDL_DestroyTexture(main_menu.logo);
 }

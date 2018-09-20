@@ -154,7 +154,7 @@ void drawLaserPercentage(int percent) {
 }
 
 void drawScore(int score) {
-        if(screen.scor < score) {
+        if(screen.scor < score || screen.scor > score) {
                 screen.scor = score;
                 SDL_DestroyTexture(screen.score);
                 char result[50];

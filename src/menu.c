@@ -56,6 +56,7 @@ char* loadText(char* path, char* title) {
                 }
         }
         fclose(fp);
+        free(line);
         if(description == NULL) {
                 printf("%s not found in %s\n", title, path);
         }
