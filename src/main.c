@@ -76,11 +76,11 @@ void upgradeMenuLoop(SDL_Event* e, struct Player* player);
 int main() {
         bool game_init = false;
         bool upgrade_init = false;
-        setupAllSprites();
         game_state = MAIN_MENU;
         initVideo(SCREEN_W, SCREEN_H);
+        setupAllSprites();
+        initDisplayObjects();
         struct GameObjects gameObjects;
-        setupGameScreen();
         SDL_Event e;
         int game_outcome;
         srand(time(NULL));
@@ -92,6 +92,7 @@ int main() {
                                 setupMainMenu();
                                 if(game_init) {
                                         cleanupGameObjects(&gameObjects);
+                                        cleanupGameDisplay();
                                         game_init = false;
                                 }
                                 if(upgrade_init) {
@@ -118,6 +119,7 @@ int main() {
                         case GAME:
                                 if(!game_init) {
                                         initGameObjects(&gameObjects);
+                                        setupGameScreen();
                                         game_init = true;
                                 }
                                 gameObjects.running = true;
@@ -128,8 +130,8 @@ int main() {
                                 
                 }
         }
-        cleanupGameDisplay();
         cleanupSpriteSurfaces();
+        cleanDisplayObjects();
         killVideo();
         return 0;
 }
@@ -169,7 +171,7 @@ void upgradeMenuLoop(SDL_Event* e, struct Player* player) {
         while(decision == -1) {
                 decision = handleUpgradeMenuEvents(e, player);
                 updateUpgradeMenu();
-                drawUpgradeMenu();
+                drawUpgradeMenu(player -> currency);
         }
         game_state = GAME_MENU;
 }

@@ -7,6 +7,7 @@ extern SDL_Window* window;
 extern SDL_Renderer* renderer;
 extern TTF_Font* font;
 TTF_Font* ubuntu;
+struct Display_Objects displayObs;
 bool initVideo(const int SCREEN_W, const int SCREEN_H) {
         bool success = true;
         if(SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -145,9 +146,43 @@ void renderTextBox(int x, int y, char text[]) {
         renderTexture(tex, NULL, &text_box);
         SDL_DestroyTexture(tex);
 }
+
+void initDisplayObjects() {
+        displayObs.ruby = loadImageTexture("assets/images/ruby_single.png");
+        displayObs.curr = NULL;
+        displayObs.currency = 0;
+}
+
+void cleanDisplayObjects() {
+        SDL_DestroyTexture(displayObs.ruby);
+        SDL_DestroyTexture(displayObs.curr);
+}
+
+void drawPlayerCurrency(int currency, SDL_Rect* pos) {
+        SDL_Color white = {255, 255, 255};
+        SDL_Rect pos1 ;
+        pos1.x = pos -> x + 50;
+        pos1.y = pos -> y;
+        pos1.w = pos -> w;
+        pos1.h = pos -> h;
+        if(displayObs.currency == 0 
+                        || displayObs.currency < currency 
+                        || displayObs.currency > currency) {
+                displayObs.currency = currency;
+                SDL_DestroyTexture(displayObs.curr);
+                char c[50];
+                sprintf(c, "%d", currency);
+                displayObs.curr = createTextTexture(font, c, white);
+        }
+        renderTexture(displayObs.curr, NULL, &pos1);
+        renderTexture(displayObs.ruby, NULL, pos);
+}
         
 
-void renderTexture(SDL_Texture* texture, SDL_Rect* source, SDL_Rect* destination) {
+void renderTexture(SDL_Texture* texture,
+                SDL_Rect* source,
+                SDL_Rect* destination) {
+
         SDL_RenderCopy(renderer, texture, source, destination);
 }
 

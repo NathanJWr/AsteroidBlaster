@@ -2,6 +2,9 @@
 #include <stdio.h>
 #include "menu.h"
 #include "display.h"
+extern TTF_Font* font;
+int menu_currency;
+bool currency_init;
 struct Button makeButton(int num_textures, SDL_Rect pos) {
         struct Button button;
         button.selected = false;

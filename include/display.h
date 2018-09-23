@@ -3,8 +3,16 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <stdbool.h>
+        struct Display_Objects {
+                SDL_Texture* ruby;
+                SDL_Texture* curr;
+                bool ruby_init;
+                int currency;
+        };
         bool initVideo();
         void killVideo();
+        void initDisplayObjects();
+        void cleanDisplayObjects();
         SDL_Texture* surfaceToTexture(SDL_Surface*);
         SDL_Texture* surfaceToTextureSafe(SDL_Surface*);
         SDL_Texture* createTextTexture(TTF_Font*, char*, SDL_Color);

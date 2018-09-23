@@ -2,6 +2,7 @@
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
 #include <stdbool.h>
+#include "menu.h"
 #include "display.h"
 #include "gamedisplay.h"
 #include "sprite.h"
@@ -13,7 +14,6 @@ extern TTF_Font* font;
 void drawScore(int);
 void drawPlayerLives(int);
 void drawLaserPercentage(int);
-void drawPlayerCurrency(int);
 
 
 SDL_Color textColor = {255, 255, 255, 255}; //white
@@ -37,7 +37,8 @@ void drawHUD(int score,
         drawScore(score);
         drawPlayerLives(lives);
         drawLaserPercentage(laser_percent);
-        drawPlayerCurrency(currency);
+        SDL_Rect pos = {15, 45, 35, 35};
+        drawPlayerCurrency(currency, &pos);
 }
 
 void drawAsteroidExplosion(struct Asteroid* asteroid, SDL_Rect* pos) {
@@ -98,6 +99,8 @@ void drawBullet(struct Bullet bullet) {
 void cleanupGameDisplay() {
         SDL_DestroyTexture(screen.score);
         SDL_DestroyTexture(screen.background);
+        SDL_DestroyTexture(screen.heart);
+        SDL_DestroyTexture(screen.empty_bar);
 }
 
 void setupGameScreen() {
@@ -119,15 +122,6 @@ void setupGameScreen() {
         screen.bar_pos.w = 110;
         screen.bar_pos.h = 32;
 
-        screen.ruby = loadImageTexture("assets/images/ruby_single.png");
-        screen.ruby_pos.x = 5;
-        screen.ruby_pos.y = 40;
-        screen.ruby_pos.w = 40;
-        screen.ruby_pos.h = 40;
-
-        screen.curr = 0;
-        screen.scor = 0;
-        screen.currency = createTextTexture(font, "0", textColor);
         screen.score = createTextTexture(font, "0", textColor);
 }
 
@@ -175,17 +169,4 @@ void drawPlayerLives(int lives) {
                 renderTexture(screen.heart, NULL, &heart_pos);
                 current_pos += offset;
         }
-}
-
-void drawPlayerCurrency(int currency) {
-        SDL_Rect pos = {50, 45, 35, 35};
-        if(screen.curr < currency || screen.curr > currency) {
-                screen.curr = currency;
-                SDL_DestroyTexture(screen.currency);
-                char c[50];
-                sprintf(c, "%d", currency);
-                screen.currency = createTextTexture(font, c, textColor);
-        }
-        renderTexture(screen.currency, NULL, &pos);
-        renderTexture(screen.ruby, NULL, &screen.ruby_pos);
 }

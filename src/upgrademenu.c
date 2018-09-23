@@ -37,6 +37,8 @@ void setupUpgradeMenu() {
         char* path = "assets/text/upgrades.txt";
         char* text;
 
+        up_menu.ruby = loadImageTexture("assets/images/ruby_single.png");
+
         /* laser_upgrade  */
         SDL_Rect laser_pos = {0, 0, 350, 50};
         up_menu.laser_upgrade = makeUpgradeButton(3, 3, laser_pos); 
@@ -84,7 +86,7 @@ void setupUpgradeMenu() {
         up_menu.laser_split.cost = 25;
 }
 
-void drawUpgradeMenu() {
+void drawUpgradeMenu(int currency) {
         drawUpgradeButton(up_menu.laser_upgrade);
         drawUpgradeButton(up_menu.laser_cost);
         drawUpgradeButton(up_menu.move_speed);
@@ -93,7 +95,10 @@ void drawUpgradeMenu() {
         drawUpgradeText(up_menu.laser_cost);
         drawUpgradeText(up_menu.move_speed);
         drawUpgradeText(up_menu.laser_split);
+        SDL_Rect currency_pos = {920, 15, 30, 30};
+        drawPlayerCurrency(currency, &currency_pos);
 }
+
 
 void updateUpgradeMenu() {
         renderPresent();

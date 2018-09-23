@@ -12,6 +12,8 @@ struct UpgradeButton {
         int cost;
 };
 struct UpgradeMenuAssets {
+        SDL_Texture* ruby;
+        SDL_Texture* currency;
         struct UpgradeButton laser_upgrade;
         struct UpgradeButton laser_cost;
         struct UpgradeButton move_speed;
@@ -19,7 +21,7 @@ struct UpgradeMenuAssets {
 };
 int handleUpgradeMenuEvents(SDL_Event*, struct Player*);
 void setupUpgradeMenu();
-void drawUpgradeMenu();
+void drawUpgradeMenu(int);
 void updateUpgradeMenu();
 void cleanupUpgradeMenu();
 void resetUpgradeMenu();
