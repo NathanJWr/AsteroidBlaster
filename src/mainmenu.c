@@ -71,9 +71,9 @@ int handleMainMenuEvents(SDL_Event* const e) {
         return button;
 }
 
-void updateMainMenuButton(struct Button* const b) {
-        SDL_Color white = {255, 255, 255};
-        SDL_Color green = {144, 245, 0};
+void updateMainMenuButton(Button* const b) {
+        SDL_Color white = {255, 255, 255, 255};
+        SDL_Color green = {144, 245, 0, 255};
         
         for(int i =0; i < b -> num_textures; i++) {
                 if(b -> textures[i] != NULL) {
@@ -87,7 +87,7 @@ void updateMainMenuButton(struct Button* const b) {
                         b -> title, green);
 }
 
-void drawMainMenuButton(struct Button b) {
+void drawMainMenuButton(Button b) {
         if(b.selected) {
                 renderTexture(b.textures[1], NULL, &b.pos);
         }
@@ -142,7 +142,7 @@ void drawMainMenu() {
 
 void updateMainMenu() {
         renderPresent();
-        SDL_Color black = {0, 0, 0};
+        SDL_Color black = {0, 0, 0, 255};
         setDrawColor(black);
         clearRender();
 

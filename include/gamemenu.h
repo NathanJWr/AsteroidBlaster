@@ -4,9 +4,9 @@
 #include <stdbool.h>
 #include "menu.h"
 struct GameMenuAssets {
-        struct Button cont;
-        struct Button upgrades;
-        struct Button menu;
+        Button cont;
+        Button upgrades;
+        Button menu;
         
         bool game_over;
 };

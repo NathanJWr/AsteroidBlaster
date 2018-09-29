@@ -3,23 +3,23 @@
 #include <SDL2/SDL.h>
 #include "player.h"
 #include "menu.h"
-struct UpgradeButton {
-        struct Button button;
+typedef struct _UpgradeButton {
+        Button button;
         bool upgraded;
         char mouseover_text[999];
         int clicked;
         int max_clicks;
         int cost;
-};
+} UpgradeButton;
 struct UpgradeMenuAssets {
         SDL_Texture* ruby;
         SDL_Texture* currency;
-        struct UpgradeButton laser_upgrade;
-        struct UpgradeButton laser_cost;
-        struct UpgradeButton move_speed;
-        struct UpgradeButton laser_split;
+        UpgradeButton laser_upgrade;
+        UpgradeButton laser_cost;
+        UpgradeButton move_speed;
+        UpgradeButton laser_split;
 };
-int handleUpgradeMenuEvents(SDL_Event*, struct Player*);
+int handleUpgradeMenuEvents(SDL_Event*, Player*);
 void setupUpgradeMenu();
 void drawUpgradeMenu(int);
 void updateUpgradeMenu();

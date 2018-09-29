@@ -3,8 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 extern int SCREEN_H;
-struct Ruby makeRuby(int x, int y) {
-        struct Ruby ruby;
+Ruby makeRuby(int x, int y) {
+        Ruby ruby;
         ruby.x = x;
         ruby.y = y;
         ruby.dy = 2;
@@ -15,7 +15,7 @@ struct Ruby makeRuby(int x, int y) {
         return ruby;
 }
 
-bool moveRuby(struct Ruby* const r) {
+bool moveRuby(Ruby* const r) {
         r -> y += r -> dy;
         if(r -> y > SCREEN_H) {
                 return false;
@@ -36,7 +36,7 @@ void rubyVector_init(rubyVector* const v) {
         v->count = 0;
 }
 
-void rubyVector_add(rubyVector* const v, struct Ruby b) {
+void rubyVector_add(rubyVector* const v, Ruby b) {
         if(v->size == 0) {
                 v->size = 10;
                 v->rubies = malloc(sizeof(b) * v->size);
@@ -50,7 +50,7 @@ void rubyVector_add(rubyVector* const v, struct Ruby b) {
         v->count++;
 }
 
-struct Ruby* rubyVector_get(rubyVector* const v, int index) {
+Ruby* rubyVector_get(rubyVector* const v, int index) {
         if(index >= v->size || index < 0) {
                 exit(1);
         }

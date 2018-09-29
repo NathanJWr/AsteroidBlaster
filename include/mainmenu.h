@@ -4,8 +4,8 @@
 #include <stdbool.h>
 #include "menu.h"
 struct MainMenuAssets {
-        struct Button start;
-        struct Button quit;
+        Button start;
+        Button quit;
 
         SDL_Texture* background1;
         SDL_Texture* background2;

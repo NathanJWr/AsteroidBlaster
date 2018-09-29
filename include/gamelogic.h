@@ -14,15 +14,15 @@ struct KeyPresses {
         bool space;
         bool escape;
 };
-bool checkCollision_player(struct Asteroid, struct Player);
-bool checkCollision_bullet(struct Asteroid, struct Bullet);
-bool checkCollision_ruby(struct Ruby r, struct Player p);
+bool checkCollision_player(Asteroid, Player);
+bool checkCollision_bullet(Asteroid, Bullet);
+bool checkCollision_ruby(Ruby r, Player p);
 bool handleEvents(SDL_Event*, struct KeyPresses*);
-void movePlayer(struct KeyPresses*, struct Player*, bulletVector*);
+void movePlayer(struct KeyPresses*, Player*, bulletVector*);
 void gameTick(asteroidVector*,
                 bulletVector*,
                 rubyVector*,
-                struct Player*,
+                Player*,
                 struct KeyPresses*,
                 const int);
 #endif

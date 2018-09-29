@@ -8,15 +8,15 @@
 #include "player.h"
 extern TTF_Font* font;
 struct UpgradeMenuAssets up_menu; 
-void updateUpgradeButton(struct UpgradeButton* button);
-bool updateTimesClicked(struct UpgradeButton* button, struct Player* p);
-Player_Upgrades mousePressUpgrades(SDL_MouseButtonEvent b, struct Player* p);
+void updateUpgradeButton(UpgradeButton* button);
+bool updateTimesClicked(UpgradeButton* button, Player* p);
+Player_Upgrades mousePressUpgrades(SDL_MouseButtonEvent b, Player* p);
 void mouseSelectUpgrades();
-void drawUpgradeButton(struct UpgradeButton button);
-void drawUpgradeText(struct UpgradeButton button);
-struct UpgradeButton makeUpgradeButton(int, int, SDL_Rect);
+void drawUpgradeButton(UpgradeButton button);
+void drawUpgradeText(UpgradeButton button);
+UpgradeButton makeUpgradeButton(int, int, SDL_Rect);
 
-int handleUpgradeMenuEvents(SDL_Event* const e, struct Player* const p) {
+int handleUpgradeMenuEvents(SDL_Event* const e, Player* const p) {
         int button = -1;
         while(SDL_PollEvent(e)) {
                 if(e -> type == SDL_QUIT) {
@@ -102,7 +102,7 @@ void drawUpgradeMenu(int currency) {
 
 void updateUpgradeMenu() {
         renderPresent();
-        SDL_Color black = {0, 0, 0};
+        SDL_Color black = {0, 0, 0, 255};
         setDrawColor(black);
         clearRender();
         SDL_Delay(10);
@@ -122,8 +122,8 @@ void resetUpgradeMenu() {
      //   cleanupUpgradeMenu();
 }
 
-bool updateTimesClicked(struct UpgradeButton* const button,
-                struct Player* const p) {
+bool updateTimesClicked(UpgradeButton* const button,
+                Player* const p) {
 
         if(button -> clicked < button -> max_clicks
                         && p -> currency >= button -> cost) {
@@ -138,7 +138,7 @@ bool updateTimesClicked(struct UpgradeButton* const button,
 }
 
 Player_Upgrades mousePressUpgrades(SDL_MouseButtonEvent b,
-                struct Player* const p) {
+                Player* const p) {
 
         if(b.button == SDL_BUTTON_LEFT) {
                 if(checkBoundaries(b.x,
@@ -220,7 +220,7 @@ void mouseSelectUpgrades() {
         }
 }
 
-void drawUpgradeButton(struct UpgradeButton b) {
+void drawUpgradeButton(UpgradeButton b) {
         if(b.upgraded) {
                 renderTexture(b.button.textures[2],
                                 NULL, &b.button.pos);
@@ -235,7 +235,7 @@ void drawUpgradeButton(struct UpgradeButton b) {
         }
 }
 
-void drawUpgradeText(struct UpgradeButton b) {
+void drawUpgradeText(UpgradeButton b) {
         int mouse_x, mouse_y;
         SDL_GetMouseState(&mouse_x, &mouse_y);
         if(b.button.selected) {
@@ -243,10 +243,10 @@ void drawUpgradeText(struct UpgradeButton b) {
         }
 }
 
-void updateUpgradeButton(struct UpgradeButton* const b) {
-        SDL_Color white = {255, 255, 255};
-        SDL_Color green = {144, 245, 0};
-        SDL_Color yellow = {255, 255, 0};
+void updateUpgradeButton(UpgradeButton* const b) {
+        SDL_Color white = {255, 255, 255, 255};
+        SDL_Color green = {144, 245, 0, 255};
+        SDL_Color yellow = {255, 255, 0, 255};
         
         for(int i = 0; i < b -> button.num_textures; i++) {
                 if(b -> button.textures[i] != NULL) {
@@ -266,11 +266,11 @@ void updateUpgradeButton(struct UpgradeButton* const b) {
                         buffer, green);
 }
 
-struct UpgradeButton makeUpgradeButton(int num_tex,
+UpgradeButton makeUpgradeButton(int num_tex,
                 int max_clicks,
                 SDL_Rect pos) {
         
-        struct UpgradeButton u;
+        UpgradeButton u;
         u.upgraded = false;
         u.max_clicks = max_clicks;
         u.clicked = 0;

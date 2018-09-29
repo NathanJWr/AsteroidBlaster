@@ -2,8 +2,8 @@
 #include "player.h"
 extern const int SCREEN_W;
 extern const int SCREEN_H;
-struct Player makePlayer() {
-        struct Player player;
+Player makePlayer() {
+        Player player;
         player.x = SCREEN_W / 2;
         player.y = SCREEN_H / 2;
         player.dx = 2;
@@ -30,7 +30,7 @@ struct Player makePlayer() {
         return player;
 }
 
-void playerMoveUp(struct Player* const p) {
+void playerMoveUp(Player* const p) {
         if(p -> y  > 0){
                 p -> y -= p -> dy;
                 p -> hitY -= p -> dy;
@@ -38,7 +38,7 @@ void playerMoveUp(struct Player* const p) {
 }
 
 void playerHandleUpgrades(Player_Upgrades upgrade,
-                struct Player* const player) {
+                Player* const player) {
 
         switch(upgrade) {
                 case LASER_REGEN:
@@ -61,27 +61,27 @@ void playerHandleUpgrades(Player_Upgrades upgrade,
         }
 }
 
-void playerMoveDown(struct Player* const p) {
+void playerMoveDown(Player* const p) {
         if(p -> y + p -> sizeY < SCREEN_H) {
                 p -> y += p -> dy;
                 p -> hitY += p -> dy;
         }
 }
 
-void playerMoveLeft(struct Player* const p) {
+void playerMoveLeft(Player* const p) {
         if(p -> x > 0) {
                 p -> x -= p -> dx;
                 p -> hitX -= p -> dx;
         }
 }
 
-void playerMoveRight(struct Player* const p) {
+void playerMoveRight(Player* const p) {
         if(p -> x + p -> sizeX < SCREEN_W) {
                 p -> x += p -> dx;
                 p -> hitX += p -> dx;
         }
 }
-void playerCleanup(struct Player* const p) {
+void playerCleanup(Player* const p) {
         destroySprite(&(p -> player));
         destroySprite(&(p -> heart));
         p -> lives = 3;

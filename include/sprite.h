@@ -1,20 +1,20 @@
 #ifndef SPRITE_H
 #define SPRITE_H
 #include <SDL2/SDL.h>
-struct Sprite {
+typedef struct _Sprite {
         SDL_Texture* texture;
         SDL_Rect tex_rect;
         int tot_frames;
         int current_frame;
         int delay;
-};
+} Sprite;
 void setupAllSprites();
-void renderSprite(struct Sprite*, SDL_Rect*);
-void destroySprite(struct Sprite*);
-void setupHeartSprite(struct Sprite*);
-void setupPlayerSprite(struct Sprite*);
-void setupBulletSprite(struct Sprite*);
-void setupRubySprite(struct Sprite*);
-void setupAsteroidSprite(int, struct Sprite*, struct Sprite*);
+void renderSprite(Sprite*, SDL_Rect*);
+void destroySprite(Sprite*);
+void setupHeartSprite(Sprite*);
+void setupPlayerSprite(Sprite*);
+void setupBulletSprite(Sprite*);
+void setupRubySprite(Sprite*);
+void setupAsteroidSprite(int, Sprite*, Sprite*);
 void cleanupSpriteSurfaces();
 #endif

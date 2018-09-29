@@ -41,7 +41,7 @@ void drawHUD(int score,
         drawPlayerCurrency(currency, &pos);
 }
 
-void drawAsteroidExplosion(struct Asteroid* const asteroid,
+void drawAsteroidExplosion(Asteroid* const asteroid,
                 SDL_Rect* const pos) {
 
         if(asteroid -> explode_iterations < 500) {
@@ -50,7 +50,7 @@ void drawAsteroidExplosion(struct Asteroid* const asteroid,
         }
 }
 
-void drawAsteroid(struct Asteroid* const asteroid) {
+void drawAsteroid(Asteroid* const asteroid) {
         SDL_Rect pos = {
                asteroid -> x,
                asteroid -> y,
@@ -62,37 +62,37 @@ void drawAsteroid(struct Asteroid* const asteroid) {
         }
         renderSprite(&(asteroid -> asteroid), &pos);
         SDL_Rect hitbox = {asteroid -> hitX, asteroid -> hitY, asteroid -> hitW, asteroid -> hitH};
-        SDL_Color green = {144, 245, 0};
+        SDL_Color green = {144, 245, 0, 255};
         setDrawColor(green);
         renderRectangleOutline(&hitbox);
 }
 
-void drawPlayer(struct Player player) {
+void drawPlayer(Player player) {
         SDL_Rect pos = {
                 player.x,
                 player.y,
                 player.sizeX,
                 player.sizeY};
         renderSprite(&player.player, &pos);
-        SDL_Color green = {144, 245, 0};
+        SDL_Color green = {144, 245, 0, 255};
         setDrawColor(green);
         SDL_Rect hitbox = {player.hitX, player.hitY, player.hitW, player.hitH};
         renderRectangleOutline(&hitbox);
 }
 
-void drawRuby(struct Ruby ruby) {
+void drawRuby(Ruby ruby) {
         SDL_Rect pos = {ruby.x, ruby.y, ruby.sizeX, ruby.sizeY};
         renderSprite(&ruby.sprite, &pos);
 }
 
-void drawBullet(struct Bullet bullet) {
+void drawBullet(Bullet bullet) {
         SDL_Rect rect = {
                 bullet.x - bullet.sprite.tex_rect.w / 4,
                 bullet.y,
                 bullet.sizeX,
                 bullet.sizeY};
         renderSprite(&bullet.sprite, &rect);
-        SDL_Color green = {144, 245, 0};
+        SDL_Color green = {144, 245, 0, 255};
         setDrawColor(green);
         SDL_Rect hitbox = {bullet.hitX, bullet.hitY, bullet.hitW, bullet.hitH};
         renderRectangleOutline(&hitbox);
@@ -140,8 +140,8 @@ void drawHorizontalBar(int percent, int x, int y,
 }
 
 void drawLaserPercentage(int percent) {
-       SDL_Color blue = {144, 245, 0, 0};
-       SDL_Color red = {255, 0, 0, 0};
+       SDL_Color blue = {144, 245, 0, 255};
+       SDL_Color red = {255, 0, 0, 255};
        drawHorizontalBar(percent, screen.laser_pos.x,
                        screen.laser_pos.y,
                        screen.laser_pos.w,

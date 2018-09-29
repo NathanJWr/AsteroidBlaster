@@ -2,13 +2,13 @@
 #include "gamelogic.h"
 #include "timer.h"
 #include "currency.h"
-struct Timer player_invuln_time;
-struct Timer laser_recharge_time;
-void splitLaser(bulletVector*, struct Player, int, int);
+Timer player_invuln_time;
+Timer laser_recharge_time;
+void splitLaser(bulletVector*, Player, int, int);
 void gameTick(asteroidVector* const asteroidV,
                 bulletVector* const bulletV,
                 rubyVector* const rubyV,
-                struct Player* const player,
+                Player* const player,
                 struct KeyPresses* const keys,
                 const int SCREEN_H) {
 
@@ -21,14 +21,14 @@ void gameTick(asteroidVector* const asteroidV,
 
         //Bullet Collision
         for(int i = 0; i < bulletV -> count; i++) {
-                if(!moveBullet(&(bulletV -> bullets[i]), SCREEN_H)) {
+                if(!moveBullet(&(bulletV -> bullets[i]))) {
                         bulletVector_erase(bulletV, i);
                 }
                 for(int j = 0; j < asteroidV -> count; j++) {
                         if(checkCollision_bullet(*asteroidVector_get(asteroidV, j),
                                                 bulletVector_get(bulletV, i))) {
                                 asteroidV -> asteroids[j].hit = true;
-                                struct Bullet b = bulletVector_get(bulletV, i);
+                                Bullet b = bulletVector_get(bulletV, i);
                                 bulletVector_erase(bulletV , i);
                                 player -> score++;
                                 splitLaser(bulletV, *player, b.x, b.y);
@@ -118,7 +118,7 @@ bool handleEvents(SDL_Event* const e, struct KeyPresses* const k) {
         return true;
 }
 void movePlayer(struct KeyPresses* const k,
-                struct Player* const p,
+                Player* const p,
                 bulletVector* const bv) {
 
         if(k -> w) {
@@ -142,11 +142,7 @@ void movePlayer(struct KeyPresses* const k,
         }
 }
 
-void upgradePlayerAtrribute(struct Player* player) {
-
-}
-
-bool checkCollision_bullet(struct Asteroid asteroid, struct Bullet bullet) {
+bool checkCollision_bullet(Asteroid asteroid, Bullet bullet) {
         int leftA, leftB;
         int rightA, rightB;
         int topA, topB;
@@ -172,7 +168,7 @@ bool checkCollision_bullet(struct Asteroid asteroid, struct Bullet bullet) {
         else return false;
 }
 
-bool checkCollision_player(struct Asteroid asteroid, struct Player player) {
+bool checkCollision_player(Asteroid asteroid, Player player) {
         int leftP, leftB;
         int rightP, rightB;
         int topP, topB;
@@ -196,7 +192,7 @@ bool checkCollision_player(struct Asteroid asteroid, struct Player player) {
         }
         return false;
 }
-bool checkCollision_ruby(struct Ruby r, struct Player p) {
+bool checkCollision_ruby(Ruby r, Player p) {
         int leftR, leftP;
         int rightR, rightP;
         int topR, topP;
@@ -222,7 +218,7 @@ bool checkCollision_ruby(struct Ruby r, struct Player p) {
         return false;
 
 }
-void splitLaser(bulletVector* const vec, struct Player p, int x, int y) {
+void splitLaser(bulletVector* const vec, Player p, int x, int y) {
         if(p.split_laser) {
                 bulletVector_add(vec,
                                 makeBullet(x,

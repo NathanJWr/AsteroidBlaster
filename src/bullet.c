@@ -3,8 +3,8 @@
 #include <stdbool.h>
 #include "sprite.h"
 extern int SCREEN_W;
-struct Bullet makeBullet(int x, int y, int dx, int dy) {
-        struct Bullet b;
+Bullet makeBullet(int x, int y, int dx, int dy) {
+        Bullet b;
         b.x = x;
         b.y = y;
         b.dx = dx;
@@ -19,7 +19,7 @@ struct Bullet makeBullet(int x, int y, int dx, int dy) {
         setupBulletSprite(&b.sprite);
         return b;
 }
-bool moveBullet(struct Bullet* const b, const int SCREEN_H) {
+bool moveBullet(Bullet* const b) {
         b -> y -= b -> dy;
         b -> hitY -= b -> dy;
         b -> x += b -> dx;
@@ -38,7 +38,7 @@ void bulletVector_init(bulletVector* const  v) {
         v -> count = 0;
 }
 
-void bulletVector_add(bulletVector* const v, struct Bullet b) {
+void bulletVector_add(bulletVector* const v, Bullet b) {
         if(v -> size == 0) {
                 v -> size = 10;
                 v -> bullets = malloc(sizeof(b) * v -> size);
@@ -51,7 +51,7 @@ void bulletVector_add(bulletVector* const v, struct Bullet b) {
         v -> count++;
 }
 
-struct Bullet bulletVector_get(bulletVector* const v, int index) {
+Bullet bulletVector_get(bulletVector* const v, int index) {
         if(index >= v -> size || index < 0) {
                 exit(1);
         }

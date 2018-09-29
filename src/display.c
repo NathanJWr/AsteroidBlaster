@@ -140,8 +140,8 @@ SDL_Surface* loadImageSurface(char* const path) {
 }
 
 void renderTextBox(int x, int y, char text[]) {
-        SDL_Color white = {255, 255, 255};
-        SDL_Color black = {0, 0, 0};
+        SDL_Color white = {255, 255, 255, 0};
+        SDL_Color black = {0, 0, 0, 0};
         int w, h;
         SDL_Texture* tex = createTextTextureWrapped(ubuntu, text, white, 400);
         SDL_QueryTexture(tex, NULL, NULL, &w, &h);
@@ -166,7 +166,7 @@ void cleanDisplayObjects() {
 }
 
 void drawPlayerCurrency(int currency, SDL_Rect* const pos) {
-        SDL_Color white = {255, 255, 255};
+        SDL_Color white = {255, 255, 255, 0};
         SDL_Rect pos1 ;
         pos1.x = pos -> x + 50;
         pos1.y = pos -> y;

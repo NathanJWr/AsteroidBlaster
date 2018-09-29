@@ -13,7 +13,7 @@ SDL_Surface* bullet;
 SDL_Surface* heart;
 SDL_Surface* ruby;
 
-void querySprite(struct Sprite* const sprite) {
+void querySprite(Sprite* const sprite) {
         SDL_QueryTexture(sprite -> texture,
                         NULL,
                         NULL,
@@ -37,7 +37,7 @@ void setupAllSprites() {
         heart = loadImageSurface("assets/images/heart.png");
         ruby = loadImageSurface("assets/images/ruby.png");
 }
-void renderSprite(struct Sprite* const sprite,
+void renderSprite(Sprite* const sprite,
                 SDL_Rect* const pos) {
 
         if(sprite -> texture == NULL) {
@@ -49,31 +49,31 @@ void renderSprite(struct Sprite* const sprite,
         renderTexture(sprite -> texture, &(sprite -> tex_rect), pos);
 }
 
-void destroySprite(struct Sprite* const sprite) {
+void destroySprite(Sprite* const sprite) {
         if(sprite -> texture != NULL) {
                 SDL_DestroyTexture(sprite -> texture);
                 sprite -> texture = NULL;
         }
 }
 
-void setupHeartSprite(struct Sprite* const h) {
+void setupHeartSprite(Sprite* const h) {
         h -> texture = surfaceToTextureSafe(heart);
         querySprite(h);
 }
 
-void setupPlayerSprite(struct Sprite* const p) {
+void setupPlayerSprite(Sprite* const p) {
         p -> texture = surfaceToTextureSafe(player);
         querySprite(p);
 }
 
-void setupBulletSprite(struct Sprite* const b) {
+void setupBulletSprite(Sprite* const b) {
         b -> texture = surfaceToTextureSafe(bullet);
         querySprite(b);
 }
 
 void setupAsteroidSprite(int type,
-                struct Sprite* const asteroid,
-                struct Sprite* const explosion) {
+                Sprite* const asteroid,
+                Sprite* const explosion) {
 
         if(type == 1) {
                 asteroid -> texture = surfaceToTextureSafe(asteroid1);
@@ -91,7 +91,7 @@ void setupAsteroidSprite(int type,
         querySprite(explosion);
 }
 
-void setupRubySprite(struct Sprite* const r) {
+void setupRubySprite(Sprite* const r) {
         r -> texture = surfaceToTextureSafe(ruby);
         querySprite(r);
 }

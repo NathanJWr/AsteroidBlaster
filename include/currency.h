@@ -2,29 +2,29 @@
 #define CURRENCY_H
 #include "sprite.h"
 #include <stdbool.h>
-struct Ruby {
+typedef struct _Ruby {
         int x;
         int y;
         int dx;
         int dy;
         int sizeX;
         int sizeY;
-        struct Sprite sprite;
-};
+        Sprite sprite;
+} Ruby;
 
 typedef struct _rVector {
-        struct Ruby* rubies;
+        Ruby* rubies;
         int size;
         int count;
 } rubyVector;
 
-struct Ruby makeRuby();
-bool moveRuby(struct Ruby*);
+Ruby makeRuby();
+bool moveRuby(Ruby*);
 void generateCurrency(rubyVector*, int, int);
 
 void rubyVector_init(rubyVector*);
-void rubyVector_add(rubyVector*, struct Ruby);
-struct Ruby* rubyVector_get(rubyVector*, int index);
+void rubyVector_add(rubyVector*, Ruby);
+Ruby* rubyVector_get(rubyVector*, int index);
 void rubyVector_free(rubyVector*);
 void rubyVector_erase(rubyVector*, int);
 #endif

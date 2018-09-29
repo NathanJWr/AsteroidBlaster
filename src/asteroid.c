@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-struct Asteroid makeAsteroid(const int SCREEN_W) {
-        struct Asteroid b;
+Asteroid makeAsteroid(const int SCREEN_W) {
+        Asteroid b;
         b.sprite_num = (rand() % 3) + 1;
         b.x = rand() % SCREEN_W;
         b.y = 0;
@@ -24,7 +24,7 @@ struct Asteroid makeAsteroid(const int SCREEN_W) {
         return b;
 }
 
-bool moveAsteroid(struct Asteroid* const asteroid, const int SCREEN_H) {
+bool moveAsteroid(Asteroid* const asteroid, const int SCREEN_H) {
         asteroid -> y += asteroid -> dy;
         asteroid -> hitY += asteroid -> dy;
         if(asteroid -> y > SCREEN_H) {
@@ -39,7 +39,7 @@ void asteroidVector_init(asteroidVector* const v) {
         v->count = 0;
 }
 
-void asteroidVector_add(asteroidVector* const v, struct Asteroid b) {
+void asteroidVector_add(asteroidVector* const v, Asteroid b) {
         if(v->size == 0) {
                 v->size = 10;
                 v->asteroids = malloc(sizeof(b) * v->size);
@@ -53,7 +53,7 @@ void asteroidVector_add(asteroidVector* const v, struct Asteroid b) {
         v->count++;
 }
 
-struct Asteroid* asteroidVector_get(asteroidVector* const v, int index) {
+Asteroid* asteroidVector_get(asteroidVector* const v, int index) {
         if(index >= v->size || index < 0) {
                 exit(1);
         }

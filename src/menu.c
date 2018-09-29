@@ -5,8 +5,8 @@
 extern TTF_Font* font;
 int menu_currency;
 bool currency_init;
-struct Button makeButton(int num_textures, SDL_Rect pos) {
-        struct Button button;
+Button makeButton(int num_textures, SDL_Rect pos) {
+        Button button;
         button.selected = false;
         button.pos = pos;
         button.num_textures = num_textures;
@@ -17,7 +17,7 @@ struct Button makeButton(int num_textures, SDL_Rect pos) {
         return button;
 }
 
-void destroyButton(struct Button* const button) {
+void destroyButton(Button* const button) {
        for(int i = 0; i < button -> num_textures; i++) {
                SDL_DestroyTexture(button -> textures[i]);
                button -> textures[i] = NULL;
@@ -25,7 +25,7 @@ void destroyButton(struct Button* const button) {
        free(button -> textures);
 }
 
-void drawButton(struct Button button) {
+void drawButton(Button button) {
         if(button.selected) {
                 renderTexture(button.textures[1], NULL, &button.pos);
         }

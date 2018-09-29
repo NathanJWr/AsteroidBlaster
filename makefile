@@ -6,8 +6,8 @@ OBJ_DIR = obj
 SRC = $(wildcard $(SRC_DIR)/*.c)
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
-CPPFLAGS += -Iinclude -O2
-CFLAGS += -Werror -Wall  -g
+CPPFLAGS += -Iinclude 
+CFLAGS += -Werror -Wall -Wextra -O2 -g
 LDFLAGS += -Llib
 LDLIBS += -lSDL2 -lSDL2_image -lSDL2_ttf
 

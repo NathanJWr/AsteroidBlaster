@@ -81,10 +81,10 @@ int handleGameMenuEvents(SDL_Event* const e) {
         }
         return -1;
 }
-void updateGameMenuButton(struct Button* const b) {
-        SDL_Color white = {255, 255, 255};
-        SDL_Color green = {144, 245, 0};
-        SDL_Color red = {255, 17, 0};
+void updateGameMenuButton(Button* const b) {
+        SDL_Color white = {255, 255, 255, 255};
+        SDL_Color green = {144, 245, 0, 255};
+        SDL_Color red = {255, 17, 0, 255};
 
         for(int i = 0; i < b -> num_textures; i++) {
                 if(b -> textures[i] != NULL) {
@@ -100,7 +100,7 @@ void updateGameMenuButton(struct Button* const b) {
                          b -> title, red);
         }
 }
-void drawGameMenuButton(struct Button b) {
+void drawGameMenuButton(Button b) {
         if(b.selected && game_menu.game_over && b.num_textures == 3) {
                 renderTexture(b.textures[2], NULL, &b.pos);
         }
@@ -151,7 +151,7 @@ void updateGameMenu(int game_outcome) {
                 game_menu.game_over = false;
         }
         renderPresent();
-        SDL_Color black = {0, 0, 0};
+        SDL_Color black = {0, 0, 0, 255};
         setDrawColor(black);
         clearRender();
 }
