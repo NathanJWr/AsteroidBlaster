@@ -17,13 +17,14 @@ struct Button makeButton(int num_textures, SDL_Rect pos) {
         return button;
 }
 
-void destroyButton(struct Button* button) {
+void destroyButton(struct Button* const button) {
        for(int i = 0; i < button -> num_textures; i++) {
                SDL_DestroyTexture(button -> textures[i]);
                button -> textures[i] = NULL;
        }
        free(button -> textures);
 }
+
 void drawButton(struct Button button) {
         if(button.selected) {
                 renderTexture(button.textures[1], NULL, &button.pos);
@@ -43,7 +44,7 @@ bool checkBoundaries(int x, int y, SDL_Rect rect) {
         else return false;
 }
 
-char* loadText(char* path, char* title) {
+char* loadText(char* const path, char* const title) {
         FILE *fp = NULL;
         fp = fopen(path, "r");
         if(fp == NULL) {
@@ -55,7 +56,9 @@ char* loadText(char* path, char* title) {
         size_t len2 = 0;
         while(getline(&line,&len, fp) != -1) {
                 if(strstr(line, title)) {
-                        getline(&description, &len2, fp); 
+                        if(getline(&description, &len2, fp) == -1) {
+                                return NULL;
+                        }
                 }
         }
         fclose(fp);

@@ -15,7 +15,7 @@ struct Ruby makeRuby(int x, int y) {
         return ruby;
 }
 
-bool moveRuby(struct Ruby* r) {
+bool moveRuby(struct Ruby* const r) {
         r -> y += r -> dy;
         if(r -> y > SCREEN_H) {
                 return false;
@@ -23,20 +23,20 @@ bool moveRuby(struct Ruby* r) {
         else return true;
 }
 
-void generateCurrency(rubyVector* v, int x, int y) {
+void generateCurrency(rubyVector* const v, int x, int y) {
         int p = rand() % 100 + 1;
         if(p >= 70) {
                 rubyVector_add(v, makeRuby(x, y));
         }
 }
 
-void rubyVector_init(rubyVector* v) {
+void rubyVector_init(rubyVector* const v) {
         v->rubies = NULL;
         v->size = 0;
         v->count = 0;
 }
 
-void rubyVector_add(rubyVector* v, struct Ruby b) {
+void rubyVector_add(rubyVector* const v, struct Ruby b) {
         if(v->size == 0) {
                 v->size = 10;
                 v->rubies = malloc(sizeof(b) * v->size);
@@ -50,14 +50,14 @@ void rubyVector_add(rubyVector* v, struct Ruby b) {
         v->count++;
 }
 
-struct Ruby* rubyVector_get(rubyVector* v, int index) {
+struct Ruby* rubyVector_get(rubyVector* const v, int index) {
         if(index >= v->size || index < 0) {
                 exit(1);
         }
         return &(v->rubies[index]);
 }
 
-void rubyVector_erase(rubyVector* v, int index) {
+void rubyVector_erase(rubyVector* const v, int index) {
         if(index >= v->size || index < 0) {
                 exit(1);
         }
@@ -69,7 +69,7 @@ void rubyVector_erase(rubyVector* v, int index) {
         printf("Ruby Erased\n");
 }
 
-void rubyVector_free(rubyVector* v) {
+void rubyVector_free(rubyVector* const v) {
         for(int i = 0; i < v -> count; i++) {
                 destroySprite(&(v -> rubies[i].sprite));
                 printf("Freed Ruby Texture\n");

@@ -19,7 +19,7 @@ struct Bullet makeBullet(int x, int y, int dx, int dy) {
         setupBulletSprite(&b.sprite);
         return b;
 }
-bool moveBullet(struct Bullet* b, const int SCREEN_H) {
+bool moveBullet(struct Bullet* const b, const int SCREEN_H) {
         b -> y -= b -> dy;
         b -> hitY -= b -> dy;
         b -> x += b -> dx;
@@ -32,13 +32,13 @@ bool moveBullet(struct Bullet* b, const int SCREEN_H) {
         }
         else return true;
 }
-void bulletVector_init(bulletVector* v) {
+void bulletVector_init(bulletVector* const  v) {
         v -> bullets = NULL;
         v -> size = 0;
         v -> count = 0;
 }
 
-void bulletVector_add(bulletVector* v, struct Bullet b) {
+void bulletVector_add(bulletVector* const v, struct Bullet b) {
         if(v -> size == 0) {
                 v -> size = 10;
                 v -> bullets = malloc(sizeof(b) * v -> size);
@@ -51,14 +51,14 @@ void bulletVector_add(bulletVector* v, struct Bullet b) {
         v -> count++;
 }
 
-struct Bullet bulletVector_get(bulletVector* v, int index) {
+struct Bullet bulletVector_get(bulletVector* const v, int index) {
         if(index >= v -> size || index < 0) {
                 exit(1);
         }
         return (v -> bullets[index]);
 }
 
-void bulletVector_erase(bulletVector* v, int index) {
+void bulletVector_erase(bulletVector* const v, int index) {
         if(index >= v -> size || index < 0) {
                 exit(1);
         }
@@ -70,7 +70,7 @@ void bulletVector_erase(bulletVector* v, int index) {
         v -> count--;
 }
 
-void bulletVector_free(bulletVector* v) {
+void bulletVector_free(bulletVector* const v) {
         for(int i = 0; i < v -> count; i++) {
                 destroySprite(&(v -> bullets[i].sprite));
         }

@@ -54,7 +54,7 @@ void mouseSelectMain() {
  * 1 for Start
  * -1 for no choice
  */
-int handleMainMenuEvents(SDL_Event* e) {
+int handleMainMenuEvents(SDL_Event* const e) {
         int button = -1;
         while(SDL_PollEvent(e)) {
                 if(e -> type == SDL_QUIT) {
@@ -71,7 +71,7 @@ int handleMainMenuEvents(SDL_Event* e) {
         return button;
 }
 
-void updateMainMenuButton(struct Button* b) {
+void updateMainMenuButton(struct Button* const b) {
         SDL_Color white = {255, 255, 255};
         SDL_Color green = {144, 245, 0};
         

@@ -29,14 +29,17 @@ struct Player makePlayer() {
         player.laser_cost = 50;
         return player;
 }
-void playerMoveUp(struct Player* p) {
+
+void playerMoveUp(struct Player* const p) {
         if(p -> y  > 0){
                 p -> y -= p -> dy;
                 p -> hitY -= p -> dy;
         }
 }
 
-void playerHandleUpgrades(Player_Upgrades upgrade, struct Player* player) {
+void playerHandleUpgrades(Player_Upgrades upgrade,
+                struct Player* const player) {
+
         switch(upgrade) {
                 case LASER_REGEN:
                         printf("%d\n", player -> laser_regen);
@@ -58,27 +61,27 @@ void playerHandleUpgrades(Player_Upgrades upgrade, struct Player* player) {
         }
 }
 
-void playerMoveDown(struct Player* p) {
+void playerMoveDown(struct Player* const p) {
         if(p -> y + p -> sizeY < SCREEN_H) {
                 p -> y += p -> dy;
                 p -> hitY += p -> dy;
         }
 }
 
-void playerMoveLeft(struct Player* p) {
+void playerMoveLeft(struct Player* const p) {
         if(p -> x > 0) {
                 p -> x -= p -> dx;
                 p -> hitX -= p -> dx;
         }
 }
 
-void playerMoveRight(struct Player* p) {
+void playerMoveRight(struct Player* const p) {
         if(p -> x + p -> sizeX < SCREEN_W) {
                 p -> x += p -> dx;
                 p -> hitX += p -> dx;
         }
 }
-void playerCleanup(struct Player* p) {
+void playerCleanup(struct Player* const p) {
         destroySprite(&(p -> player));
         destroySprite(&(p -> heart));
         p -> lives = 3;

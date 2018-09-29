@@ -41,14 +41,16 @@ void drawHUD(int score,
         drawPlayerCurrency(currency, &pos);
 }
 
-void drawAsteroidExplosion(struct Asteroid* asteroid, SDL_Rect* pos) {
+void drawAsteroidExplosion(struct Asteroid* const asteroid,
+                SDL_Rect* const pos) {
+
         if(asteroid -> explode_iterations < 500) {
                 renderSprite(&(asteroid -> explosion), pos);
                 asteroid -> explode_iterations += 1;
         }
 }
 
-void drawAsteroid(struct Asteroid* asteroid) {
+void drawAsteroid(struct Asteroid* const asteroid) {
         SDL_Rect pos = {
                asteroid -> x,
                asteroid -> y,

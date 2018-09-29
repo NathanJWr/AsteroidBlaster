@@ -8,7 +8,7 @@ struct Timer newTimer(int delta) {
         timer.done = false;
         return timer;
 }
-void updateTimer(struct Timer* timer) {
+void updateTimer(struct Timer* const timer) {
        timer -> current_time = SDL_GetTicks();
 }
 

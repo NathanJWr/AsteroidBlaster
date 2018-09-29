@@ -63,7 +63,7 @@ void killVideo() {
         SDL_Quit();
 }
 
-SDL_Texture* surfaceToTexture(SDL_Surface* surf) {
+SDL_Texture* surfaceToTexture(SDL_Surface* const surf) {
         SDL_Texture* text = NULL;
         text = SDL_CreateTextureFromSurface(renderer, surf);
         SDL_FreeSurface(surf);
@@ -74,7 +74,7 @@ SDL_Texture* surfaceToTexture(SDL_Surface* surf) {
         return text;
 }
 
-SDL_Texture* surfaceToTextureSafe(SDL_Surface* surf) {
+SDL_Texture* surfaceToTextureSafe(SDL_Surface* const surf) {
         SDL_Texture* text = NULL;
         text = SDL_CreateTextureFromSurface(renderer, surf);
 
@@ -85,7 +85,10 @@ SDL_Texture* surfaceToTextureSafe(SDL_Surface* surf) {
         return text;
 }
 
-SDL_Texture* createTextTexture(TTF_Font* font, char* text, SDL_Color color) {
+SDL_Texture* createTextTexture(TTF_Font* const font,
+                char* const text,
+                SDL_Color color) {
+        
         SDL_Surface* surface = NULL;
         SDL_Texture* texture = NULL;
         surface = TTF_RenderText_Solid(font, text, color);
@@ -98,7 +101,11 @@ SDL_Texture* createTextTexture(TTF_Font* font, char* text, SDL_Color color) {
         texture = surfaceToTexture(surface);
         return texture;
 }
-SDL_Texture* createTextTextureWrapped(TTF_Font* font, char* text, SDL_Color color, int length) {
+SDL_Texture* createTextTextureWrapped(TTF_Font* const font,
+                char* const text,
+                SDL_Color color,
+                int length) {
+
         SDL_Surface* surf = NULL;
         SDL_Texture* tex = NULL;
         surf = TTF_RenderText_Blended_Wrapped(font, text, color, length);
@@ -110,7 +117,7 @@ SDL_Texture* createTextTextureWrapped(TTF_Font* font, char* text, SDL_Color colo
         return tex;
 }
 
-SDL_Texture* loadImageTexture(char* path) {
+SDL_Texture* loadImageTexture(char* const path) {
         SDL_Texture* tex = NULL;
         tex = IMG_LoadTexture(renderer, path);
 
@@ -121,7 +128,7 @@ SDL_Texture* loadImageTexture(char* path) {
         return tex;
 }
 
-SDL_Surface* loadImageSurface(char* path) {
+SDL_Surface* loadImageSurface(char* const path) {
         SDL_Surface* surface = NULL;
         surface = IMG_Load(path);
 
@@ -158,7 +165,7 @@ void cleanDisplayObjects() {
         SDL_DestroyTexture(displayObs.curr);
 }
 
-void drawPlayerCurrency(int currency, SDL_Rect* pos) {
+void drawPlayerCurrency(int currency, SDL_Rect* const pos) {
         SDL_Color white = {255, 255, 255};
         SDL_Rect pos1 ;
         pos1.x = pos -> x + 50;
@@ -179,9 +186,9 @@ void drawPlayerCurrency(int currency, SDL_Rect* pos) {
 }
         
 
-void renderTexture(SDL_Texture* texture,
-                SDL_Rect* source,
-                SDL_Rect* destination) {
+void renderTexture(SDL_Texture* const texture,
+                SDL_Rect* const source,
+                SDL_Rect* const destination) {
 
         SDL_RenderCopy(renderer, texture, source, destination);
 }
@@ -190,11 +197,11 @@ void setDrawColor(SDL_Color color) {
         SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
 }
 
-void renderRectangleOutline(SDL_Rect* rect) {
+void renderRectangleOutline(SDL_Rect* const rect) {
         SDL_RenderDrawRect(renderer, rect);
 }
 
-void renderRectangleFull(SDL_Rect* rect) {
+void renderRectangleFull(SDL_Rect* const rect) {
         SDL_RenderFillRect(renderer, rect);
 }
 

@@ -4,12 +4,12 @@
 #include "currency.h"
 struct Timer player_invuln_time;
 struct Timer laser_recharge_time;
-void splitLaser(bulletVector**, struct Player, int, int);
-void gameTick(asteroidVector* asteroidV,
-                bulletVector* bulletV,
-                rubyVector* rubyV,
-                struct Player* player,
-                struct KeyPresses* keys,
+void splitLaser(bulletVector*, struct Player, int, int);
+void gameTick(asteroidVector* const asteroidV,
+                bulletVector* const bulletV,
+                rubyVector* const rubyV,
+                struct Player* const player,
+                struct KeyPresses* const keys,
                 const int SCREEN_H) {
 
         movePlayer(keys, player, bulletV);
@@ -31,7 +31,7 @@ void gameTick(asteroidVector* asteroidV,
                                 struct Bullet b = bulletVector_get(bulletV, i);
                                 bulletVector_erase(bulletV , i);
                                 player -> score++;
-                                splitLaser(&bulletV, *player, b.x, b.y);
+                                splitLaser(bulletV, *player, b.x, b.y);
                                 generateCurrency(rubyV, b.x, b.y);
                         }
                 }
@@ -75,7 +75,7 @@ void gameTick(asteroidVector* asteroidV,
         }
         updateTimer(&laser_recharge_time);
 }
-bool handleEvents(SDL_Event* e, struct KeyPresses* k) {
+bool handleEvents(SDL_Event* const e, struct KeyPresses* const k) {
         while(SDL_PollEvent(e) != 0) {
                 if(e -> type == SDL_QUIT) {
                         return false;
@@ -117,7 +117,10 @@ bool handleEvents(SDL_Event* e, struct KeyPresses* k) {
         }
         return true;
 }
-void movePlayer(struct KeyPresses* k, struct Player* p, bulletVector* bv) {
+void movePlayer(struct KeyPresses* const k,
+                struct Player* const p,
+                bulletVector* const bv) {
+
         if(k -> w) {
                 playerMoveUp(p);
         }
@@ -219,12 +222,12 @@ bool checkCollision_ruby(struct Ruby r, struct Player p) {
         return false;
 
 }
-void splitLaser(bulletVector** vec, struct Player p, int x, int y) {
+void splitLaser(bulletVector* const vec, struct Player p, int x, int y) {
         if(p.split_laser) {
-                bulletVector_add(*vec,
+                bulletVector_add(vec,
                                 makeBullet(x,
                                         y, 3, 0));
-                bulletVector_add(*vec,
+                bulletVector_add(vec,
                                 makeBullet(x,
                                         y, -3, 0));
         }

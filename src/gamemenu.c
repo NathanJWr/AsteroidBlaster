@@ -67,7 +67,7 @@ Return 1 for Continue
 Retrun 2 for Upgrades
 Return -1 for nothing
 */
-int handleGameMenuEvents(SDL_Event* e) {
+int handleGameMenuEvents(SDL_Event* const e) {
         int button = -1;
         while(SDL_PollEvent(e)) {
                 mouseSelectGame();
@@ -81,7 +81,7 @@ int handleGameMenuEvents(SDL_Event* e) {
         }
         return -1;
 }
-void updateGameMenuButton(struct Button* b) {
+void updateGameMenuButton(struct Button* const b) {
         SDL_Color white = {255, 255, 255};
         SDL_Color green = {144, 245, 0};
         SDL_Color red = {255, 17, 0};

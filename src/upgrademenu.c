@@ -16,7 +16,7 @@ void drawUpgradeButton(struct UpgradeButton button);
 void drawUpgradeText(struct UpgradeButton button);
 struct UpgradeButton makeUpgradeButton(int, int, SDL_Rect);
 
-int handleUpgradeMenuEvents(SDL_Event* e, struct Player* p) {
+int handleUpgradeMenuEvents(SDL_Event* const e, struct Player* const p) {
         int button = -1;
         while(SDL_PollEvent(e)) {
                 if(e -> type == SDL_QUIT) {
@@ -122,7 +122,9 @@ void resetUpgradeMenu() {
      //   cleanupUpgradeMenu();
 }
 
-bool updateTimesClicked(struct UpgradeButton* button, struct Player* p) {
+bool updateTimesClicked(struct UpgradeButton* const button,
+                struct Player* const p) {
+
         if(button -> clicked < button -> max_clicks
                         && p -> currency >= button -> cost) {
                 button -> clicked++;
@@ -135,7 +137,9 @@ bool updateTimesClicked(struct UpgradeButton* button, struct Player* p) {
         else return false;
 }
 
-Player_Upgrades mousePressUpgrades(SDL_MouseButtonEvent b, struct Player* p) {
+Player_Upgrades mousePressUpgrades(SDL_MouseButtonEvent b,
+                struct Player* const p) {
+
         if(b.button == SDL_BUTTON_LEFT) {
                 if(checkBoundaries(b.x,
                         b.y,
@@ -239,7 +243,7 @@ void drawUpgradeText(struct UpgradeButton b) {
         }
 }
 
-void updateUpgradeButton(struct UpgradeButton* b) {
+void updateUpgradeButton(struct UpgradeButton* const b) {
         SDL_Color white = {255, 255, 255};
         SDL_Color green = {144, 245, 0};
         SDL_Color yellow = {255, 255, 0};
@@ -262,7 +266,10 @@ void updateUpgradeButton(struct UpgradeButton* b) {
                         buffer, green);
 }
 
-struct UpgradeButton makeUpgradeButton(int num_tex, int max_clicks, SDL_Rect pos) {
+struct UpgradeButton makeUpgradeButton(int num_tex,
+                int max_clicks,
+                SDL_Rect pos) {
+        
         struct UpgradeButton u;
         u.upgraded = false;
         u.max_clicks = max_clicks;

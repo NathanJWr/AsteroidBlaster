@@ -11,7 +11,7 @@ struct Asteroid makeAsteroid(const int SCREEN_W) {
         b.sizeY = b.sizeX;
         b.dy = 0;
         while(b.dy == 0) {
-                b.dy = (rand() % 1) + 1;
+                b.dy = (rand() % 3) + 1;
         }
         b.hit = false;
         b.hitX = b.x; 
@@ -24,7 +24,7 @@ struct Asteroid makeAsteroid(const int SCREEN_W) {
         return b;
 }
 
-bool moveAsteroid(struct Asteroid* asteroid, const int SCREEN_H) {
+bool moveAsteroid(struct Asteroid* const asteroid, const int SCREEN_H) {
         asteroid -> y += asteroid -> dy;
         asteroid -> hitY += asteroid -> dy;
         if(asteroid -> y > SCREEN_H) {
@@ -33,13 +33,13 @@ bool moveAsteroid(struct Asteroid* asteroid, const int SCREEN_H) {
         else return true;
 }
 
-void asteroidVector_init(asteroidVector* v) {
+void asteroidVector_init(asteroidVector* const v) {
         v->asteroids = NULL;
         v->size = 0;
         v->count = 0;
 }
 
-void asteroidVector_add(asteroidVector* v, struct Asteroid b) {
+void asteroidVector_add(asteroidVector* const v, struct Asteroid b) {
         if(v->size == 0) {
                 v->size = 10;
                 v->asteroids = malloc(sizeof(b) * v->size);
@@ -53,14 +53,14 @@ void asteroidVector_add(asteroidVector* v, struct Asteroid b) {
         v->count++;
 }
 
-struct Asteroid* asteroidVector_get(asteroidVector* v, int index) {
+struct Asteroid* asteroidVector_get(asteroidVector* const v, int index) {
         if(index >= v->size || index < 0) {
                 exit(1);
         }
         return &(v->asteroids[index]);
 }
 
-void asteroidVector_erase(asteroidVector* v, int index) {
+void asteroidVector_erase(asteroidVector* const v, int index) {
         if(index >= v->size || index < 0) {
                 exit(1);
         }
@@ -72,11 +72,10 @@ void asteroidVector_erase(asteroidVector* v, int index) {
         v -> count--;
 }
 
-void asteroidVector_free(asteroidVector* v) {
+void asteroidVector_free(asteroidVector* const v) {
         for(int i = 0; i < v -> count; i++) {
                 destroySprite(&(v -> asteroids[i].asteroid));
                 destroySprite(&(v -> asteroids[i].explosion));
-                printf("Freed Asteroid Texture\n");
         }
         free(v->asteroids);
         v->size = 0;
