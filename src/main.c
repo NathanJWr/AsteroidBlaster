@@ -266,12 +266,12 @@ void drawCalls(asteroidVector* bv,
                 drawAsteroid(&(bv->asteroids[i]));
         }
         for(int i = 0; i < b -> count; i++) {
-                drawBullet(b -> bullets[i]);
+                drawBullet(&b -> bullets[i]);
         }
         for(int i = 0; i < r -> count; i++) {
-                drawRuby(r -> rubies[i]);
+                drawRuby(&r -> rubies[i]);
         }
-        drawPlayer(*p);
+        drawPlayer(p);
         if(p -> score > score || score == 0) {
                 score = p -> score;
                 drawHUD(score, p -> lives, p -> laser_percent, p -> currency);

@@ -67,34 +67,38 @@ void drawAsteroid(Asteroid* const asteroid) {
         renderRectangleOutline(&hitbox);
 }
 
-void drawPlayer(Player player) {
+void drawPlayer(Player* const player) {
         SDL_Rect pos = {
-                player.x,
-                player.y,
-                player.sizeX,
-                player.sizeY};
-        renderSprite(&player.player, &pos);
+                player -> x,
+                player -> y,
+                player -> sizeX,
+                player -> sizeY};
+        renderSprite(&player -> player, &pos);
         SDL_Color green = {144, 245, 0, 255};
         setDrawColor(green);
-        SDL_Rect hitbox = {player.hitX, player.hitY, player.hitW, player.hitH};
+        SDL_Rect hitbox = {player -> hitX, player -> hitY, player -> hitW, player -> hitH};
         renderRectangleOutline(&hitbox);
 }
 
-void drawRuby(Ruby ruby) {
-        SDL_Rect pos = {ruby.x, ruby.y, ruby.sizeX, ruby.sizeY};
-        renderSprite(&ruby.sprite, &pos);
+void drawRuby(Ruby* const ruby) {
+        SDL_Rect pos = {ruby -> x, ruby -> y, ruby -> sizeX, ruby -> sizeY};
+        renderSprite(&ruby -> sprite, &pos);
 }
 
-void drawBullet(Bullet bullet) {
+void drawBullet(Bullet* const bullet) {
         SDL_Rect rect = {
-                bullet.x - bullet.sprite.tex_rect.w / 4,
-                bullet.y,
-                bullet.sizeX,
-                bullet.sizeY};
-        renderSprite(&bullet.sprite, &rect);
+                bullet -> x - bullet -> sprite.tex_rect.w / 4,
+                bullet -> y,
+                bullet -> sizeX,
+                bullet -> sizeY};
+        renderSprite(&bullet -> sprite, &rect);
         SDL_Color green = {144, 245, 0, 255};
         setDrawColor(green);
-        SDL_Rect hitbox = {bullet.hitX, bullet.hitY, bullet.hitW, bullet.hitH};
+        SDL_Rect hitbox = {bullet -> hitX,
+                bullet -> hitY,
+                bullet -> hitW,
+                bullet -> hitH};
+
         renderRectangleOutline(&hitbox);
 }
 

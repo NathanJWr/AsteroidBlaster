@@ -22,8 +22,8 @@ void updateGameScreen();
 void setupGameScreen();
 void drawHUD(int, int, int, int);
 void drawAsteroid(Asteroid*);
-void drawPlayer(Player);
-void drawRuby(Ruby);
-void drawBullet(Bullet);
+void drawPlayer(Player*);
+void drawRuby(Ruby*);
+void drawBullet(Bullet*);
 void cleanupGameDisplay();
 #endif
