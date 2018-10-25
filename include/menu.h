@@ -10,6 +10,7 @@ typedef struct _Button {
         bool selected;
 } Button;
 Button makeButton(int, SDL_Rect);
+void setButtonTextures(SDL_Color colors[], Button*, char*);
 void drawButton(Button);
 void drawPlayerCurrency(int, SDL_Rect*);
 void destroyButton(Button*);

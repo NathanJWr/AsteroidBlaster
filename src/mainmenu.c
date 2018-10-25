@@ -20,11 +20,11 @@ SDL_Color text_color = {255, 255, 255, 255};
  */
 int mousePressMain(SDL_MouseButtonEvent b) {
         if(b.button == SDL_BUTTON_LEFT) {
-                //Start Button
+                /* Start Button */
                 if(checkBoundaries(b.x, b.y, main_menu.start.pos)) {
                         return 1;
                 }
-                //Quit button
+                /* Quit button */
                 if(checkBoundaries(b.x, b.y, main_menu.quit.pos)) {
                         return 0;
                 }
@@ -74,8 +74,8 @@ int handleMainMenuEvents(SDL_Event* const e) {
 void updateMainMenuButton(Button* const b) {
         SDL_Color white = {255, 255, 255, 255};
         SDL_Color green = {144, 245, 0, 255};
-        
-        for(int i =0; i < b -> num_textures; i++) {
+        int i;   
+        for(i = 0; i < b -> num_textures; i++) {
                 if(b -> textures[i] != NULL) {
                         SDL_DestroyTexture(b -> textures[i]);
                         b -> textures[i] = NULL;
@@ -98,6 +98,8 @@ void drawMainMenuButton(Button b) {
 
 void setupMainMenu() {
         SDL_Rect start_pos;
+        SDL_Rect quit_pos;
+
         start_pos.w = 300;
         start_pos.h = 100;
         start_pos.x = (SCREEN_W / 2) - start_pos.w / 2;
@@ -106,7 +108,6 @@ void setupMainMenu() {
         strcpy(main_menu.start.title, "Start");
         updateMainMenuButton(&main_menu.start);
 
-        SDL_Rect quit_pos;
         quit_pos.w = 300;
         quit_pos.h = 100;
         quit_pos.x = (SCREEN_W / 2) - quit_pos.w / 2;
@@ -141,8 +142,8 @@ void drawMainMenu() {
 }
 
 void updateMainMenu() {
-        renderPresent();
         SDL_Color black = {0, 0, 0, 255};
+        renderPresent();
         setDrawColor(black);
         clearRender();
 

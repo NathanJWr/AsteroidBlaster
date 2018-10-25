@@ -18,6 +18,8 @@ struct UpgradeMenuAssets {
         UpgradeButton laser_cost;
         UpgradeButton move_speed;
         UpgradeButton laser_split;
+	Button exit;
+        bool quit;
 };
 int handleUpgradeMenuEvents(SDL_Event*, Player*);
 void setupUpgradeMenu();

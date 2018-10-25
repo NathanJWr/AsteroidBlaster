@@ -12,23 +12,25 @@ void gameTick(asteroidVector* const asteroidV,
                 struct KeyPresses* const keys,
                 const int SCREEN_H) {
 
+        int i;
         movePlayer(keys, player, bulletV);
-        for(int i = 0; i < asteroidV -> count; i++) {
+        for(i = 0; i < asteroidV -> count; i++) {
                 if(!moveAsteroid(&(asteroidV->asteroids[i]), SCREEN_H)) {
                         asteroidVector_erase(asteroidV, i);
                 }
         }
 
-        //Bullet Collision
-        for(int i = 0; i < bulletV -> count; i++) {
+        /* Bullet Collision */
+        for(i = 0; i < bulletV -> count; i++) {
+                int j;
                 if(!moveBullet(&(bulletV -> bullets[i]))) {
                         bulletVector_erase(bulletV, i);
                 }
-                for(int j = 0; j < asteroidV -> count; j++) {
+                for(j = 0; j < asteroidV -> count; j++) {
                         if(checkCollision_bullet(*asteroidVector_get(asteroidV, j),
                                                 bulletVector_get(bulletV, i))) {
-                                asteroidV -> asteroids[j].hit = true;
                                 Bullet b = bulletVector_get(bulletV, i);
+                                asteroidV -> asteroids[j].hit = true;
                                 bulletVector_erase(bulletV , i);
                                 player -> score++;
                                 splitLaser(bulletV, *player, b.x, b.y);
@@ -37,8 +39,8 @@ void gameTick(asteroidVector* const asteroidV,
                 }
         }
 
-        //Player Collision
-        for(int i = 0; i < asteroidV -> count; i++) {
+        /* Player Collision */
+        for(i = 0; i < asteroidV -> count; i++) {
                 if(checkCollision_player(*asteroidVector_get(asteroidV, i), *player)
                                 && !asteroidV -> asteroids[i].hit && !player -> hit) {
 
@@ -54,8 +56,8 @@ void gameTick(asteroidVector* const asteroidV,
                 }
         }
 
-        //Ruby Collision
-        for(int i = 0; i < rubyV -> count; i++) {
+        /* Ruby Collision */
+        for(i = 0; i < rubyV -> count; i++) {
                 if(!moveRuby(&(rubyV -> rubies[i]))) {
                         rubyVector_erase(rubyV, i);
                 }
@@ -65,7 +67,7 @@ void gameTick(asteroidVector* const asteroidV,
                 }
         }
 
-        //Laser charging
+        /* Laser charging */
         if(isTimerDone(laser_recharge_time)) {
                 laser_recharge_time = newTimer(100 / player -> laser_regen);
                 player -> laser_percent += 2;

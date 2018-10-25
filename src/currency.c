@@ -58,11 +58,12 @@ Ruby* rubyVector_get(rubyVector* const v, int index) {
 }
 
 void rubyVector_erase(rubyVector* const v, int index) {
+        int i;
         if(index >= v->size || index < 0) {
                 exit(1);
         }
         destroySprite(&(v -> rubies[index].sprite));
-        for(int i = index; i < v -> count; i++) {
+        for(i = index; i < v -> count; i++) {
                 v -> rubies[i] = v -> rubies[i+1];
         }
         v -> count--;
@@ -70,7 +71,8 @@ void rubyVector_erase(rubyVector* const v, int index) {
 }
 
 void rubyVector_free(rubyVector* const v) {
-        for(int i = 0; i < v -> count; i++) {
+        int i;
+        for(i = 0; i < v -> count; i++) {
                 destroySprite(&(v -> rubies[i].sprite));
                 printf("Freed Ruby Texture\n");
         }

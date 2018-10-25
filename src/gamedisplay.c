@@ -16,8 +16,8 @@ void drawPlayerLives(int);
 void drawLaserPercentage(int);
 
 
-SDL_Color textColor = {255, 255, 255, 255}; //white
-SDL_Color backgroundColor = {0, 0, 0, 255}; //black
+SDL_Color textColor = {255, 255, 255, 255}; 
+SDL_Color backgroundColor = {0, 0, 0, 255};
 SDL_Rect solidRect;
 
 struct Screen_Elements screen;
@@ -25,7 +25,7 @@ struct Screen_Elements screen;
 void updateGameScreen() {
         renderPresent();
 
-        //Reset for next frame
+        /* Reset for next frame */
         clearRender();
         renderTexture(screen.background, NULL, &screen.background_pos);
 }
@@ -34,10 +34,10 @@ void drawHUD(int score,
                 int lives,
                 int laser_percent,
                 int currency) {
+        SDL_Rect pos = {15, 45, 35, 35};
         drawScore(score);
         drawPlayerLives(lives);
         drawLaserPercentage(laser_percent);
-        SDL_Rect pos = {15, 45, 35, 35};
         drawPlayerCurrency(currency, &pos);
 }
 
@@ -51,53 +51,74 @@ void drawAsteroidExplosion(Asteroid* const asteroid,
 }
 
 void drawAsteroid(Asteroid* const asteroid) {
-        SDL_Rect pos = {
-               asteroid -> x,
-               asteroid -> y,
-               asteroid -> sizeX,
-               asteroid -> sizeY};
+        SDL_Color green = {144, 245, 0, 255};
+        SDL_Rect pos;
+        SDL_Rect hitbox;
+
+        pos.x = asteroid -> x;
+        pos.y = asteroid -> y;
+        pos.w = asteroid -> sizeX;
+        pos.h = asteroid -> sizeY;
+
         if(asteroid -> hit) {
                 drawAsteroidExplosion(asteroid, &pos);
                 return;
         }
         renderSprite(&(asteroid -> asteroid), &pos);
-        SDL_Rect hitbox = {asteroid -> hitX, asteroid -> hitY, asteroid -> hitW, asteroid -> hitH};
-        SDL_Color green = {144, 245, 0, 255};
+        hitbox.x = asteroid -> hitX;
+        hitbox.y = asteroid -> hitY;
+        hitbox.w = asteroid -> hitW;
+        hitbox.h = asteroid -> hitH;
         setDrawColor(green);
         renderRectangleOutline(&hitbox);
 }
 
 void drawPlayer(Player* const player) {
-        SDL_Rect pos = {
-                player -> x,
-                player -> y,
-                player -> sizeX,
-                player -> sizeY};
-        renderSprite(&player -> player, &pos);
         SDL_Color green = {144, 245, 0, 255};
+        SDL_Rect pos;
+        SDL_Rect hitbox;
+
+        pos.x = player -> x;
+        pos.y = player -> y;
+        pos.w = player -> sizeX;
+        pos.h = player -> sizeY;
+        renderSprite(&player -> player, &pos);
         setDrawColor(green);
-        SDL_Rect hitbox = {player -> hitX, player -> hitY, player -> hitW, player -> hitH};
+
+        hitbox.x = player -> hitX;
+        hitbox.y = player -> hitY;
+        hitbox.w = player -> hitW;
+        hitbox.h = player -> hitH;
         renderRectangleOutline(&hitbox);
 }
 
 void drawRuby(Ruby* const ruby) {
-        SDL_Rect pos = {ruby -> x, ruby -> y, ruby -> sizeX, ruby -> sizeY};
+        SDL_Rect pos;
+
+        pos.x = ruby -> x;
+        pos.y = ruby -> y;
+        pos.w = ruby -> sizeX;
+        pos.h = ruby -> sizeY;
         renderSprite(&ruby -> sprite, &pos);
 }
 
 void drawBullet(Bullet* const bullet) {
-        SDL_Rect rect = {
-                bullet -> x - bullet -> sprite.tex_rect.w / 4,
-                bullet -> y,
-                bullet -> sizeX,
-                bullet -> sizeY};
-        renderSprite(&bullet -> sprite, &rect);
         SDL_Color green = {144, 245, 0, 255};
+        SDL_Rect pos;
+        SDL_Rect hitbox;
+
+        pos.x = bullet -> x - bullet -> sprite.tex_rect.w / 4;;
+        pos.y = bullet -> y;
+        pos.w = bullet -> sizeX;
+        pos.h = bullet -> sizeY;
+
+        renderSprite(&bullet -> sprite, &pos);
         setDrawColor(green);
-        SDL_Rect hitbox = {bullet -> hitX,
-                bullet -> hitY,
-                bullet -> hitW,
-                bullet -> hitH};
+
+        hitbox.x = bullet -> hitX;
+        hitbox.y = bullet -> hitY;
+        hitbox.w = bullet -> hitW;
+        hitbox.h = bullet -> hitH;
 
         renderRectangleOutline(&hitbox);
 }
@@ -134,12 +155,21 @@ void setupGameScreen() {
 void drawHorizontalBar(int percent, int x, int y,
                 int w, int h, SDL_Color fg, SDL_Color bg) {
 
+        SDL_Rect bgrect;
+        SDL_Rect fgrect;
+
         setDrawColor(bg);
-        SDL_Rect bgrect = {x, y, w, h};
+        bgrect.x = x;
+        bgrect.y = y;
+        bgrect.w = w;
+        bgrect.h = h;
         renderRectangleFull(&bgrect);
 
         setDrawColor(fg);
-        SDL_Rect fgrect = {x, y, percent, h};
+        fgrect.x = x;
+        fgrect.y = y;
+        fgrect.w = percent;
+        fgrect.h = h;
         renderRectangleFull(&fgrect);
 }
 
@@ -154,10 +184,10 @@ void drawLaserPercentage(int percent) {
 }
 
 void drawScore(int score) {
+        char* result = NULL;
         if(screen.scor < score || screen.scor > score) {
                 screen.scor = score;
                 SDL_DestroyTexture(screen.score);
-                char result[50];
                 sprintf(result, "%d", score);
                 screen.score = createTextTexture(font, result, textColor);
         }
@@ -170,8 +200,14 @@ void drawScore(int score) {
 void drawPlayerLives(int lives) {
         int offset = 50;
         int current_pos  = 0;
-        for(int i = 0; i < lives; i++) {
-                SDL_Rect heart_pos = {SCREEN_W - offset * 2, current_pos, 100, 100};
+        int i;
+        SDL_Rect heart_pos;
+        heart_pos.x = 100;
+        heart_pos.y = 100;
+                
+        for(i = 0; i < lives; i++) {
+                heart_pos.x = SCREEN_W - offset * 2;
+                heart_pos.y = current_pos;
                 renderTexture(screen.heart, NULL, &heart_pos);
                 current_pos += offset;
         }

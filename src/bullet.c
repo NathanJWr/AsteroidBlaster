@@ -59,19 +59,21 @@ Bullet bulletVector_get(bulletVector* const v, int index) {
 }
 
 void bulletVector_erase(bulletVector* const v, int index) {
+        int i;
         if(index >= v -> size || index < 0) {
                 exit(1);
         }
         printf("laser destroyed\n");
         destroySprite(&(v -> bullets[index].sprite));
-        for(int i = index; i < v -> count ; i++) {
+        for(i = index; i < v -> count ; i++) {
                 v -> bullets[i] = v -> bullets[i+1];
         }
         v -> count--;
 }
 
 void bulletVector_free(bulletVector* const v) {
-        for(int i = 0; i < v -> count; i++) {
+        int i;
+        for(i = 0; i < v -> count; i++) {
                 destroySprite(&(v -> bullets[i].sprite));
         }
         free(v -> bullets);

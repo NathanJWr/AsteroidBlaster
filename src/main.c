@@ -45,6 +45,8 @@ void drawCalls(asteroidVector*, Player*, bulletVector*, rubyVector*, int);
 void handleScenes(struct GameObjects*, SDL_Event*, bool*, bool*, int*);
 
 int main() {
+        SDL_Event e;
+        struct GameObjects gameObjects;
         bool game_init = false;
         bool upgrade_init = false;
         int game_outcome = -1;
@@ -52,8 +54,6 @@ int main() {
         initVideo(SCREEN_W, SCREEN_H);
         setupAllSprites();
         initDisplayObjects();
-        struct GameObjects gameObjects;
-        SDL_Event e;
         srand(time(NULL));
 
         while(game_state != QUIT) {
@@ -85,7 +85,7 @@ void handleScenes(struct GameObjects* gameObjects,
                         if(*upgrade_init) {
                                 cleanupUpgradeMenu();
                                 resetUpgradeMenu();
-                                upgrade_init = false;
+                                *upgrade_init = false;
                         }
                         mainMenuLoop(e);
                         cleanupMainMenu();
@@ -152,6 +152,7 @@ void gameMenuLoop(SDL_Event* e, int game_outcome) {
 
 void upgradeMenuLoop(SDL_Event* e, Player* player) {
         int decision = -1;
+	printf("%d", decision);
         while(decision == -1) {
                 decision = handleUpgradeMenuEvents(e, player);
                 updateUpgradeMenu();
@@ -262,13 +263,14 @@ void drawCalls(asteroidVector* bv,
                 rubyVector* r,
                 int score) {
 
-        for(int i = 0; i < bv->count; i++) {
+        int i;
+        for(i = 0; i < bv->count; i++) {
                 drawAsteroid(&(bv->asteroids[i]));
         }
-        for(int i = 0; i < b -> count; i++) {
+        for(i = 0; i < b -> count; i++) {
                 drawBullet(&b -> bullets[i]);
         }
-        for(int i = 0; i < r -> count; i++) {
+        for(i = 0; i < r -> count; i++) {
                 drawRuby(&r -> rubies[i]);
         }
         drawPlayer(p);

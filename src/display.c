@@ -36,7 +36,7 @@ bool initVideo(const int SCREEN_W, const int SCREEN_H) {
                         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
                 }
         }
-        //setup TTF
+
         if(TTF_Init() == -1) {
                 printf("Failed to initialize TTF: %s\n", SDL_GetError());
                 success = false;
@@ -140,12 +140,29 @@ SDL_Surface* loadImageSurface(char* const path) {
 }
 
 void renderTextBox(int x, int y, char text[]) {
-        SDL_Color white = {255, 255, 255, 0};
-        SDL_Color black = {0, 0, 0, 0};
         int w, h;
-        SDL_Texture* tex = createTextTextureWrapped(ubuntu, text, white, 400);
+        SDL_Color white;
+        SDL_Color black;
+        SDL_Rect text_box;
+        SDL_Texture* tex;
+
+        white.r = 255;
+        white.g = 255;
+        white.b = 255;
+        white.a = 0;
+
+        black.r = 0;
+        black.g = 0;
+        black.b = 0;
+        black.a = 0;
+        
+        tex = createTextTextureWrapped(ubuntu, text, white, 400);
         SDL_QueryTexture(tex, NULL, NULL, &w, &h);
-        SDL_Rect text_box = {x, y, w, h};
+        text_box.x = x;
+        text_box.y = y;
+        text_box.w = w;
+        text_box.h = h;
+
         setDrawColor(black);
         renderRectangleFull(&text_box);
         setDrawColor(white);
@@ -175,9 +192,9 @@ void drawPlayerCurrency(int currency, SDL_Rect* const pos) {
         if(displayObs.currency == 0 
                         || displayObs.currency < currency 
                         || displayObs.currency > currency) {
+                char c[50];
                 displayObs.currency = currency;
                 SDL_DestroyTexture(displayObs.curr);
-                char c[50];
                 sprintf(c, "%d", currency);
                 displayObs.curr = createTextTexture(font, c, white);
         }

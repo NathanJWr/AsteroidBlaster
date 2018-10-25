@@ -30,7 +30,7 @@ typedef struct _Player {
         Sprite player;
         Sprite heart;
 
-        //Upgrades
+        /* Upgrades */
         int laser_regen;
         int laser_cost;
         int move_speed;

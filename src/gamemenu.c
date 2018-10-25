@@ -17,18 +17,18 @@ Return -1 for nothing
 */
 int mousePressGame(SDL_MouseButtonEvent b) {
         if(b.button == SDL_BUTTON_LEFT) {
-                //Main Menu Button
+                /* Main Menu Button */
                 if(checkBoundaries(b.x, b.y, game_menu.menu.pos)) {
                         return 0;
                 }
 
-                //Continue Button
+                /* Continue Button */
                 if(checkBoundaries(b.x, b.y, game_menu.cont.pos)
                                 && !game_menu.game_over) {
                         return 1;
                 }
 
-                //Upgrades Button
+                /* Upgrades Button */
                 if(checkBoundaries(b.x, b.y, game_menu.upgrades.pos)) {
                         return 2;
                 }
@@ -86,7 +86,8 @@ void updateGameMenuButton(Button* const b) {
         SDL_Color green = {144, 245, 0, 255};
         SDL_Color red = {255, 17, 0, 255};
 
-        for(int i = 0; i < b -> num_textures; i++) {
+        int i;
+        for(i = 0; i < b -> num_textures; i++) {
                 if(b -> textures[i] != NULL) {
                         SDL_DestroyTexture(b -> textures[i]);
                 }
@@ -114,6 +115,9 @@ void drawGameMenuButton(Button b) {
 
 void setupGameMenu() {
         SDL_Rect menu_pos;
+        SDL_Rect cont_pos;
+        SDL_Rect upgrade_pos;
+
         menu_pos.w = 800;
         menu_pos.h = 100;
         menu_pos.x = (SCREEN_W / 2) - menu_pos.w / 2;
@@ -122,7 +126,6 @@ void setupGameMenu() {
         strcpy(game_menu.menu.title, "Main Menu");
         updateGameMenuButton(&game_menu.menu);
 
-        SDL_Rect cont_pos;
         cont_pos.w = 800;
         cont_pos.h = 100;
         cont_pos.x = (SCREEN_W / 2) - cont_pos.w / 2;
@@ -131,7 +134,6 @@ void setupGameMenu() {
         strcpy(game_menu.cont.title, "Continue");
         updateGameMenuButton(&game_menu.cont);
 
-        SDL_Rect upgrade_pos;
         upgrade_pos.w = 800;
         upgrade_pos.h = 100;
         upgrade_pos.x = (SCREEN_W / 2) - upgrade_pos.w / 2;
@@ -144,6 +146,7 @@ void setupGameMenu() {
 }
 
 void updateGameMenu(int game_outcome) {
+        SDL_Color black = {0, 0, 0, 255};
         if(game_outcome == 1) {
                 game_menu.game_over = true;
         }
@@ -151,7 +154,6 @@ void updateGameMenu(int game_outcome) {
                 game_menu.game_over = false;
         }
         renderPresent();
-        SDL_Color black = {0, 0, 0, 255};
         setDrawColor(black);
         clearRender();
 }

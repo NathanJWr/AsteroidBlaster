@@ -61,19 +61,21 @@ Asteroid* asteroidVector_get(asteroidVector* const v, int index) {
 }
 
 void asteroidVector_erase(asteroidVector* const v, int index) {
+        int i;
         if(index >= v->size || index < 0) {
                 exit(1);
         }
         destroySprite(&(v -> asteroids[index].asteroid));
         destroySprite(&(v -> asteroids[index].explosion));
-        for(int i = index; i < v -> count; i++) {
+        for(i = index; i < v -> count; i++) {
                 v -> asteroids[i] = v -> asteroids[i+1];
         }
         v -> count--;
 }
 
 void asteroidVector_free(asteroidVector* const v) {
-        for(int i = 0; i < v -> count; i++) {
+        int i;
+        for(i = 0; i < v -> count; i++) {
                 destroySprite(&(v -> asteroids[i].asteroid));
                 destroySprite(&(v -> asteroids[i].explosion));
         }

@@ -22,7 +22,7 @@ Player makePlayer() {
         player.lives = 3;
         player.currency = 0;
 
-        //Upgrades
+        /* Upgrades */
         player.laser_regen = 1;
         player.move_speed = 1;
         player.split_laser = false;

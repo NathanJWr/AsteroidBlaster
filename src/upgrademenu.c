@@ -19,8 +19,9 @@ UpgradeButton makeUpgradeButton(int, int, SDL_Rect);
 int handleUpgradeMenuEvents(SDL_Event* const e, Player* const p) {
         int button = -1;
         while(SDL_PollEvent(e)) {
-                if(e -> type == SDL_QUIT) {
+                if(e -> type == SDL_QUIT || up_menu.quit) {
                         button = 0;
+                        up_menu.quit = false;
                 }
                 else if(e -> type == SDL_MOUSEBUTTONDOWN) {
                         playerHandleUpgrades(mousePressUpgrades(e -> button, p), p);
@@ -29,18 +30,29 @@ int handleUpgradeMenuEvents(SDL_Event* const e, Player* const p) {
                         mouseSelectUpgrades();
                 }
         }
-        
         return button;
 }
 
 void setupUpgradeMenu() {
         char* path = "assets/text/upgrades.txt";
         char* text;
+        SDL_Color white = {255, 255, 255, 255};
+        SDL_Color green = {144, 245, 0, 255};
 
+        SDL_Rect laser_pos = {0, 0, 350, 50};
+        SDL_Rect laserCost_pos = {0, 50, 300, 50};
+        SDL_Rect moveSpeed_pos = {0, 100, 300, 50};
+        SDL_Rect laserSplit_pos = {0, 150, 300, 50};
+	SDL_Rect exit_pos = {0, 200, 150, 50};
+
+        SDL_Color colors[2];
+        colors[0] = white;
+        colors[1] = green;
+
+        /* ruby texture */
         up_menu.ruby = loadImageTexture("assets/images/ruby_single.png");
 
         /* laser_upgrade  */
-        SDL_Rect laser_pos = {0, 0, 350, 50};
         up_menu.laser_upgrade = makeUpgradeButton(3, 3, laser_pos); 
         strcpy(up_menu.laser_upgrade.button.title,
                         "Laser Regeneration (%d/%d)");
@@ -52,7 +64,6 @@ void setupUpgradeMenu() {
         up_menu.laser_upgrade.cost = 0;
 
         /* laser_cost */
-        SDL_Rect laserCost_pos = {0, 50, 300, 50};
         up_menu.laser_cost = makeUpgradeButton(3, 3, laserCost_pos);
         strcpy(up_menu.laser_cost.button.title,
                         "Laser Cost (%d/%d)");
@@ -64,7 +75,6 @@ void setupUpgradeMenu() {
         up_menu.laser_cost.cost = 5;
 
         /* move_speed */
-        SDL_Rect moveSpeed_pos = {0, 100, 300, 50};
         up_menu.move_speed = makeUpgradeButton(3, 3, moveSpeed_pos);
         strcpy(up_menu.move_speed.button.title, "Move Speed (%d/%d)");
         updateUpgradeButton(&up_menu.move_speed);
@@ -75,7 +85,6 @@ void setupUpgradeMenu() {
         up_menu.move_speed.cost = 15;
 
         /* laser_split */
-        SDL_Rect laserSplit_pos = {0, 150, 300, 50};
         up_menu.laser_split = makeUpgradeButton(3, 1, laserSplit_pos);
         strcpy(up_menu.laser_split.button.title, "Laser Split (%d/%d)");
         updateUpgradeButton(&up_menu.laser_split);
@@ -84,42 +93,53 @@ void setupUpgradeMenu() {
                         text);
         free(text);
         up_menu.laser_split.cost = 25;
+
+	/* exit */
+        up_menu.exit = makeButton(2, exit_pos);
+        strcpy(up_menu.exit.title, "Exit");
+        setButtonTextures(colors, &up_menu.exit, up_menu.exit.title);
+        up_menu.quit = false;
 }
 
 void drawUpgradeMenu(int currency) {
+        SDL_Rect currency_pos = {920, 15, 30, 30};
+	if(up_menu.laser_upgrade.button.textures[0] == NULL) {
+		printf("Does not exist\n");
+	}
         drawUpgradeButton(up_menu.laser_upgrade);
         drawUpgradeButton(up_menu.laser_cost);
         drawUpgradeButton(up_menu.move_speed);
         drawUpgradeButton(up_menu.laser_split);
+        drawButton(up_menu.exit);
         drawUpgradeText(up_menu.laser_upgrade);
         drawUpgradeText(up_menu.laser_cost);
         drawUpgradeText(up_menu.move_speed);
         drawUpgradeText(up_menu.laser_split);
-        SDL_Rect currency_pos = {920, 15, 30, 30};
         drawPlayerCurrency(currency, &currency_pos);
 }
 
 
 void updateUpgradeMenu() {
-        renderPresent();
         SDL_Color black = {0, 0, 0, 255};
+        renderPresent();
         setDrawColor(black);
         clearRender();
         SDL_Delay(10);
 }
 
 void cleanupUpgradeMenu() {
+	printf("Cleanup Upgrade Menu Called\n");
         destroyButton(&up_menu.laser_upgrade.button);
         destroyButton(&up_menu.move_speed.button);
         destroyButton(&up_menu.laser_split.button);
         destroyButton(&up_menu.laser_cost.button);
+        destroyButton(&up_menu.exit);
 }
 void resetUpgradeMenu() {
         up_menu.laser_upgrade.clicked = 0;
         up_menu.laser_split.clicked = 0;
         up_menu.move_speed.clicked = 0;
         up_menu.laser_cost.clicked = 0;
-     //   cleanupUpgradeMenu();
 }
 
 bool updateTimesClicked(UpgradeButton* const button,
@@ -187,6 +207,15 @@ Player_Upgrades mousePressUpgrades(SDL_MouseButtonEvent b,
                         }
                         else return NONE;
                 }
+                if(checkBoundaries(b.x,
+                                   b.y,
+                                   up_menu.exit.pos)) {
+
+                        up_menu.quit = true;
+                }
+		else {
+			up_menu.quit = false;
+		}
         }
         return NONE;
 }
@@ -218,6 +247,13 @@ void mouseSelectUpgrades() {
         else {
                 up_menu.laser_split.button.selected = false;
         }
+        if(checkBoundaries(mouse_x, mouse_y, up_menu.exit.pos)) {
+                up_menu.exit.selected = true;
+        }
+        else {
+                up_menu.exit.selected = false;
+        }
+
 }
 
 void drawUpgradeButton(UpgradeButton b) {
@@ -244,26 +280,18 @@ void drawUpgradeText(UpgradeButton b) {
 }
 
 void updateUpgradeButton(UpgradeButton* const b) {
+        char buffer[100];
         SDL_Color white = {255, 255, 255, 255};
         SDL_Color green = {144, 245, 0, 255};
         SDL_Color yellow = {255, 255, 0, 255};
-        
-        for(int i = 0; i < b -> button.num_textures; i++) {
-                if(b -> button.textures[i] != NULL) {
-                        SDL_DestroyTexture(b -> button.textures[i]);
-                }
-        }
-        
-        char buffer[100];
+        SDL_Color colors[3];
+        colors[0] = white;
+        colors[1] = green;
+        colors[2] = yellow;
         strcpy(buffer, b -> button.title); 
         sprintf(buffer, b -> button.title, b -> clicked, b -> max_clicks);
         
-        b -> button.textures[0] = createTextTexture(font,
-                        buffer, white);
-        b -> button.textures[1] = createTextTexture(font,
-                        buffer, yellow);
-        b -> button.textures[2] = createTextTexture(font,
-                        buffer, green);
+        setButtonTextures(colors, &b->button, buffer);
 }
 
 UpgradeButton makeUpgradeButton(int num_tex,
