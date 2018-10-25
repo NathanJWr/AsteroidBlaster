@@ -11,7 +11,6 @@ void gameTick(asteroidVector* const asteroidV,
                 Player* const player,
                 struct KeyPresses* const keys,
                 const int SCREEN_H) {
-
         int i;
         movePlayer(keys, player, bulletV);
         for(i = 0; i < asteroidV -> count; i++) {
@@ -23,12 +22,20 @@ void gameTick(asteroidVector* const asteroidV,
         /* Bullet Collision */
         for(i = 0; i < bulletV -> count; i++) {
                 int j;
+                if(&bulletV -> bullets[i] == NULL) {
+                        exit(1);
+                }
                 if(!moveBullet(&(bulletV -> bullets[i]))) {
                         bulletVector_erase(bulletV, i);
                 }
                 for(j = 0; j < asteroidV -> count; j++) {
-                        if(checkCollision_bullet(*asteroidVector_get(asteroidV, j),
-                                                bulletVector_get(bulletV, i))) {
+                        if(&asteroidV -> asteroids[i] == NULL) {
+                                exit(1);
+                        }
+                        if(checkCollision_bullet(
+                                *asteroidVector_get(asteroidV, j),
+                                bulletVector_get(bulletV, i))) {
+
                                 Bullet b = bulletVector_get(bulletV, i);
                                 asteroidV -> asteroids[j].hit = true;
                                 bulletVector_erase(bulletV , i);
@@ -159,7 +166,7 @@ bool checkCollision_bullet(Asteroid asteroid, Bullet bullet) {
         rightB = asteroid.hitX + asteroid.hitW;
         topB = asteroid.hitY;
         bottomB = asteroid.hitY + asteroid.hitH;
-
+        
         if(bottomA >= topB
                         && topA <= bottomB
                         && rightA >= leftB

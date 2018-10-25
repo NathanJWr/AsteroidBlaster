@@ -184,7 +184,7 @@ void drawLaserPercentage(int percent) {
 }
 
 void drawScore(int score) {
-        char* result = NULL;
+        char result[50];
         if(screen.scor < score || screen.scor > score) {
                 screen.scor = score;
                 SDL_DestroyTexture(screen.score);
@@ -202,8 +202,8 @@ void drawPlayerLives(int lives) {
         int current_pos  = 0;
         int i;
         SDL_Rect heart_pos;
-        heart_pos.x = 100;
-        heart_pos.y = 100;
+        heart_pos.w = 100;
+        heart_pos.h = 100;
                 
         for(i = 0; i < lives; i++) {
                 heart_pos.x = SCREEN_W - offset * 2;

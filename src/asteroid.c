@@ -54,7 +54,7 @@ void asteroidVector_add(asteroidVector* const v, Asteroid b) {
 }
 
 Asteroid* asteroidVector_get(asteroidVector* const v, int index) {
-        if(index >= v->size || index < 0) {
+        if(index >= v->count || index < 0) {
                 exit(1);
         }
         return &(v->asteroids[index]);
@@ -62,9 +62,11 @@ Asteroid* asteroidVector_get(asteroidVector* const v, int index) {
 
 void asteroidVector_erase(asteroidVector* const v, int index) {
         int i;
-        if(index >= v->size || index < 0) {
+        if(index >= v->count || index < 0) {
                 exit(1);
         }
+        printf("Asteroid being erased\n");
+        printf("%d\n", v -> asteroids[index].y);
         destroySprite(&(v -> asteroids[index].asteroid));
         destroySprite(&(v -> asteroids[index].explosion));
         for(i = index; i < v -> count; i++) {

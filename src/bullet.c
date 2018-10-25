@@ -52,7 +52,7 @@ void bulletVector_add(bulletVector* const v, Bullet b) {
 }
 
 Bullet bulletVector_get(bulletVector* const v, int index) {
-        if(index >= v -> size || index < 0) {
+        if(index >= v -> count || index < 0) {
                 exit(1);
         }
         return (v -> bullets[index]);
@@ -60,7 +60,7 @@ Bullet bulletVector_get(bulletVector* const v, int index) {
 
 void bulletVector_erase(bulletVector* const v, int index) {
         int i;
-        if(index >= v -> size || index < 0) {
+        if(index >= v -> count || index < 0) {
                 exit(1);
         }
         printf("laser destroyed\n");
