@@ -42,12 +42,12 @@ void asteroidVector_init(asteroidVector* const v) {
 void asteroidVector_add(asteroidVector* const v, Asteroid b) {
         if(v->size == 0) {
                 v->size = 10;
-                v->asteroids = malloc(sizeof(b) * v->size);
+                v->asteroids = (Asteroid*) malloc(sizeof(b) * v->size);
                 memset(v->asteroids, '\0', sizeof(b) * v->size);
         }
         if(v->size == v->count) {
                 v->size *= 2;
-                v->asteroids = realloc(v->asteroids, sizeof(b) * v->size);
+                v->asteroids = (Asteroid*) realloc(v->asteroids, sizeof(b) * v->size);
         }
         v->asteroids[v->count] = b;
         v->count++;

@@ -39,12 +39,12 @@ void rubyVector_init(rubyVector* const v) {
 void rubyVector_add(rubyVector* const v, Ruby b) {
         if(v->size == 0) {
                 v->size = 10;
-                v->rubies = malloc(sizeof(b) * v->size);
+                v->rubies = (Ruby*) malloc(sizeof(b) * v->size);
                 memset(v->rubies, '\0', sizeof(b) * v->size);
         }
         if(v->size == v->count) {
                 v->size *= 2;
-                v->rubies = realloc(v->rubies, sizeof(b) * v->size);
+                v->rubies = (Ruby*) realloc(v->rubies, sizeof(b) * v->size);
         }
         v->rubies[v->count] = b;
         v->count++;

@@ -3,6 +3,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <stdbool.h>
+#include <string>
         struct Display_Objects {
                 SDL_Texture* ruby;
                 SDL_Texture* curr;
@@ -15,10 +16,10 @@
         void cleanDisplayObjects();
         SDL_Texture* surfaceToTexture(SDL_Surface*);
         SDL_Texture* surfaceToTextureSafe(SDL_Surface*);
-        SDL_Texture* createTextTexture(TTF_Font*, char*, SDL_Color);
-        SDL_Texture* createTextTextureWrapped(TTF_Font*, char*, SDL_Color, int);
-        SDL_Texture* loadImageTexture(char*);
-        SDL_Surface* loadImageSurface(char*);
+        SDL_Texture* createTextTexture(TTF_Font*, std::string, SDL_Color);
+        SDL_Texture* createTextTextureWrapped(TTF_Font*, std::string, SDL_Color, int);
+        SDL_Texture* loadImageTexture(std::string);
+        SDL_Surface* loadImageSurface(std::string);
         void renderTexture(SDL_Texture*, SDL_Rect*, SDL_Rect*);
         void setDrawColor(SDL_Color);
         void renderTextBox(int, int, char*);

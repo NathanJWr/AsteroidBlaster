@@ -2,12 +2,13 @@ EXE = game
 
 SRC_DIR = src
 OBJ_DIR = obj
+CC = g++
 
-SRC = $(wildcard $(SRC_DIR)/*.c)
-OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+SRC = $(wildcard $(SRC_DIR)/*.cc)
+OBJ = $(SRC:$(SRC_DIR)/%.cc=$(OBJ_DIR)/%.o)
 
 CPPFLAGS += -Iinclude 
-CFLAGS += -Wall -Werror -Wextra -g -std=c89 -pedantic-errors
+CFLAGS += -Wall -Werror -std=c++17 -pedantic-errors
 LDFLAGS += -Llib
 LDLIBS += -lSDL2 -lSDL2_image -lSDL2_ttf
 
@@ -18,7 +19,7 @@ all: $(EXE)
 $(EXE): $(OBJ)
 	$(CC) $(LDFLAGS) $^ $(LDLIBS) -o $@
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cc
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
 clean:

@@ -41,11 +41,11 @@ void bulletVector_init(bulletVector* const  v) {
 void bulletVector_add(bulletVector* const v, Bullet b) {
         if(v -> size == 0) {
                 v -> size = 10;
-                v -> bullets = malloc(sizeof(b) * v -> size);
+                v -> bullets = (Bullet*) malloc(sizeof(b) * v -> size);
         }
         if(v -> size == v -> count) {
                 v -> size *= 2;
-                v -> bullets = realloc(v -> bullets, sizeof(b) * v -> size);
+                v -> bullets = (Bullet*) realloc(v -> bullets, sizeof(b) * v -> size);
         }
         v -> bullets[v -> count] = b;
         v -> count++;
@@ -53,6 +53,8 @@ void bulletVector_add(bulletVector* const v, Bullet b) {
 
 Bullet bulletVector_get(bulletVector* const v, int index) {
         if(index >= v -> count || index < 0) {
+                printf("Bullet Vector Index out of Bounds!\n");
+                printf("Accessing index %d when count is %d\n", index, v->count);
                 exit(1);
         }
         return (v -> bullets[index]);
@@ -60,12 +62,13 @@ Bullet bulletVector_get(bulletVector* const v, int index) {
 
 void bulletVector_erase(bulletVector* const v, int index) {
         int i;
-        if(index >= v -> count || index < 0) {
+        if(index > v -> count || index < 0) {
+                printf("Bullet Vector Index out of Bounds!\n");
+                printf("Accessing index %d when count is %d\n", index, v->count);
                 exit(1);
         }
-        printf("laser destroyed\n");
         destroySprite(&(v -> bullets[index].sprite));
-        for(i = index; i < v -> count ; i++) {
+        for(i = index; i < v -> count; i++) {
                 v -> bullets[i] = v -> bullets[i+1];
         }
         v -> count--;

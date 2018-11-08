@@ -1,4 +1,3 @@
-#define _GNU_SOURCE
 #include <SDL2/SDL.h>
 #include <stdio.h>
 #include "menu.h"
@@ -12,7 +11,7 @@ Button makeButton(int num_textures, SDL_Rect pos) {
         button.selected = false;
         button.pos = pos;
         button.num_textures = num_textures;
-        button.textures = malloc(num_textures * sizeof(SDL_Texture*));
+        button.textures = (SDL_Texture**) malloc(num_textures * sizeof(SDL_Texture*));
         for(i = 0; i < num_textures; i++) {
                 button.textures[i] = NULL;
         }
@@ -61,18 +60,18 @@ bool checkBoundaries(int x, int y, SDL_Rect rect) {
         else return false;
 }
 
-char* loadText(char* const path, char* const title) {
+char* loadText(std::string path, std::string title) {
         char* line = NULL;
         FILE *fp = NULL;
         char* description = NULL;
         size_t len = 0;
         size_t len2 = 0;
-        fp = fopen(path, "r");
+        fp = fopen(path.c_str(), "r");
         if(fp == NULL) {
-                printf("Failed to open file %s\n", path);
+                printf("Failed to open file %s\n", path.c_str());
         }
         while(getline(&line,&len, fp) != -1) {
-                if(strstr(line, title)) {
+                if(strstr(line, title.c_str())) {
                         if(getline(&description, &len2, fp) == -1) {
                                 return NULL;
                         }
@@ -81,7 +80,7 @@ char* loadText(char* const path, char* const title) {
         fclose(fp);
         free(line);
         if(description == NULL) {
-                printf("%s not found in %s\n", title, path);
+                printf("%s not found in %s\n", title.c_str(), path.c_str());
         }
         return description;
 }

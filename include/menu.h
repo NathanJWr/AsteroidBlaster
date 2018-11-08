@@ -1,6 +1,7 @@
 #ifndef MENU_H
 #define MENU_H
 #include <stdbool.h>
+#include <string>
 
 typedef struct _Button {
         SDL_Rect pos;
@@ -15,5 +16,5 @@ void drawButton(Button);
 void drawPlayerCurrency(int, SDL_Rect*);
 void destroyButton(Button*);
 bool checkBoundaries(int, int, SDL_Rect);
-char* loadText(char* path, char* title);
+char* loadText(std::string path, std::string title);
 #endif

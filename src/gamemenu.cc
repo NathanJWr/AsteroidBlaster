@@ -5,8 +5,8 @@
 #include "display.h"
 #include "menu.h"
 extern TTF_Font* font;
-extern const int SCREEN_W;
-extern const int SCREEN_H;
+extern int SCREEN_W;
+extern int SCREEN_H;
 
 struct GameMenuAssets game_menu;
 /*

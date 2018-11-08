@@ -2,6 +2,7 @@
 #include <SDL2/SDL_ttf.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string>
 #include "upgrademenu.h"
 #include "display.h"
 #include "menu.h"
@@ -34,7 +35,7 @@ int handleUpgradeMenuEvents(SDL_Event* const e, Player* const p) {
 }
 
 void setupUpgradeMenu() {
-        char* path = "assets/text/upgrades.txt";
+        std::string path = "assets/text/upgrades.txt";
         char* text;
         SDL_Color white = {255, 255, 255, 255};
         SDL_Color green = {144, 245, 0, 255};
@@ -43,7 +44,7 @@ void setupUpgradeMenu() {
         SDL_Rect laserCost_pos = {0, 50, 300, 50};
         SDL_Rect moveSpeed_pos = {0, 100, 300, 50};
         SDL_Rect laserSplit_pos = {0, 150, 300, 50};
-	SDL_Rect exit_pos = {0, 200, 150, 50};
+	      SDL_Rect exit_pos = {0, 200, 150, 50};
 
         SDL_Color colors[2];
         colors[0] = white;

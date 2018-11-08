@@ -4,9 +4,9 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include <stdio.h>
-extern const int SCREEN_W;
-extern const int SCREEN_H;
 extern TTF_Font* font;
+extern int SCREEN_W;
+extern int SCREEN_H;
 
 struct MainMenuAssets main_menu;
 SDL_Color text_color = {255, 255, 255, 255};

@@ -6,10 +6,10 @@
 #include "display.h"
 #include "gamedisplay.h"
 #include "sprite.h"
-extern const int SCREEN_W;
-extern const int SCREEN_H;
 extern SDL_Window* window;
 extern TTF_Font* font;
+extern int SCREEN_W;
+extern int SCREEN_H;
 
 void drawScore(int);
 void drawPlayerLives(int);

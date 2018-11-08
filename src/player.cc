@@ -1,7 +1,7 @@
 #include <stdbool.h>
 #include "player.h"
-extern const int SCREEN_W;
-extern const int SCREEN_H;
+extern int SCREEN_W;
+extern int SCREEN_H;
 Player makePlayer() {
         Player player;
         player.x = SCREEN_W / 2;

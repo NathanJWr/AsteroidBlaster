@@ -1,14 +1,17 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
+#include <string>
 #include <stdbool.h>
 #include "display.h"
 extern SDL_Window* window;
 extern SDL_Renderer* renderer;
 extern TTF_Font* font;
+extern int SCREEN_W;
+extern int SCREEN_H;
 TTF_Font* ubuntu;
 struct Display_Objects displayObs;
-bool initVideo(const int SCREEN_W, const int SCREEN_H) {
+bool initVideo() {
         bool success = true;
         if(SDL_Init(SDL_INIT_VIDEO) < 0) {
                 success = false;
@@ -86,12 +89,12 @@ SDL_Texture* surfaceToTextureSafe(SDL_Surface* const surf) {
 }
 
 SDL_Texture* createTextTexture(TTF_Font* const font,
-                char* const text,
+                std::string text,
                 SDL_Color color) {
         
         SDL_Surface* surface = NULL;
         SDL_Texture* texture = NULL;
-        surface = TTF_RenderText_Solid(font, text, color);
+        surface = TTF_RenderText_Solid(font, text.c_str(), color);
 
         if(surface == NULL) {
                 printf("Text Render Error: %s\n", TTF_GetError());
@@ -102,13 +105,13 @@ SDL_Texture* createTextTexture(TTF_Font* const font,
         return texture;
 }
 SDL_Texture* createTextTextureWrapped(TTF_Font* const font,
-                char* const text,
+                std::string text,
                 SDL_Color color,
                 int length) {
 
         SDL_Surface* surf = NULL;
         SDL_Texture* tex = NULL;
-        surf = TTF_RenderText_Blended_Wrapped(font, text, color, length);
+        surf = TTF_RenderText_Blended_Wrapped(font, text.c_str(), color, length);
         if(surf == NULL) {
                 printf("Text Render Error: %s\n", TTF_GetError());
                 return NULL;
@@ -117,9 +120,9 @@ SDL_Texture* createTextTextureWrapped(TTF_Font* const font,
         return tex;
 }
 
-SDL_Texture* loadImageTexture(char* const path) {
+SDL_Texture* loadImageTexture(std::string path) {
         SDL_Texture* tex = NULL;
-        tex = IMG_LoadTexture(renderer, path);
+        tex = IMG_LoadTexture(renderer, path.c_str());
 
         if(tex == NULL) {
                 printf("Image Load Error: %s\n", IMG_GetError());
@@ -128,9 +131,9 @@ SDL_Texture* loadImageTexture(char* const path) {
         return tex;
 }
 
-SDL_Surface* loadImageSurface(char* const path) {
+SDL_Surface* loadImageSurface(std::string path) {
         SDL_Surface* surface = NULL;
-        surface = IMG_Load(path);
+        surface = IMG_Load(path.c_str());
 
         if(surface == NULL) {
                 printf("Image Load Error: %s\n", IMG_GetError());

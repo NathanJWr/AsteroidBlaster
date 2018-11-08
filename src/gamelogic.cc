@@ -32,11 +32,13 @@ void gameTick(asteroidVector* const asteroidV,
                         if(&asteroidV -> asteroids[i] == NULL) {
                                 exit(1);
                         }
+
                         if(checkCollision_bullet(
                                 *asteroidVector_get(asteroidV, j),
                                 bulletVector_get(bulletV, i))) {
 
-                                Bullet b = bulletVector_get(bulletV, i);
+                                Bullet b;
+                                b = bulletVector_get(bulletV, i);
                                 asteroidV -> asteroids[j].hit = true;
                                 bulletVector_erase(bulletV , i);
                                 player -> score++;

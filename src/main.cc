@@ -14,11 +14,13 @@
 #include "sprite.h"
 #include "currency.h"
 #include "timer.h"
-const int SCREEN_W = 1024;
-const int SCREEN_H = 768;
 SDL_Window* window;
 SDL_Renderer* renderer;
 TTF_Font* font;
+int SCREEN_W = 1024;
+int SCREEN_H = 768;
+bool game_init;
+bool upgrade_init;
 
 struct GameObjects {
         asteroidVector asteroidV;
@@ -42,16 +44,16 @@ void upgradeMenuLoop(SDL_Event* e, Player* player);
 void initGameObjects(struct GameObjects*);
 void cleanupGameObjects(struct GameObjects*);
 void drawCalls(asteroidVector*, Player*, bulletVector*, rubyVector*, int);
-void handleScenes(struct GameObjects*, SDL_Event*, bool*, bool*, int*);
+void handleScenes(struct GameObjects*, SDL_Event*, int*);
 
 int main() {
         SDL_Event e;
         struct GameObjects gameObjects;
-        bool game_init = false;
-        bool upgrade_init = false;
         int game_outcome = -1;
+        game_init = false;
+        upgrade_init = false;        
         game_state = MAIN_MENU;
-        initVideo(SCREEN_W, SCREEN_H);
+        initVideo();
         setupAllSprites();
         initDisplayObjects();
         srand(time(NULL));
@@ -59,8 +61,6 @@ int main() {
         while(game_state != QUIT) {
                 handleScenes(&gameObjects,
                                 &e,
-                                &game_init,
-                                &upgrade_init,
                                 &game_outcome);
         }
         cleanupSpriteSurfaces();
@@ -71,21 +71,19 @@ int main() {
 
 void handleScenes(struct GameObjects* gameObjects,
                 SDL_Event* e,
-                bool* game_init,
-                bool* upgrade_init,
                 int* game_outcome) {
         switch(game_state) {
                 case MAIN_MENU:
                         setupMainMenu();
-                        if(*game_init) {
+                        if(game_init) {
                                 cleanupGameObjects(gameObjects);
                                 cleanupGameDisplay();
-                                *game_init = false;
+                                game_init = false;
                         }
-                        if(*upgrade_init) {
+                        if(upgrade_init) {
                                 cleanupUpgradeMenu();
                                 resetUpgradeMenu();
-                                *upgrade_init = false;
+                                upgrade_init = false;
                         }
                         mainMenuLoop(e);
                         cleanupMainMenu();
@@ -96,18 +94,18 @@ void handleScenes(struct GameObjects* gameObjects,
                         cleanupGameMenu();
                         break;
                 case UPGRADE_MENU:
-                        if(!*upgrade_init) {
+                        if(!upgrade_init) {
                                 setupUpgradeMenu();
                                 resetUpgradeMenu();
-                                *upgrade_init = true;
+                                upgrade_init = true;
                         }
                         upgradeMenuLoop(e, &(gameObjects -> player));
                         break;
                 case GAME:
-                        if(!*game_init) {
+                        if(!game_init) {
                                 initGameObjects(gameObjects);
                                 setupGameScreen();
-                                *game_init = true;
+                                game_init = true;
                         }
                         gameObjects -> running = true;
                         *game_outcome = gameLoop(gameObjects, e);

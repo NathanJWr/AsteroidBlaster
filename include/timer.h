@@ -7,7 +7,7 @@ typedef struct _Timer {
         int delta;
         bool done;
 } Timer;
-Timer newTimer();
+Timer newTimer(int);
 void updateTimer(Timer*);
 bool isTimerDone(Timer);
 #endif
