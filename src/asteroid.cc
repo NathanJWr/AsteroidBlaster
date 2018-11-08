@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <vector>
 Asteroid makeAsteroid(const int SCREEN_W) {
         Asteroid b;
         b.sprite_num = (rand() % 3) + 1;
@@ -33,55 +34,10 @@ bool moveAsteroid(Asteroid* const asteroid, const int SCREEN_H) {
         else return true;
 }
 
-void asteroidVector_init(asteroidVector* const v) {
-        v->asteroids = NULL;
-        v->size = 0;
-        v->count = 0;
-}
-
-void asteroidVector_add(asteroidVector* const v, Asteroid b) {
-        if(v->size == 0) {
-                v->size = 10;
-                v->asteroids = (Asteroid*) malloc(sizeof(b) * v->size);
-                memset(v->asteroids, '\0', sizeof(b) * v->size);
+void cleanupAsteroids(std::vector<Asteroid> &asteroids) {
+        unsigned int i;
+        for(i = 0; i < asteroids.size(); i++) {
+                destroySprite(&(asteroids[i].asteroid));
+                destroySprite(&(asteroids[i].explosion));
         }
-        if(v->size == v->count) {
-                v->size *= 2;
-                v->asteroids = (Asteroid*) realloc(v->asteroids, sizeof(b) * v->size);
-        }
-        v->asteroids[v->count] = b;
-        v->count++;
-}
-
-Asteroid* asteroidVector_get(asteroidVector* const v, int index) {
-        if(index >= v->count || index < 0) {
-                exit(1);
-        }
-        return &(v->asteroids[index]);
-}
-
-void asteroidVector_erase(asteroidVector* const v, int index) {
-        int i;
-        if(index >= v->count || index < 0) {
-                exit(1);
-        }
-        printf("Asteroid being erased\n");
-        printf("%d\n", v -> asteroids[index].y);
-        destroySprite(&(v -> asteroids[index].asteroid));
-        destroySprite(&(v -> asteroids[index].explosion));
-        for(i = index; i < v -> count; i++) {
-                v -> asteroids[i] = v -> asteroids[i+1];
-        }
-        v -> count--;
-}
-
-void asteroidVector_free(asteroidVector* const v) {
-        int i;
-        for(i = 0; i < v -> count; i++) {
-                destroySprite(&(v -> asteroids[i].asteroid));
-                destroySprite(&(v -> asteroids[i].explosion));
-        }
-        free(v->asteroids);
-        v->size = 0;
-        v->count = 0;
 }

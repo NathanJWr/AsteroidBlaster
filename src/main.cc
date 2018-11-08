@@ -2,6 +2,7 @@
 #include <SDL2/SDL_ttf.h>
 #include <stdbool.h>
 #include <time.h>
+#include <vector>
 #include "display.h"
 #include "asteroid.h"
 #include "player.h"
@@ -23,7 +24,7 @@ bool game_init;
 bool upgrade_init;
 
 struct GameObjects {
-        asteroidVector asteroidV;
+        std::vector<Asteroid> asteroidV;
         bulletVector bulletV;
         rubyVector rubyV;
         Player player;
@@ -43,7 +44,7 @@ void gameMenuLoop(SDL_Event* e, int);
 void upgradeMenuLoop(SDL_Event* e, Player* player);
 void initGameObjects(struct GameObjects*);
 void cleanupGameObjects(struct GameObjects*);
-void drawCalls(asteroidVector*, Player*, bulletVector*, rubyVector*, int);
+void drawCalls(std::vector<Asteroid>&, Player*, bulletVector*, rubyVector*, int);
 void handleScenes(struct GameObjects*, SDL_Event*, int*);
 
 int main() {
@@ -171,14 +172,14 @@ int gameLoop(struct GameObjects* game, SDL_Event* e) {
                 delta += (now - lastTime) / nPerTick;
                 lastTime = now;
                 updateGameScreen();
-                drawCalls(&(game -> asteroidV),
+                drawCalls(game -> asteroidV,
                                 &(game -> player),
                                 &(game -> bulletV),
                                 &(game -> rubyV),
                                 game -> score);
                 while(delta >= 1) {
                         ticks ++;
-                        gameTick(&(game -> asteroidV),
+                        gameTick(game -> asteroidV,
                                         &(game -> bulletV),
                                         &(game -> rubyV),
                                         &(game -> player),
@@ -196,8 +197,7 @@ int gameLoop(struct GameObjects* game, SDL_Event* e) {
 
                 updateTimer(&game -> asteroid_timer);
                 if(isTimerDone(game -> asteroid_timer)) {
-                        asteroidVector_add(&(game -> asteroidV),
-                                        makeAsteroid(SCREEN_W));
+                        game->asteroidV.push_back(makeAsteroid(SCREEN_W));
                         game -> asteroid_timer = newTimer(game -> asteroid_time);
                 }
 
@@ -232,7 +232,6 @@ int gameLoop(struct GameObjects* game, SDL_Event* e) {
 }
 
 void initGameObjects(struct GameObjects* g) {
-        asteroidVector_init(&(g -> asteroidV));
         bulletVector_init(&(g -> bulletV));
         rubyVector_init(&(g -> rubyV));
         g -> player = makePlayer();
@@ -249,21 +248,20 @@ void initGameObjects(struct GameObjects* g) {
         g -> asteroid_timer = newTimer(g -> asteroid_time);
 }
 void cleanupGameObjects(struct GameObjects* g) {
-          asteroidVector_free(&(g -> asteroidV));
           bulletVector_free(&(g -> bulletV));
           rubyVector_free(&(g -> rubyV));
           playerCleanup(&(g -> player));
 }
 
-void drawCalls(asteroidVector* bv,
+void drawCalls(std::vector<Asteroid> &bv,
                 Player* p,
                 bulletVector* b,
                 rubyVector* r,
                 int score) {
 
         int i;
-        for(i = 0; i < bv->count; i++) {
-                drawAsteroid(&(bv->asteroids[i]));
+        for(i = 0; i < (int) bv.size(); i++) {
+                drawAsteroid(&(bv[i]));
         }
         for(i = 0; i < b -> count; i++) {
                 drawBullet(&b -> bullets[i]);

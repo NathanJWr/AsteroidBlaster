@@ -2,6 +2,7 @@
 #define ASTEROID_H
 #include <stdbool.h>
 #include "sprite.h"
+#include <vector>
 typedef struct _Asteroid {
         int sprite_num;
         int x;
@@ -17,20 +18,8 @@ typedef struct _Asteroid {
         Sprite explosion;
 } Asteroid;
 
-typedef struct _bVector {
-        Asteroid* asteroids;
-        int size;
-        int count;
-} asteroidVector;
-
 Asteroid makeAsteroid(const int SCREEN_W);
 bool moveAsteroid(Asteroid*, const int SCREEN_H);
-
-
-void asteroidVector_init(asteroidVector*);
-void asteroidVector_add(asteroidVector*, Asteroid);
-Asteroid* asteroidVector_get(asteroidVector*, int index);
-void asteroidVector_free(asteroidVector*);
-void asteroidVector_erase(asteroidVector*, int);
+void cleanupAsteroids(std::vector<Asteroid> &);
 
 #endif

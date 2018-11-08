@@ -5,7 +5,7 @@
 Timer player_invuln_time;
 Timer laser_recharge_time;
 void splitLaser(bulletVector*, Player, int, int);
-void gameTick(asteroidVector* const asteroidV,
+void gameTick(std::vector<Asteroid> &asteroidV,
                 bulletVector* const bulletV,
                 rubyVector* const rubyV,
                 Player* const player,
@@ -13,9 +13,13 @@ void gameTick(asteroidVector* const asteroidV,
                 const int SCREEN_H) {
         int i;
         movePlayer(keys, player, bulletV);
-        for(i = 0; i < asteroidV -> count; i++) {
-                if(!moveAsteroid(&(asteroidV->asteroids[i]), SCREEN_H)) {
-                        asteroidVector_erase(asteroidV, i);
+        for(i = 0; i < (int) asteroidV.size(); i++) {
+                if(!moveAsteroid(&(asteroidV[i]), SCREEN_H)) {
+                  /*
+                   * TODO: This will not erase the sprite data
+                   * FIX THIS
+                   */
+                  asteroidV.erase(asteroidV.begin(), asteroidV.begin() + i);
                 }
         }
 
@@ -28,18 +32,18 @@ void gameTick(asteroidVector* const asteroidV,
                 if(!moveBullet(&(bulletV -> bullets[i]))) {
                         bulletVector_erase(bulletV, i);
                 }
-                for(j = 0; j < asteroidV -> count; j++) {
-                        if(&asteroidV -> asteroids[i] == NULL) {
+                for(j = 0; j < (int) asteroidV.size(); j++) {
+                        if(&asteroidV[i] == NULL) {
                                 exit(1);
                         }
 
                         if(checkCollision_bullet(
-                                *asteroidVector_get(asteroidV, j),
+                                asteroidV[j],
                                 bulletVector_get(bulletV, i))) {
 
                                 Bullet b;
                                 b = bulletVector_get(bulletV, i);
-                                asteroidV -> asteroids[j].hit = true;
+                                asteroidV[j].hit = true;
                                 bulletVector_erase(bulletV , i);
                                 player -> score++;
                                 splitLaser(bulletV, *player, b.x, b.y);
@@ -49,9 +53,9 @@ void gameTick(asteroidVector* const asteroidV,
         }
 
         /* Player Collision */
-        for(i = 0; i < asteroidV -> count; i++) {
-                if(checkCollision_player(*asteroidVector_get(asteroidV, i), *player)
-                                && !asteroidV -> asteroids[i].hit && !player -> hit) {
+        for(i = 0; i < (int) asteroidV.size(); i++) {
+                if(checkCollision_player(asteroidV[i], *player)
+                                && !asteroidV[i].hit && !player -> hit) {
 
                         player -> hit = true;
                         player -> lives -= 1;
