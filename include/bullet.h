@@ -4,14 +4,14 @@
 #include <vector>
 #include "sprite.h"
 typedef struct _Bullet {
-        int x;
-        int y;
-        int dx;
-        int dy;
-        int sizeX;
-        int sizeY;
-        int hitX, hitY, hitW, hitH;
-        Sprite sprite; /* Allocates Memory */
+  int x;
+  int y;
+  int dx;
+  int dy;
+  int sizeX;
+  int sizeY;
+  int hitX, hitY, hitW, hitH;
+  Sprite sprite; /* Allocates Memory */
 } Bullet;
 Bullet makeBullet(int, int, int, int);
 bool moveBullet(Bullet*);

@@ -4,18 +4,18 @@
 #include "sprite.h"
 #include <vector>
 typedef struct _Asteroid {
-        int sprite_num;
-        int x;
-        int y;
-        int dx;
-        int dy;
-        int sizeX;
-        int sizeY;
-        bool hit;
-        int hitX, hitY, hitW, hitH;
-        int explode_iterations;
-        Sprite asteroid; /* Allocates Memory */
-        Sprite explosion; /* Allocates Memory */
+  int sprite_num;
+  int x;
+  int y;
+  int dx;
+  int dy;
+  int sizeX;
+  int sizeY;
+  bool hit;
+  int hitX, hitY, hitW, hitH;
+  int explode_iterations;
+  Sprite asteroid; /* Allocates Memory */
+  Sprite explosion; /* Allocates Memory */
 } Asteroid;
 
 Asteroid makeAsteroid(const int SCREEN_W);

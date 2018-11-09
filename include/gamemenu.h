@@ -4,11 +4,11 @@
 #include <stdbool.h>
 #include "menu.h"
 struct GameMenuAssets {
-        Button cont;
-        Button upgrades;
-        Button menu;
-        
-        bool game_over;
+  Button cont;
+  Button upgrades;
+  Button menu;
+  
+  bool game_over;
 };
 int handleGameMenuEvents(SDL_Event*);
 void setupGameMenu();

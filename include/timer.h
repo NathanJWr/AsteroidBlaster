@@ -2,10 +2,10 @@
 #define TIMER_H
 #include <stdbool.h>
 typedef struct _Timer {
-        int start_time;
-        int current_time;
-        int delta;
-        bool done;
+  int start_time;
+  int current_time;
+  int delta;
+  bool done;
 } Timer;
 Timer newTimer(int);
 void updateTimer(Timer*);

@@ -3,19 +3,19 @@
 #include "sprite.h"
 #include <stdbool.h>
 typedef struct _Ruby {
-        int x;
-        int y;
-        int dx;
-        int dy;
-        int sizeX;
-        int sizeY;
-        Sprite sprite;
+  int x;
+  int y;
+  int dx;
+  int dy;
+  int sizeX;
+  int sizeY;
+  Sprite sprite;
 } Ruby;
 
 typedef struct _rVector {
-        Ruby* rubies;
-        int size;
-        int count;
+  Ruby* rubies;
+  int size;
+  int count;
 } rubyVector;
 
 Ruby makeRuby();

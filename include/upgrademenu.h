@@ -4,22 +4,22 @@
 #include "player.h"
 #include "menu.h"
 typedef struct _UpgradeButton {
-        Button button;
-        bool upgraded;
-        char mouseover_text[999];
-        int clicked;
-        int max_clicks;
-        int cost;
+  Button button;
+  bool upgraded;
+  char mouseover_text[999];
+  int clicked;
+  int max_clicks;
+  int cost;
 } UpgradeButton;
 struct UpgradeMenuAssets {
-        SDL_Texture* ruby;
-        SDL_Texture* currency;
-        UpgradeButton laser_upgrade;
-        UpgradeButton laser_cost;
-        UpgradeButton move_speed;
-        UpgradeButton laser_split;
+  SDL_Texture* ruby;
+  SDL_Texture* currency;
+  UpgradeButton laser_upgrade;
+  UpgradeButton laser_cost;
+  UpgradeButton move_speed;
+  UpgradeButton laser_split;
 	Button exit;
-        bool quit;
+  bool quit;
 };
 int handleUpgradeMenuEvents(SDL_Event*, Player*);
 void setupUpgradeMenu();

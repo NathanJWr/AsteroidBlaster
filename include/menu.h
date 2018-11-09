@@ -4,11 +4,11 @@
 #include <string>
 
 typedef struct _Button {
-        SDL_Rect pos;
-        int num_textures;
-        SDL_Texture** textures;
-        char title[100];
-        bool selected;
+  SDL_Rect pos;
+  int num_textures;
+  SDL_Texture** textures;
+  char title[100];
+  bool selected;
 } Button;
 Button makeButton(int, SDL_Rect);
 void setButtonTextures(SDL_Color colors[], Button*, char*);
