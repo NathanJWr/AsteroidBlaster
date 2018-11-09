@@ -13,18 +13,6 @@ typedef struct _Bullet {
         int hitX, hitY, hitW, hitH;
         Sprite sprite;
 } Bullet;
-
-typedef struct _bulletVector {
-        Bullet* bullets;
-        int size;
-        int count;
-} bulletVector;
-
 Bullet makeBullet(int, int, int, int);
 bool moveBullet(Bullet*);
-void bulletVector_init(bulletVector*);
-void bulletVector_add(bulletVector*, Bullet);
-Bullet bulletVector_get(bulletVector*, int);
-void bulletVector_free(bulletVector*);
-void bulletVector_erase(bulletVector*, int);
 #endif

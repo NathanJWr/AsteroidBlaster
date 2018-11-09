@@ -41,3 +41,7 @@ void cleanupAsteroids(std::vector<Asteroid> &asteroids) {
                 destroySprite(&(asteroids[i].explosion));
         }
 }
+
+void eraseAsteroid(std::vector<Asteroid> &vec, const int index) {
+        destroySprite(vec[index].sprite);  
+}

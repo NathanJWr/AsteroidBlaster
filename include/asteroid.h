@@ -21,5 +21,6 @@ typedef struct _Asteroid {
 Asteroid makeAsteroid(const int SCREEN_W);
 bool moveAsteroid(Asteroid*, const int SCREEN_H);
 void cleanupAsteroids(std::vector<Asteroid> &);
+void eraseAsteroid(std::vector<Asteroid>&, const int);
 
 #endif

@@ -4,33 +4,36 @@
 #include "currency.h"
 Timer player_invuln_time;
 Timer laser_recharge_time;
-void splitLaser(bulletVector*, Player, int, int);
+void splitLaser(std::vector<Bullet> &, Player, int, int);
+void movePlayer(struct KeyPresses*, Player*, std::vector<Bullet>&);
 void gameTick(std::vector<Asteroid> &asteroidV,
-                bulletVector* const bulletV,
+                std::vector<Bullet> &bulletV,
                 rubyVector* const rubyV,
                 Player* const player,
                 struct KeyPresses* const keys,
                 const int SCREEN_H) {
         int i;
         movePlayer(keys, player, bulletV);
-        for(i = 0; i < (int) asteroidV.size(); i++) {
+        int a_size = asteroidV.size();
+        for(i = 0; i < a_size; i++) {
                 if(!moveAsteroid(&(asteroidV[i]), SCREEN_H)) {
                   /*
                    * TODO: This will not erase the sprite data
                    * FIX THIS
                    */
-                  asteroidV.erase(asteroidV.begin(), asteroidV.begin() + i);
+                  asteroidV.erase(asteroidV.begin() + i);
                 }
         }
 
         /* Bullet Collision */
-        for(i = 0; i < bulletV -> count; i++) {
+        int b_size = bulletV.size();
+        for(i = 0; i < b_size; i++) {
                 int j;
-                if(&bulletV -> bullets[i] == NULL) {
+                if(&bulletV[i] == NULL) {
                         exit(1);
                 }
-                if(!moveBullet(&(bulletV -> bullets[i]))) {
-                        bulletVector_erase(bulletV, i);
+                if(!moveBullet(&(bulletV[i]))) {
+                        bulletV.erase(bulletV.begin() + i);
                 }
                 for(j = 0; j < (int) asteroidV.size(); j++) {
                         if(&asteroidV[i] == NULL) {
@@ -39,12 +42,12 @@ void gameTick(std::vector<Asteroid> &asteroidV,
 
                         if(checkCollision_bullet(
                                 asteroidV[j],
-                                bulletVector_get(bulletV, i))) {
+                                bulletV[i])) {
 
                                 Bullet b;
-                                b = bulletVector_get(bulletV, i);
+                                b = bulletV[i];
                                 asteroidV[j].hit = true;
-                                bulletVector_erase(bulletV , i);
+                                bulletV.erase(bulletV.begin() + i);
                                 player -> score++;
                                 splitLaser(bulletV, *player, b.x, b.y);
                                 generateCurrency(rubyV, b.x, b.y);
@@ -134,7 +137,7 @@ bool handleEvents(SDL_Event* const e, struct KeyPresses* const k) {
 }
 void movePlayer(struct KeyPresses* const k,
                 Player* const p,
-                bulletVector* const bv) {
+                std::vector<Bullet> &bv) {
 
         if(k -> w) {
                 playerMoveUp(p);
@@ -150,7 +153,8 @@ void movePlayer(struct KeyPresses* const k,
         }
         if(k -> space) {
                 if(p -> laser_percent >= p -> laser_cost) {
-                        bulletVector_add(bv, makeBullet(p -> x + (p -> sizeX / 2), p -> y, 0, 3));
+                        //bulletVector_add(bv, makeBullet(p -> x + (p -> sizeX / 2), p -> y, 0, 3));
+                        bv.push_back(makeBullet(p->x + (p->sizeX/2), p->y, 0, 3));
                         p -> laser_percent -= p -> laser_cost;
                 }
                 k -> space = false;
@@ -233,14 +237,10 @@ bool checkCollision_ruby(Ruby r, Player p) {
         return false;
 
 }
-void splitLaser(bulletVector* const vec, Player p, int x, int y) {
+void splitLaser(std::vector<Bullet>& vec, Player p, int x, int y) {
         if(p.split_laser) {
-                bulletVector_add(vec,
-                                makeBullet(x,
-                                        y, 3, 0));
-                bulletVector_add(vec,
-                                makeBullet(x,
-                                        y, -3, 0));
+                vec.push_back(makeBullet(x,y,3,0));
+                vec.push_back(makeBullet(x,y,-3,0));
         }
 }
 
