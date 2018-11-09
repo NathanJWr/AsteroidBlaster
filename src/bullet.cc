@@ -1,6 +1,7 @@
-#include "bullet.h"
 #include <stdlib.h>
 #include <stdbool.h>
+#include <vector>
+#include "bullet.h"
 #include "sprite.h"
 extern int SCREEN_W;
 Bullet makeBullet(int x, int y, int dx, int dy) {
@@ -32,3 +33,14 @@ bool moveBullet(Bullet* const b) {
         }
         else return true;
 }
+void eraseBullet(std::vector<Bullet>& vec, const int index) {
+        destroySprite(&vec[index].sprite);
+        vec.erase(vec.begin() + index);
+}
+void freeAllBullets(std::vector<Bullet>& vec) {
+        for(Bullet &n : vec) {
+                destroySprite(&n.sprite);
+        }
+        vec.clear();
+}
+

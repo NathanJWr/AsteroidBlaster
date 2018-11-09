@@ -200,6 +200,7 @@ int gameLoop(struct GameObjects* game, SDL_Event* e) {
                         game->asteroidV.push_back(makeAsteroid(SCREEN_W));
                         game -> asteroid_timer = newTimer(game -> asteroid_time);
                 }
+                        game->asteroidV.push_back(makeAsteroid(SCREEN_W));
 
                 if(SDL_GetTicks() - lastTimer >= 1000) {
                         lastTimer += 1000;
@@ -247,6 +248,8 @@ void initGameObjects(struct GameObjects* g) {
         g -> asteroid_timer = newTimer(g -> asteroid_time);
 }
 void cleanupGameObjects(struct GameObjects* g) {
+          freeAllAsteroids(g->asteroidV);
+          freeAllBullets(g->bulletV);
           rubyVector_free(&(g -> rubyV));
           playerCleanup(&(g -> player));
 }

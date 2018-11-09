@@ -17,11 +17,7 @@ void gameTick(std::vector<Asteroid> &asteroidV,
         int a_size = asteroidV.size();
         for(i = 0; i < a_size; i++) {
                 if(!moveAsteroid(&(asteroidV[i]), SCREEN_H)) {
-                  /*
-                   * TODO: This will not erase the sprite data
-                   * FIX THIS
-                   */
-                  asteroidV.erase(asteroidV.begin() + i);
+                        eraseAsteroid(asteroidV, i);
                 }
         }
 
@@ -33,7 +29,8 @@ void gameTick(std::vector<Asteroid> &asteroidV,
                         exit(1);
                 }
                 if(!moveBullet(&(bulletV[i]))) {
-                        bulletV.erase(bulletV.begin() + i);
+                        //bulletV.erase(bulletV.begin() + i);
+                        eraseBullet(bulletV, i);
                 }
                 for(j = 0; j < (int) asteroidV.size(); j++) {
                         if(&asteroidV[i] == NULL) {
@@ -47,7 +44,8 @@ void gameTick(std::vector<Asteroid> &asteroidV,
                                 Bullet b;
                                 b = bulletV[i];
                                 asteroidV[j].hit = true;
-                                bulletV.erase(bulletV.begin() + i);
+                                eraseBullet(bulletV, i);
+                                //bulletV.erase(bulletV.begin() + i);
                                 player -> score++;
                                 splitLaser(bulletV, *player, b.x, b.y);
                                 generateCurrency(rubyV, b.x, b.y);

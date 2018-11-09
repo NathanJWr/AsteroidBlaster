@@ -14,13 +14,14 @@ typedef struct _Asteroid {
         bool hit;
         int hitX, hitY, hitW, hitH;
         int explode_iterations;
-        Sprite asteroid;
-        Sprite explosion;
+        Sprite asteroid; /* Allocates Memory */
+        Sprite explosion; /* Allocates Memory */
 } Asteroid;
 
 Asteroid makeAsteroid(const int SCREEN_W);
 bool moveAsteroid(Asteroid*, const int SCREEN_H);
 void cleanupAsteroids(std::vector<Asteroid> &);
+void freeAllAsteroids(std::vector<Asteroid>&);
 void eraseAsteroid(std::vector<Asteroid>&, const int);
 
 #endif
