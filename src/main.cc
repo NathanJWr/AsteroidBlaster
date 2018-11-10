@@ -26,7 +26,7 @@ bool upgrade_init;
 struct GameObjects {
   std::vector<Asteroid> asteroidV;
   std::vector<Bullet> bulletV;
-  rubyVector rubyV;
+  std::vector<Ruby> rubyV;
   Player player;
   struct KeyPresses keys;
   int score;
@@ -44,7 +44,10 @@ void gameMenuLoop(SDL_Event* e, int);
 void upgradeMenuLoop(SDL_Event* e, Player* player);
 void initGameObjects(struct GameObjects*);
 void cleanupGameObjects(struct GameObjects*);
-void drawCalls(std::vector<Asteroid>&, Player*, std::vector<Bullet>&, rubyVector*, int);
+void drawCalls(std::vector<Asteroid>&,
+               Player*,
+               std::vector<Bullet>&,
+               std::vector<Ruby>&, int);
 void handleScenes(struct GameObjects*, SDL_Event*, int*);
 
 int main() {
@@ -175,13 +178,13 @@ int gameLoop(struct GameObjects* game, SDL_Event* e) {
     drawCalls(game -> asteroidV,
         &(game -> player),
         game -> bulletV,
-        &(game -> rubyV),
+        game -> rubyV,
         game -> score);
     while(delta >= 1) {
       ticks ++;
       gameTick(game -> asteroidV,
           game -> bulletV,
-          &(game -> rubyV),
+          game -> rubyV,
           &(game -> player),
           &(game -> keys),
           SCREEN_H);
@@ -231,7 +234,6 @@ int gameLoop(struct GameObjects* game, SDL_Event* e) {
 }
 
 void initGameObjects(struct GameObjects* g) {
-  rubyVector_init(&(g -> rubyV));
   g -> player = makePlayer();
   g -> keys.w = false;
   g -> keys.a = false;
@@ -248,14 +250,14 @@ void initGameObjects(struct GameObjects* g) {
 void cleanupGameObjects(struct GameObjects* g) {
     freeAllAsteroids(g->asteroidV);
     freeAllBullets(g->bulletV);
-    rubyVector_free(&(g -> rubyV));
+    freeAllRubies(g->rubyV);
     playerCleanup(&(g -> player));
 }
 
 void drawCalls(std::vector<Asteroid> &bv,
     Player* p,
     std::vector<Bullet> &b,
-    rubyVector* r,
+    std::vector<Ruby> &r,
     int score) {
 
   int i;
@@ -265,8 +267,8 @@ void drawCalls(std::vector<Asteroid> &bv,
   for(i = 0; i < (int) b.size(); i++) {
     drawBullet(&b[i]);
   }
-  for(i = 0; i < r -> count; i++) {
-    drawRuby(&r -> rubies[i]);
+  for(i = 0; i < (int) r.size(); i++) {
+    drawRuby(&r[i]);
   }
   drawPlayer(p);
   if(p -> score > score || score == 0) {

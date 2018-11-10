@@ -23,60 +23,21 @@ bool moveRuby(Ruby* const r) {
   else return true;
 }
 
-void generateCurrency(rubyVector* const v, int x, int y) {
+void generateCurrency(std::vector<Ruby> &v, int x, int y) {
   int p = rand() % 100 + 1;
   if(p >= 70) {
-    rubyVector_add(v, makeRuby(x, y));
+    v.push_back(makeRuby(x,y));
   }
 }
 
-void rubyVector_init(rubyVector* const v) {
-  v->rubies = NULL;
-  v->size = 0;
-  v->count = 0;
+void eraseRuby(std::vector<Ruby>& vec, const int index) {
+  destroySprite(&vec[index].sprite);
+  vec.erase(vec.begin() + index);
 }
 
-void rubyVector_add(rubyVector* const v, Ruby b) {
-  if(v->size == 0) {
-    v->size = 10;
-    v->rubies = (Ruby*) malloc(sizeof(b) * v->size);
-    memset(v->rubies, '\0', sizeof(b) * v->size);
+void freeAllRubies(std::vector<Ruby> &vec) {
+  for(Ruby &r : vec) {
+    destroySprite(&r.sprite);
   }
-  if(v->size == v->count) {
-    v->size *= 2;
-    v->rubies = (Ruby*) realloc(v->rubies, sizeof(b) * v->size);
-  }
-  v->rubies[v->count] = b;
-  v->count++;
-}
-
-Ruby* rubyVector_get(rubyVector* const v, int index) {
-  if(index >= v->size || index < 0) {
-    exit(1);
-  }
-  return &(v->rubies[index]);
-}
-
-void rubyVector_erase(rubyVector* const v, int index) {
-  int i;
-  if(index >= v->size || index < 0) {
-    exit(1);
-  }
-  destroySprite(&(v -> rubies[index].sprite));
-  for(i = index; i < v -> count; i++) {
-    v -> rubies[i] = v -> rubies[i+1];
-  }
-  v -> count--;
-  printf("Ruby Erased\n");
-}
-
-void rubyVector_free(rubyVector* const v) {
-  int i;
-  for(i = 0; i < v -> count; i++) {
-    destroySprite(&(v -> rubies[i].sprite));
-    printf("Freed Ruby Texture\n");
-  }
-  free(v->rubies);
-  v->size = 0;
-  v->count = 0;
+  vec.clear();
 }

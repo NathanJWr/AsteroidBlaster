@@ -20,7 +20,7 @@ bool checkCollision_ruby(Ruby r, Player p);
 bool handleEvents(SDL_Event*, struct KeyPresses*);
 void gameTick(std::vector<Asteroid>&,
               std::vector<Bullet>&,
-              rubyVector*,
+              std::vector<Ruby>&,
               Player*,
               struct KeyPresses*,
               const int);

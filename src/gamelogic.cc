@@ -8,7 +8,7 @@ void splitLaser(std::vector<Bullet> &, Player, int, int);
 void movePlayer(struct KeyPresses*, Player*, std::vector<Bullet>&);
 void gameTick(std::vector<Asteroid> &asteroidV,
     std::vector<Bullet> &bulletV,
-    rubyVector* const rubyV,
+    std::vector<Ruby> &rubyV,
     Player* const player,
     struct KeyPresses* const keys,
     const int SCREEN_H) {
@@ -45,7 +45,6 @@ void gameTick(std::vector<Asteroid> &asteroidV,
         b = bulletV[i];
         asteroidV[j].hit = true;
         eraseBullet(bulletV, i);
-        //bulletV.erase(bulletV.begin() + i);
         player -> score++;
         splitLaser(bulletV, *player, b.x, b.y);
         generateCurrency(rubyV, b.x, b.y);
@@ -71,13 +70,13 @@ void gameTick(std::vector<Asteroid> &asteroidV,
   }
 
   /* Ruby Collision */
-  for(i = 0; i < rubyV -> count; i++) {
-    if(!moveRuby(&(rubyV -> rubies[i]))) {
-      rubyVector_erase(rubyV, i);
+  for(i = 0; i < (int) rubyV.size(); i++) {
+    if(!moveRuby(&(rubyV[i]))) {
+      eraseRuby(rubyV, i);
     }
-    else if(checkCollision_ruby(*rubyVector_get(rubyV, i), *player)) {
+    else if(checkCollision_ruby(rubyV[i], *player)) {
       player -> currency++;
-      rubyVector_erase(rubyV, i);
+      eraseRuby(rubyV, i);
     }
   }
 
