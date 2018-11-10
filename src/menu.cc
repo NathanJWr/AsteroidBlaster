@@ -1,5 +1,7 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
+#include <iostream>
+#include <fstream>
 #include "menu.h"
 #include "display.h"
 extern TTF_Font* font;
@@ -60,27 +62,16 @@ bool checkBoundaries(int x, int y, SDL_Rect rect) {
   else return false;
 }
 
-char* loadText(std::string path, std::string title) {
-  char* line = NULL;
-  FILE *fp = NULL;
-  char* description = NULL;
-  size_t len = 0;
-  size_t len2 = 0;
-  fp = fopen(path.c_str(), "r");
-  if(fp == NULL) {
-    printf("Failed to open file %s\n", path.c_str());
+std::string loadText(std::string path, std::string title) {
+  std::ifstream file(path); 
+  std::string line;
+  if(!file) {
+    std::cout << "Failed to open file " << path << std::endl;
   }
-  while(getline(&line,&len, fp) != -1) {
-    if(strstr(line, title.c_str())) {
-      if(getline(&description, &len2, fp) == -1) {
-        return NULL;
-      }
-    }
+  while(line != title) {
+    std::getline(file, line);
   }
-  fclose(fp);
-  free(line);
-  if(description == NULL) {
-    printf("%s not found in %s\n", title.c_str(), path.c_str());
-  }
-  return description;
+  std::getline(file, line);
+  file.close();
+  return line;
 }

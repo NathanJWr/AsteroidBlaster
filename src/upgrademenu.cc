@@ -36,7 +36,7 @@ int handleUpgradeMenuEvents(SDL_Event* const e, Player* const p) {
 
 void setupUpgradeMenu() {
   std::string path = "assets/text/upgrades.txt";
-  char* text;
+  std::string text;
   SDL_Color white = {255, 255, 255, 255};
   SDL_Color green = {144, 245, 0, 255};
 
@@ -58,10 +58,7 @@ void setupUpgradeMenu() {
   strcpy(up_menu.laser_upgrade.button.title,
       "Laser Regeneration (%d/%d)");
   updateUpgradeButton(&up_menu.laser_upgrade);
-  text = loadText(path, "Laser Regeneration");
-  strcpy(up_menu.laser_upgrade.mouseover_text,
-      text);
-  free(text);
+  up_menu.laser_upgrade.mouseover_text = loadText(path, "Laser Regeneration");
   up_menu.laser_upgrade.cost = 0;
 
   /* laser_cost */
@@ -69,30 +66,21 @@ void setupUpgradeMenu() {
   strcpy(up_menu.laser_cost.button.title,
       "Laser Cost (%d/%d)");
   updateUpgradeButton(&up_menu.laser_cost);
-  text = loadText(path, "Laser Cost");
-  strcpy(up_menu.laser_cost.mouseover_text,
-      text);
-  free(text);
+  up_menu.laser_cost.mouseover_text = loadText(path, "Laser Cost");
   up_menu.laser_cost.cost = 5;
 
   /* move_speed */
   up_menu.move_speed = makeUpgradeButton(3, 3, moveSpeed_pos);
   strcpy(up_menu.move_speed.button.title, "Move Speed (%d/%d)");
   updateUpgradeButton(&up_menu.move_speed);
-  text = loadText(path, "Move Speed");
-  strcpy(up_menu.move_speed.mouseover_text,
-      text);
-  free(text);
+  up_menu.move_speed.mouseover_text = loadText(path, "Move Speed");
   up_menu.move_speed.cost = 15;
 
   /* laser_split */
   up_menu.laser_split = makeUpgradeButton(3, 1, laserSplit_pos);
   strcpy(up_menu.laser_split.button.title, "Laser Split (%d/%d)");
   updateUpgradeButton(&up_menu.laser_split);
-  text = loadText(path, "Laser Split");
-  strcpy(up_menu.laser_split.mouseover_text,
-      text);
-  free(text);
+  up_menu.laser_split.mouseover_text = loadText(path, "Laser Split");
   up_menu.laser_split.cost = 25;
 
 	/* exit */

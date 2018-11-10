@@ -16,5 +16,6 @@ void drawButton(Button);
 void drawPlayerCurrency(int, SDL_Rect*);
 void destroyButton(Button*);
 bool checkBoundaries(int, int, SDL_Rect);
-char* loadText(std::string path, std::string title);
+//char* loadText(std::string path, std::string title);
+std::string loadText(std::string path, std::string title);
 #endif

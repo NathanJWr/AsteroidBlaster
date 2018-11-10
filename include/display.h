@@ -22,7 +22,7 @@ SDL_Texture* loadImageTexture(std::string);
 SDL_Surface* loadImageSurface(std::string);
 void renderTexture(SDL_Texture*, SDL_Rect*, SDL_Rect*);
 void setDrawColor(SDL_Color);
-void renderTextBox(int, int, char*);
+void renderTextBox(int, int, std::string);
 void renderRectangleOutline(SDL_Rect*);
 void renderRectangleFull(SDL_Rect*);
 void renderPresent();

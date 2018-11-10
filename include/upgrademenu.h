@@ -1,12 +1,13 @@
 #ifndef UPGRADEMENU_H
 #define UPGRADEMENU_H
 #include <SDL2/SDL.h>
+#include <string>
 #include "player.h"
 #include "menu.h"
 typedef struct _UpgradeButton {
   Button button;
   bool upgraded;
-  char mouseover_text[999];
+  std::string mouseover_text;
   int clicked;
   int max_clicks;
   int cost;

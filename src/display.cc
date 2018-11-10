@@ -142,7 +142,7 @@ SDL_Surface* loadImageSurface(std::string path) {
   return surface;
 }
 
-void renderTextBox(int x, int y, char text[]) {
+void renderTextBox(int x, int y, std::string text) {
   int w, h;
   SDL_Color white;
   SDL_Color black;
@@ -159,7 +159,7 @@ void renderTextBox(int x, int y, char text[]) {
   black.b = 0;
   black.a = 0;
   
-  tex = createTextTextureWrapped(ubuntu, text, white, 400);
+  tex = createTextTextureWrapped(ubuntu, text.c_str(), white, 400);
   SDL_QueryTexture(tex, NULL, NULL, &w, &h);
   text_box.x = x;
   text_box.y = y;
