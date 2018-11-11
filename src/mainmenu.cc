@@ -105,7 +105,7 @@ void setupMainMenu() {
   start_pos.x = (SCREEN_W / 2) - start_pos.w / 2;
   start_pos.y = (SCREEN_H / 2) - start_pos.h / 2;
   main_menu.start = makeButton(2, start_pos);
-  strcpy(main_menu.start.title, "Start");
+  main_menu.start.title = "Start";
   updateMainMenuButton(&main_menu.start);
 
   quit_pos.w = 300;
@@ -113,7 +113,7 @@ void setupMainMenu() {
   quit_pos.x = (SCREEN_W / 2) - quit_pos.w / 2;
   quit_pos.y = (SCREEN_H / 2) - (quit_pos.h / 2) + 100;
   main_menu.quit = makeButton(2, quit_pos);
-  strcpy(main_menu.quit.title, "Quit");
+  main_menu.quit.title = "Quit";
   updateMainMenuButton(&main_menu.quit);
   
 

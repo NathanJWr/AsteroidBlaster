@@ -8,9 +8,11 @@ typedef struct _UpgradeButton {
   Button button;
   bool upgraded;
   std::string mouseover_text;
+  std::string title_text;
   int clicked;
   int max_clicks;
   int cost;
+  Player_Upgrades upgrade;
 } UpgradeButton;
 struct UpgradeMenuAssets {
   SDL_Texture* ruby;

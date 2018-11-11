@@ -123,7 +123,7 @@ void setupGameMenu() {
   menu_pos.x = (SCREEN_W / 2) - menu_pos.w / 2;
   menu_pos.y = (SCREEN_H / 2) + 20;
   game_menu.menu = makeButton(2, menu_pos); 
-  strcpy(game_menu.menu.title, "Main Menu");
+  game_menu.menu.title = "Main Menu";
   updateGameMenuButton(&game_menu.menu);
 
   cont_pos.w = 800;
@@ -131,7 +131,7 @@ void setupGameMenu() {
   cont_pos.x = (SCREEN_W / 2) - cont_pos.w / 2;
   cont_pos.y = (SCREEN_H / 2) - 200;
   game_menu.cont = makeButton(3, cont_pos);
-  strcpy(game_menu.cont.title, "Continue");
+  game_menu.cont.title = "Continue";
   updateGameMenuButton(&game_menu.cont);
 
   upgrade_pos.w = 800;
@@ -139,7 +139,7 @@ void setupGameMenu() {
   upgrade_pos.x = (SCREEN_W / 2) - upgrade_pos.w / 2;
   upgrade_pos.y = (SCREEN_H / 2) - 100;
   game_menu.upgrades = makeButton(2, upgrade_pos);
-  strcpy(game_menu.upgrades.title, "Upgrades");
+  game_menu.upgrades.title = "Upgrades";
   updateGameMenuButton(&game_menu.upgrades);
 
   game_menu.game_over = false;

@@ -7,15 +7,15 @@ typedef struct _Button {
   SDL_Rect pos;
   int num_textures;
   SDL_Texture** textures;
-  char title[100];
+  std::string title;
   bool selected;
 } Button;
 Button makeButton(int, SDL_Rect);
-void setButtonTextures(SDL_Color colors[], Button*, char*);
+void setButtonTextures(SDL_Color colors[], Button*);
 void drawButton(Button);
 void drawPlayerCurrency(int, SDL_Rect*);
 void destroyButton(Button*);
 bool checkBoundaries(int, int, SDL_Rect);
-//char* loadText(std::string path, std::string title);
+void checkMouseoverState(Button &);
 std::string loadText(std::string path, std::string title);
 #endif

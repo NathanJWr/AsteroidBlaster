@@ -1,17 +1,16 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include <string>
+#include <sstream>
 #include "upgrademenu.h"
 #include "display.h"
 #include "menu.h"
 #include "player.h"
 extern TTF_Font* font;
 struct UpgradeMenuAssets up_menu; 
-void updateUpgradeButton(UpgradeButton* button);
+void updateUpgradeButton(UpgradeButton &button);
 bool updateTimesClicked(UpgradeButton* button, Player* p);
-Player_Upgrades mousePressUpgrades(SDL_MouseButtonEvent b, Player* p);
+void mousePressUpgrades(SDL_MouseButtonEvent b, Player* p);
 void mouseSelectUpgrades();
 void drawUpgradeButton(UpgradeButton button);
 void drawUpgradeText(UpgradeButton button);
@@ -25,7 +24,8 @@ int handleUpgradeMenuEvents(SDL_Event* const e, Player* const p) {
       up_menu.quit = false;
     }
     else if(e -> type == SDL_MOUSEBUTTONDOWN) {
-      playerHandleUpgrades(mousePressUpgrades(e -> button, p), p);
+      //playerHandleUpgrades(mousePressUpgrades(e -> button, p), p);
+      mousePressUpgrades(e->button, p);
     }
     else {
       mouseSelectUpgrades();
@@ -44,7 +44,7 @@ void setupUpgradeMenu() {
   SDL_Rect laserCost_pos = {0, 50, 300, 50};
   SDL_Rect moveSpeed_pos = {0, 100, 300, 50};
   SDL_Rect laserSplit_pos = {0, 150, 300, 50};
-	      SDL_Rect exit_pos = {0, 200, 150, 50};
+	SDL_Rect exit_pos = {0, 200, 150, 50};
 
   SDL_Color colors[2];
   colors[0] = white;
@@ -55,38 +55,40 @@ void setupUpgradeMenu() {
 
   /* laser_upgrade  */
   up_menu.laser_upgrade = makeUpgradeButton(3, 3, laser_pos); 
-  strcpy(up_menu.laser_upgrade.button.title,
-      "Laser Regeneration (%d/%d)");
-  updateUpgradeButton(&up_menu.laser_upgrade);
+  up_menu.laser_upgrade.title_text = "Laser Regeneration";
+  updateUpgradeButton(up_menu.laser_upgrade);
   up_menu.laser_upgrade.mouseover_text = loadText(path, "Laser Regeneration");
   up_menu.laser_upgrade.cost = 0;
+  up_menu.laser_upgrade.upgrade = LASER_REGEN;
 
   /* laser_cost */
   up_menu.laser_cost = makeUpgradeButton(3, 3, laserCost_pos);
-  strcpy(up_menu.laser_cost.button.title,
-      "Laser Cost (%d/%d)");
-  updateUpgradeButton(&up_menu.laser_cost);
+  up_menu.laser_cost.title_text = "Laser Cost";
+  updateUpgradeButton(up_menu.laser_cost);
   up_menu.laser_cost.mouseover_text = loadText(path, "Laser Cost");
   up_menu.laser_cost.cost = 5;
+  up_menu.laser_cost.upgrade = LASER_COST;
 
   /* move_speed */
   up_menu.move_speed = makeUpgradeButton(3, 3, moveSpeed_pos);
-  strcpy(up_menu.move_speed.button.title, "Move Speed (%d/%d)");
-  updateUpgradeButton(&up_menu.move_speed);
+  up_menu.move_speed.title_text = "Move Speed";
+  updateUpgradeButton(up_menu.move_speed);
   up_menu.move_speed.mouseover_text = loadText(path, "Move Speed");
   up_menu.move_speed.cost = 15;
+  up_menu.move_speed.upgrade = MOVE_SPEED;
 
   /* laser_split */
   up_menu.laser_split = makeUpgradeButton(3, 1, laserSplit_pos);
-  strcpy(up_menu.laser_split.button.title, "Laser Split (%d/%d)");
-  updateUpgradeButton(&up_menu.laser_split);
+  up_menu.laser_split.title_text = "Laser Split";
+  updateUpgradeButton(up_menu.laser_split);
   up_menu.laser_split.mouseover_text = loadText(path, "Laser Split");
   up_menu.laser_split.cost = 25;
+  up_menu.laser_split.upgrade = LASER_SPLIT;
 
 	/* exit */
   up_menu.exit = makeButton(2, exit_pos);
-  strcpy(up_menu.exit.title, "Exit");
-  setButtonTextures(colors, &up_menu.exit, up_menu.exit.title);
+  up_menu.exit.title = "Exit";
+  setButtonTextures(colors, &up_menu.exit);
   up_menu.quit = false;
 }
 
@@ -146,103 +148,35 @@ bool updateTimesClicked(UpgradeButton* const button,
   else return false;
 }
 
-Player_Upgrades mousePressUpgrades(SDL_MouseButtonEvent b,
-    Player* const p) {
-
-  if(b.button == SDL_BUTTON_LEFT) {
-    if(checkBoundaries(b.x,
-      b.y,
-      up_menu.laser_upgrade.button.pos)) {
-
-      bool u = 
-        updateTimesClicked(&up_menu.laser_upgrade, p);
-      updateUpgradeButton(&up_menu.laser_upgrade);
+void handleUpgradeCheck(SDL_MouseButtonEvent e, UpgradeButton &b, Player* p) {
+  if(e.button == SDL_BUTTON_LEFT) {
+    if(b.button.selected) {
+      bool u = updateTimesClicked(&b, p);
+      updateUpgradeButton(b);
       if(u) {
-        printf("Laser Regen Selected\n");
-        return LASER_REGEN;
+        playerHandleUpgrades(b.upgrade, p);
       }
-      else return NONE;
     }
-    if(checkBoundaries(b.x,
-      b.y,
-      up_menu.laser_cost.button.pos)) {
-
-      bool u = updateTimesClicked(&up_menu.laser_cost, p);
-      updateUpgradeButton(&up_menu.laser_cost);
-      if(u) {
-        return LASER_COST;
-      }
-      else return NONE;
-    }
-    if(checkBoundaries(b.x,
-      b.y,
-      up_menu.move_speed.button.pos)) {
-
-      bool u = updateTimesClicked(&up_menu.move_speed, p);
-      updateUpgradeButton(&up_menu.move_speed);
-      if(u) {
-        return MOVE_SPEED;
-      }
-      else return NONE;
-    }
-    if(checkBoundaries(b.x,
-      b.y,
-      up_menu.laser_split.button.pos)) {
-
-      bool u = updateTimesClicked(&up_menu.laser_split, p);
-      updateUpgradeButton(&up_menu.laser_split);
-      if(u) {
-        return LASER_SPLIT;
-      }
-      else return NONE;
-    }
-    if(checkBoundaries(b.x,
-           b.y,
-           up_menu.exit.pos)) {
-
-      up_menu.quit = true;
-    }
-		else {
-			up_menu.quit = false;
-		}
   }
-  return NONE;
 }
-
+void mousePressUpgrades(SDL_MouseButtonEvent b,
+                                   Player* const p) {
+  handleUpgradeCheck(b, up_menu.laser_upgrade, p);
+  handleUpgradeCheck(b, up_menu.laser_cost, p);
+  handleUpgradeCheck(b, up_menu.move_speed, p);
+  handleUpgradeCheck(b, up_menu.laser_split, p);
+  if(up_menu.exit.selected) {
+    up_menu.quit = true;
+  } else {
+    up_menu.quit = false;
+  }
+}
 void mouseSelectUpgrades() {
-  int mouse_x, mouse_y;
-  SDL_GetMouseState(&mouse_x, &mouse_y);
-  if(checkBoundaries(mouse_x, mouse_y, up_menu.laser_upgrade.button.pos)) {
-    up_menu.laser_upgrade.button.selected = true;
-  }
-  else {
-    up_menu.laser_upgrade.button.selected = false;
-  }
-  if(checkBoundaries(mouse_x, mouse_y, up_menu.laser_cost.button.pos)) {
-    up_menu.laser_cost.button.selected = true;
-  }
-  else {
-    up_menu.laser_cost.button.selected = false;
-  }
-  if(checkBoundaries(mouse_x, mouse_y, up_menu.move_speed.button.pos)) {
-    up_menu.move_speed.button.selected = true;
-  }
-  else {
-    up_menu.move_speed.button.selected = false;
-  }
-  if(checkBoundaries(mouse_x, mouse_y, up_menu.laser_split.button.pos)) {
-    up_menu.laser_split.button.selected = true;
-  }
-  else {
-    up_menu.laser_split.button.selected = false;
-  }
-  if(checkBoundaries(mouse_x, mouse_y, up_menu.exit.pos)) {
-    up_menu.exit.selected = true;
-  }
-  else {
-    up_menu.exit.selected = false;
-  }
-
+  checkMouseoverState(up_menu.laser_upgrade.button);
+  checkMouseoverState(up_menu.laser_cost.button);
+  checkMouseoverState(up_menu.move_speed.button);
+  checkMouseoverState(up_menu.laser_split.button);
+  checkMouseoverState(up_menu.exit);
 }
 
 void drawUpgradeButton(UpgradeButton b) {
@@ -268,8 +202,7 @@ void drawUpgradeText(UpgradeButton b) {
   }
 }
 
-void updateUpgradeButton(UpgradeButton* const b) {
-  char buffer[100];
+void updateUpgradeButton(UpgradeButton &b) {
   SDL_Color white = {255, 255, 255, 255};
   SDL_Color green = {144, 245, 0, 255};
   SDL_Color yellow = {255, 255, 0, 255};
@@ -277,10 +210,11 @@ void updateUpgradeButton(UpgradeButton* const b) {
   colors[0] = white;
   colors[1] = green;
   colors[2] = yellow;
-  strcpy(buffer, b -> button.title); 
-  sprintf(buffer, b -> button.title, b -> clicked, b -> max_clicks);
-  
-  setButtonTextures(colors, &b->button, buffer);
+  std::stringstream buffer;
+  buffer << b.title_text;
+  buffer << " (" << b.clicked << "/" << b.max_clicks << ")";
+  b.button.title = buffer.str();
+  setButtonTextures(colors, &b.button);
 }
 
 UpgradeButton makeUpgradeButton(int num_tex,
